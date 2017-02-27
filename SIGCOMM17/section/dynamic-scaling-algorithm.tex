@@ -1,0 +1,78 @@
+\subsection{Dynamic Scaling}
+\label{sec:scaling}
+
+The coordinator performs dynamic scaling of the runtimes and virtual switches according to the workload variation. It fully exploits the fast and scalable distributed flow migration mechanism, to quickly resolve hot spot and immediately shut down mostly idle runtimes.
+
+The coordinator periodically polls the load statistics from all the runtimes, containing the number of dropped packets on the input port, the current packet processing throughput and the number of active flows.
+The worker thread in each runtime keeps its CPU usage up to 100\% all the time, due to using DPDK to busy poll the input port. % (Sec.~\ref{sec:implementation}). 
+ Therefore, CPU usage is not a good indicator to tell whether a runtime has been overloaded. Instead, the coordinator uses the total number of dropped packets on the input port of a runtime to determine overload, which is a very effective indicator in~\nfactor: an overloaded runtime can not timely poll all the packets from its input port, therefore increasing the number of dropped packets significantly. The maximum packet processing throughput of each runtime is recorded by the coordinator, for identifying idleness in each cluster. % if the current throughput is smaller than half of the maximum throughput, the runtime is identified as `idle'.
+%The coordinator also keeps track of the number of active flows on each runtime, so that it
+%\chuan{how is the number of active flows on each runtime used in the scaling alg?}
+
+When the number of dropped packets on a runtime exceeds a threshold (100 as in our experiments), the runtime is identified as overloaded. If there is at least one overloaded runtime in a cluster, the coordinator launches a new runtime, configures it to run the same service chain, and keeps migrating a configurable number of flows from overloaded runtimes (500 as in our experiments) to the new runtime, until all the hotspots are resolved. If the new runtime becomes overloaded, more new runtimes are added. We add new runtimes instead of moving flows across existing runtimes, since the load on existing runtimes is largely balanced, due to the load-balancing flow dispatching by the virtual switches.
+
+If the current throughput of all runtimes in a cluster is smaller than half of the maximum throughput, the coordinator carries out scale-in: it selects a runtime with the smallest throughput, migrates all its flows to the other runtimes, and shuts the runtime down when all its flows have been successfully moved out.
+
+% I don't think we need to explain it here. The method you elaborate in this section is easy to understand.
+%\chuan{what does the following mean in the alg. that I commented out due to lack of space: while active flows on selected runtime is larger than 0, migrate 500 flows to other runtimes in a round-robin way}.
+
+
+%The algorithm starts (line 2 in Algorithm \ref{algo:ds}) by polling the workload statistics from all the runtimes, containing the number of dropped packets on the input port, the current packet processing throughput and the current active flow number.
+
+%Then algorithm decides whether to scale-out or scale-in (line 3-9 in Algorithm \ref{algo:ds}) and executes corresponding operations. To scale-up (line 10-15 in Algorithm \ref{algo:ds}), the runtime launches a new runtime and keeps migrating 500 flows from each overloaded runtimes, until all the hotspots are resolved. If the new runtime is overloaded during the migration, the algorithm continues to scale-up. To scale-in (line 16-20), the runtime selects a runtime with smallest packet throughput and migrate its flows to the rest of the runtime.
+
+
+
+%The steps are summarized in Alg.~\ref{algo:ds}.
+% It has been clarified in coordinator section. The coorinator doesn't take care of the scaling of virtual switch because virtual switch uses a static scaling method, that relies on hardware. Reconfiguring the hardware causes al running virtual switch to malfunctioning.
+%\chuan{describe how virtual switch scaling is done} Scaling of virtual switches is done in a similar fashion...
+
+%The overall design rationale of the dynamic scaling algorithm in~\nfactor~is that flows could be migrated at a small overhead. Therefore we can use flow migration to quickly resolve hotspot and quickly shutdown idle runtimes. The dynamic scaling algorithm is constantly executed by the coordinator, which involves several round.
+
+%First, poll workload from each runtime. The coordinator uses PollWorkload() RPC shown in Table \ref{} to acquire the current workload statistics from the runtime. The workload statistics includes how many active flows are there on the runtime, the current packet processing throughput, interpreted as packets per second and the total number of the dropped packets on the input port. The coordinator calls PollWorkload() RPC on each runtime and collects all the workload statistics.
+
+%Second, the coordinator analyze the workload statistics, and determine whether to scale-up or scale-down. If the number of dropped packets on an runtime's input port is larger than the number acquired during the previous round, then the runtime is identified as overloaded. If there is at least one overloaded runtime, the coordinator steps to scale-up. Otherwise, the coordinator checks whether all the runtime are idle. If that is, the coordinator steps to scale-down. Otherwise, the coordinator directly goes to the next round.
+
+%%For scale-up, the coordinator launches a new runtime, use flow migration to migrate 10\% flows from all the overloaded runtime, until there are no overloaded runtime in the system. If the newly launched runtime becomes overloaded after the migration, the coordinator scale-up once again.
+
+%For scale-down, the coordinator select the runtime with the smallest workload, send 10\% of its flows to other runtimes in a round-robin fashion, until the active flows becomes 0 on the selected runtime. Then coordinator shutdown the selected runtime.
+
+\begin{comment}
+\begin{algorithm}[!h]
+%\DontPrintSemicolon
+\While{True}{
+  {get the workload statistics of all the runtimes}\;
+  {state = null}\;
+  \If{at least one runtime is overloaded}{
+    {state = scale-out}\;
+  }
+  \ElseIf{the current throughput of all runtimes are smaller than half of the maximum throughput}{
+    {state = scale-in}\;
+  }
+  \Else{
+    {state = null}\;
+  }
+
+  \If{state $==$ scale-out}{
+    {launch a new runtime}\;
+    \While{the new runtime is not overloaded $\&\&$ the hotspots in overloaded runtimes are not resolved}{
+      \ForEach{overloaded runtime}{
+        {migrate 500 flows to the new runtime}\;
+      }
+      {update the workload statistics of all the runtimes}\;
+    }
+  }
+  \If{state $==$ scale-in}{
+    {select a runtime with the smallest throughput to scale-in}\;
+    {notify the virtual switch to stop sending new flows to the selected runtime}\;
+    \While{active flows on selected runtime is larger than 0}{
+      {migrate 500 flows to other runtimes in a round-robin way};
+    }
+  }
+}
+
+
+\caption{Dynamic Scaling Algorithm by the Coordinator}
+\label{algo:ds}
+\end{algorithm}
+\end{comment}
