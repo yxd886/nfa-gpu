@@ -7,7 +7,7 @@
 void flow_actor::handle_message(flow_actor_init_with_pkt_t,
                                 coordinator* coordinator_actor,
                                 flow_key_t* flow_key,
-                                vector<network_function_base*>& service_chain,
+                                //vector<network_function_base*>& service_chain,
                                 bess::Packet* first_packet,
                                 generic_list_item* replica_item){
 
@@ -54,7 +54,7 @@ void flow_actor::handle_message(flow_actor_init_with_pkt_t,
   }
   output_header_.init(output_rtid, output_rt_input_mac, coordinator_actor->local_runtime_.output_port_mac);
 
-  size_t i = 0;
+ /* size_t i = 0;
   service_chain_length_ = service_chain.size();
 
   for(; i<service_chain_length_; i++){
@@ -73,7 +73,7 @@ void flow_actor::handle_message(flow_actor_init_with_pkt_t,
     fs_.nf_flow_state_ptr[i] = fs_state_ptr;
     fs_size_.nf_flow_state_size[i] = service_chain[i]->get_nf_state_size();
   }
-
+  */
   coordinator_actor_->idle_flow_list_.add_timer(&idle_timer_,
                                                 ctx.current_ns(),
                                                 idle_message_id,
@@ -85,7 +85,7 @@ void flow_actor::handle_message(flow_actor_init_with_pkt_t,
 void flow_actor::handle_message(flow_actor_init_with_cstruct_t,
                                 coordinator* coordinator_actor,
                                 flow_key_t* flow_key,
-                                vector<network_function_base*>& service_chain,
+                                //vector<network_function_base*>& service_chain,
                                 create_migration_target_actor_cstruct* cstruct){
   current_state_ = flow_actor_migration_target;
   replication_state_ = no_replica;
@@ -102,7 +102,7 @@ void flow_actor::handle_message(flow_actor_init_with_cstruct_t,
   output_header_.init(cstruct->output_header.dest_rtid,
                       &(cstruct->output_header.ethh.d_addr),
                       coordinator_actor->local_runtime_.output_port_mac);
-
+/*
   size_t i = 0;
   service_chain_length_ = service_chain.size();
 
@@ -122,7 +122,7 @@ void flow_actor::handle_message(flow_actor_init_with_cstruct_t,
     fs_.nf_flow_state_ptr[i] = fs_state_ptr;
     fs_size_.nf_flow_state_size[i] = service_chain[i]->get_nf_state_size();
   }
-
+*/
   coordinator_actor_->idle_flow_list_.add_timer(&idle_timer_,
                                                 ctx.current_ns(),
                                                 idle_message_id,
@@ -134,7 +134,7 @@ void flow_actor::handle_message(flow_actor_init_with_cstruct_t,
 void flow_actor::handle_message(flow_actor_init_with_first_rep_pkt_t,
                                 coordinator* coordinator_actor,
                                 flow_key_t* flow_key,
-                                vector<network_function_base*>& service_chain,
+                                //vector<network_function_base*>& service_chain,
                                 bess::Packet* first_packet,
                                 bess::PacketBatch* first_fs_msg_batch){
   current_state_ = flow_actor_normal_processing;
@@ -155,7 +155,7 @@ void flow_actor::handle_message(flow_actor_init_with_first_rep_pkt_t,
   uint64_t output_rt_input_mac =
       (*(first_packet->head_data<uint64_t*>(2*sizeof(uint32_t)+sizeof(struct ether_addr))) & 0x0000FFffFFffFFfflu);
   output_header_.init(output_rtid, output_rt_input_mac, coordinator_actor->local_runtime_.output_port_mac);
-
+/*
   size_t i = 0;
   service_chain_length_ = service_chain.size();
 
@@ -175,7 +175,7 @@ void flow_actor::handle_message(flow_actor_init_with_first_rep_pkt_t,
     fs_.nf_flow_state_ptr[i] = fs_state_ptr;
     fs_size_.nf_flow_state_size[i] = service_chain[i]->get_nf_state_size();
   }
-
+*/
   coordinator_actor_->idle_flow_list_.add_timer(&idle_timer_,
                                                 ctx.current_ns(),
                                                 idle_message_id,
@@ -216,10 +216,11 @@ void flow_actor::handle_message(check_idle_t){
       r_->dec_ref_cnt();
     }
 
+    /*
     for(size_t i=0; i<service_chain_length_; i++){
       nfs_.nf[i]->deallocate(fs_.nf_flow_state_ptr[i]);
     }
-
+	*/
     send(coordinator_actor_, remove_flow_t::value, this, &flow_key_);
   }
   else{
@@ -296,6 +297,7 @@ void flow_actor::replication_output(bess::Packet* pkt){
 }
 
 void flow_actor::pkt_normal_nf_processing(bess::Packet* pkt){
+/*
   pkt_counter_+=1;
 
   // output phase, ogate 0 of ec_scheduler is connected to the output port.
@@ -305,10 +307,11 @@ void flow_actor::pkt_normal_nf_processing(bess::Packet* pkt){
     rte_prefetch0(fs_.nf_flow_state_ptr[i]);
     nfs_.nf[i]->nf_logic(pkt, fs_.nf_flow_state_ptr[i]);
   }
-
+*/
   rte_memcpy(pkt->head_data(), &(output_header_.ethh), sizeof(struct ether_hdr));
 
   (this->*replication_funcs_[replication_state_])(pkt);
+
 }
 
 void flow_actor::pkt_migration_target_processing(bess::Packet* pkt){
@@ -549,10 +552,13 @@ void flow_actor::handle_message(migrate_flow_state_t,
     buffered_packet* buf_pkt = reinterpret_cast<buffered_packet*>(list_item);
     bess::Packet* pkt = buf_pkt->packet;
 
+
+    /*
     for(size_t nf_index=0; nf_index<service_chain_length_; nf_index++){
       rte_prefetch0(fs_.nf_flow_state_ptr[nf_index]);
       nfs_.nf[nf_index]->nf_logic(pkt, fs_.nf_flow_state_ptr[nf_index]);
     }
+    */
 
     rte_memcpy(pkt->head_data(), &(output_header_.ethh), sizeof(struct ether_hdr));
 

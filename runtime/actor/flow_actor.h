@@ -10,8 +10,8 @@
 #include "./base/flow_key.h"
 #include "./base/flow_ether_header.h"
 #include "flow_actor_messages.h"
-#include "../nf/base/network_function_base.h"
-#include "../nf/base/nf_item.h"
+//#include "../nf/base/network_function_base.h"
+//#include "../nf/base/nf_item.h"
 #include "../utils/cdlist.h"
 #include "actor_timer.h"
 #include "./base/actor_misc.h"
@@ -29,20 +29,20 @@ public:
   void handle_message(flow_actor_init_with_pkt_t,
                       coordinator* coordinator_actor,
                       flow_key_t* flow_key,
-                      vector<network_function_base*>& service_chain,
+                      //vector<network_function_base*>& service_chain,
                       bess::Packet* first_packet,
                       generic_list_item* replica_item);
 
   void handle_message(flow_actor_init_with_cstruct_t,
                       coordinator* coordinator_actor,
                       flow_key_t* flow_key,
-                      vector<network_function_base*>& service_chain,
+                      //vector<network_function_base*>& service_chain,
                       create_migration_target_actor_cstruct* cstruct);
 
   void handle_message(flow_actor_init_with_first_rep_pkt_t,
                       coordinator* coordinator_actor,
                       flow_key_t* flow_key,
-                      vector<network_function_base*>& service_chain,
+                      //vector<network_function_base*>& service_chain,
                       bess::Packet* first_packet,
                       bess::PacketBatch* first_fs_msg_batch);
 
@@ -166,11 +166,11 @@ private:
 
   size_t service_chain_length_;
 
-  flow_actor_nfs nfs_;
+  //flow_actor_nfs nfs_;
 
-  flow_actor_fs fs_;
+  //flow_actor_fs fs_;
 
-  flow_actor_fs_size fs_size_;
+  //flow_actor_fs_size fs_size_;
 
   actor_timer<actor_timer_type::flow_actor_req_timer> idle_timer_;
 
