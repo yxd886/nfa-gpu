@@ -60,7 +60,7 @@ void reverse_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
         send(actor, flow_actor_init_with_pkt_t::value,
              coordinator_actor_,
              reinterpret_cast<flow_key_t*>(keys[i]),
-             //coordinator_actor_->service_chain_,
+             // coordinator_actor_->service_chain_,
              dp_pkt_batch.pkts()[i],
              replica_item);
       }
