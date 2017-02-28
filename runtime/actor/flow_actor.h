@@ -170,7 +170,7 @@ private:
 
   //flow_actor_fs fs_;
 
-  //flow_actor_fs_size fs_size_;
+  flow_actor_fs_size fs_size_;
 
   actor_timer<actor_timer_type::flow_actor_req_timer> idle_timer_;
 
