@@ -81,7 +81,7 @@ public:
               send(actor, flow_actor_init_with_first_rep_pkt_t::value,
                    coordinator_actor_,
                    reinterpret_cast<flow_key_t*>(single_key),
-                   coordinator_actor_->service_chain_,
+                   //coordinator_actor_->service_chain_,
                    msg_ptr->raw_pkt,
                    &(msg_ptr->fs_msg_batch));
             }
