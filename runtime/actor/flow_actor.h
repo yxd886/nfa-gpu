@@ -11,7 +11,7 @@
 #include "./base/flow_ether_header.h"
 #include "flow_actor_messages.h"
 //#include "../nf/base/network_function_base.h"
-//#include "../nf/base/nf_item.h"
+#include "../nf/base/nf_item.h"
 #include "../utils/cdlist.h"
 #include "actor_timer.h"
 #include "./base/actor_misc.h"
