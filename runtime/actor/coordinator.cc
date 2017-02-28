@@ -150,7 +150,7 @@ void coordinator::handle_message(create_migration_target_actor_t,
   send(actor, flow_actor_init_with_cstruct_t::value,
        this,
        &(cstruct_ptr->flow_key),
-       service_chain_,
+       //service_chain_,
        cstruct_ptr);
 
 
