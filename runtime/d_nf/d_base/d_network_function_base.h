@@ -2,6 +2,7 @@
 #define D_NETWORK_FUNCTION_H
 // CUDA runtime
 #include <cuda_runtime.h>
+#include <glog/logging.h>
 
 // helper functions and utilities to work with CUDA
 #include <helper_functions.h>
