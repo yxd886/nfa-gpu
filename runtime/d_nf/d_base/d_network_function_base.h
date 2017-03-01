@@ -11,7 +11,7 @@ class d_network_function_base{
 public:
 
   explicit d_network_function_base(size_t nf_state_size, uint8_t nf_id)
-    : nf_state_size_(nf_state_size), array_(0), ring_buf_(), nf_id_(nf_id){
+    : nf_state_size_(nf_state_size), array_(0), nf_id_(nf_id){
   }
 /*
   inline void init_ring(size_t nf_state_num){
