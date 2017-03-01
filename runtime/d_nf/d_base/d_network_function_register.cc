@@ -55,7 +55,7 @@ uint8_t d_network_function_register::look_up_id(std::string str){
 	}
 }
 
-d_network_function_register& static_nf_register::get_register(){
+d_network_function_register& d_static_nf_register::get_register(){
   static d_network_function_register reg;
 
   return reg;
