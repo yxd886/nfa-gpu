@@ -105,9 +105,11 @@ PROTO_SRCS += $(patsubst %.proto,%.grpc.pb.cc, $(PROTOS))
 PROTO_HEADERS = $(patsubst %.cc,%.h, $(PROTO_SRCS))
 PROTOCFLAGS += --proto_path=$(PROTO_DIR) --proto_path=$(PROTO_DIR) --cpp_out=$(PROTO_DIR) --grpc_out=$(PROTO_DIR) --plugin=protoc-gen-grpc=`which grpc_cpp_plugin`
 
-ALL_SRCS = $(wildcard bessport/*.cc bessport/hooks/*.cc bessport/utils/*.cc *.cc rpc/*.cc port/*.cc actor/*.cc actor/base/*.cc module/*.cc nf/*/*.cc d_nf/*/*.cc d_nf/*/*.cu reliable/*.cc reliable/*/*.cc utils/*.cc samples/*.cc samples/*/*.cc) 
+ALL_SRCS = $(wildcard bessport/*.cc bessport/hooks/*.cc bessport/utils/*.cc *.cc rpc/*.cc port/*.cc actor/*.cc actor/base/*.cc module/*.cc nf/*/*.cc d_nf/*/*.cc reliable/*.cc reliable/*/*.cc utils/*.cc samples/*.cc samples/*/*.cc) 
                       
 HEADERS =  $(wildcard bessport/*.h bessport/hooks/*.h bessport/utils/*.h bessport/kmod/*.h *.h rpc/*.h port/*.h actor/*.h actor/base/*.h module/*.h nf/*/*.h d_nf/*/*.h d_nf/*/*.ch reliable/*.h reliable/*/*.h utils/*.h)
+
+CU_SRCS = $(wildcard d_nf/*/*.cu)
 
 TEST_SRCS = $(filter %_test.cc gtest_main.cc, $(ALL_SRCS))
 TEST_OBJS = $(TEST_SRCS:.cc=.o)
@@ -115,7 +117,7 @@ TEST_ALL_EXEC = all_test
 
 SRCS = $(filter-out $(TEST_SRCS), $(ALL_SRCS)) $(PROTO_SRCS)
 OBJS = $(SRCS:.cc=.o)
-OBJS += $(SRCS:.cu=.o)
+CU_OBJS = $(CU_SRCS:.cu=.o)
 
 GTEST_DIR = /usr/src/gtest
 
@@ -162,7 +164,7 @@ R_RECOVER_OBJS = $(filter-out main.o $(filter-out samples/replication/r_recover.
 
 .PHONY: all clean tests protobuf
 
-all: $(OBJS) $(REAL_RPC_BASIC_MAIN_EXEC) $(MIGRATION_START_EXEC) $(NFA_RPC_CLIENT_EXEC) $(REPLICATION_START_EXEC) $(RECOVER_START_EXEC) $(M_INIT_EXEC) $(M_START_EXEC) $(R_INIT_EXEC) $(R_START_EXEC) $(R_RECOVER_EXEC)
+all: $(OBJS) $(CU_OBJS) $(REAL_RPC_BASIC_MAIN_EXEC) $(MIGRATION_START_EXEC) $(NFA_RPC_CLIENT_EXEC) $(REPLICATION_START_EXEC) $(RECOVER_START_EXEC) $(M_INIT_EXEC) $(M_START_EXEC) $(R_INIT_EXEC) $(R_START_EXEC) $(R_RECOVER_EXEC)
 
 clean:
 	rm -rf $(EXEC) .deps/*.d .deps/*/*.d *_test */*_test *_bench */*_bench \
