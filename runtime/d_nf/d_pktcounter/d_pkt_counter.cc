@@ -1,4 +1,4 @@
-#include "d_pkt_counter.h"
+#include "d_pkt_counter.ch"
 
 #include "../d_base/d_network_function_register.h"
 

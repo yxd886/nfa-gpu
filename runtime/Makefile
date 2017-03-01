@@ -105,9 +105,9 @@ PROTO_SRCS += $(patsubst %.proto,%.grpc.pb.cc, $(PROTOS))
 PROTO_HEADERS = $(patsubst %.cc,%.h, $(PROTO_SRCS))
 PROTOCFLAGS += --proto_path=$(PROTO_DIR) --proto_path=$(PROTO_DIR) --cpp_out=$(PROTO_DIR) --grpc_out=$(PROTO_DIR) --plugin=protoc-gen-grpc=`which grpc_cpp_plugin`
 
-ALL_SRCS = $(wildcard bessport/*.cc bessport/hooks/*.cc bessport/utils/*.cc *.cc rpc/*.cc port/*.cc actor/*.cc actor/base/*.cc module/*.cc nf/*/*.cc d_nf/*/*.cc reliable/*.cc reliable/*/*.cc utils/*.cc samples/*.cc samples/*/*.cc) 
+ALL_SRCS = $(wildcard bessport/*.cc bessport/hooks/*.cc bessport/utils/*.cc *.cc rpc/*.cc port/*.cc actor/*.cc actor/base/*.cc module/*.cc nf/*/*.cc d_nf/*/*.cc d_nf/*/*.cu reliable/*.cc reliable/*/*.cc utils/*.cc samples/*.cc samples/*/*.cc) 
                       
-HEADERS =  $(wildcard bessport/*.h bessport/hooks/*.h bessport/utils/*.h bessport/kmod/*.h *.h rpc/*.h port/*.h actor/*.h actor/base/*.h module/*.h nf/*/*.h d_nf/*/*.h reliable/*.h reliable/*/*.h utils/*.h)
+HEADERS =  $(wildcard bessport/*.h bessport/hooks/*.h bessport/utils/*.h bessport/kmod/*.h *.h rpc/*.h port/*.h actor/*.h actor/base/*.h module/*.h nf/*/*.h d_nf/*/*.h d_nf/*/*.ch reliable/*.h reliable/*/*.h utils/*.h)
 
 TEST_SRCS = $(filter %_test.cc gtest_main.cc, $(ALL_SRCS))
 TEST_OBJS = $(TEST_SRCS:.cc=.o)
