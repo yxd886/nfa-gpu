@@ -115,6 +115,7 @@ TEST_ALL_EXEC = all_test
 
 SRCS = $(filter-out $(TEST_SRCS), $(ALL_SRCS)) $(PROTO_SRCS)
 OBJS = $(SRCS:.cc=.o)
+OBJS += $(SRCS:.cu=.o)
 
 GTEST_DIR = /usr/src/gtest
 
