@@ -69,6 +69,9 @@ PROTOCXXFLAGS = -Xcompiler -std=gnu++11,-O0,-Wno-unused-parameter
 
 CXXFLAGS += -ccbin g++ -Xcompiler -std=gnu++11,-g3,-ggdb3,-Ofast,-march=native,\
 	    -isystem $(DPDK_INC_DIR),-D_GNU_SOURCE,-Wall,-Wextra,-Wcast-align,-Wno-unused-parameter
+	    
+CUDAFLAGS += -ccbin g++ -Icudaport/inc -Xcompiler -std=gnu++11,-g3,-ggdb3,-Ofast,-march=native,\
+	    -D_GNU_SOURCE,-Wall,-Wextra,-Wcast-align,-Wno-unused-parameter
 
 # -Wshadow should not be used for g++ 4.x, as it has too many false positives
 CXXVERSION_5_OR_HIGHER := $(shell expr $(CXXVERSION) \>= 50000)
@@ -215,10 +218,10 @@ $(eval $(call BUILD, \
 	$$(CXX) -o $$@ -c $$< $$(CXXFLAGS) $$(DEPFLAGS)))
 	
 $(eval $(call BUILD, \
-	CXX, \
+	CUDACXX, \
 	%.o, \
 	%.cu $(PROTO_HEADERS) $(DEPDIR)/$$@.d, \
-	$$(CXX) -o $$@ -c $$< $$(CXXFLAGS) $$(DEPFLAGS)))
+	$$(CXX) -o $$@ -c $$< $$(CUDAFLAGS) $$(DEPFLAGS)))
 	
 $(eval $(call BUILD, \
 	TEST_CXX, \

@@ -100,7 +100,7 @@ public:
  //  std::cout<<"close the rule file successfully !"<<std::endl;
   }
 
-  void nf_logic_impl(bess::Packet* pkt, d_firewall_fs* fs);
+  void nf_logic_impl(char* pkt, d_firewall_fs* fs);
 
 private:
 

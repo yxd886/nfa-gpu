@@ -15,9 +15,11 @@ d_network_function_register::get_service_chain(uint64_t service_chain_type_sig){
 }
 
 void d_network_function_register::init(size_t nf_state_num){
+/*
   for(auto it = id_nf_map_.begin(); it!=id_nf_map_.end(); it++){
     it->second->init_ring(nf_state_num);
   }
+ */
 }
 
 uint8_t d_network_function_register::compute_network_function(uint64_t s, int pos){

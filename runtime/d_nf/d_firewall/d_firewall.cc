@@ -4,13 +4,9 @@
 
 #include <glog/logging.h>
 
-void d_firewall::nf_logic_impl(bess::Packet* pkt, d_firewall_fs* fs){
+void d_firewall::nf_logic_impl(char* pkt, d_firewall_fs* fs){
 
-  // LOG(INFO)<<"firewall processing logic is called";
-	struct rte_mbuf* rte_pkt=reinterpret_cast<struct rte_mbuf *>(pkt);
-	unsigned char *t =rte_pktmbuf_mtod(rte_pkt, unsigned char*);
-	char* raw_packet = (char*)t;
-	process(raw_packet,fs);
+	process(pkt,fs);
 }
 
 
