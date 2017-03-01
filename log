@@ -1,1 +1,3 @@
 add framework of d_nf ok, pass compile.
+
+change d_pkt_counter.cc to d_pkt_counter.cu change the structure of makefile to support compiling .cu file. pass compile. 
