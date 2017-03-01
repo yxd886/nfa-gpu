@@ -65,10 +65,12 @@ else
     endif
 endif
 
+CUDA_INC_DIR= cudaport/inc
+
 PROTOCXXFLAGS = -Xcompiler -std=gnu++11,-O0,-Wno-unused-parameter
 
 CXXFLAGS += -ccbin g++ -Xcompiler -std=gnu++11,-g3,-ggdb3,-Ofast,-march=native,\
-	    -isystem $(DPDK_INC_DIR),-D_GNU_SOURCE,-Wall,-Wextra,-Wcast-align,-Wno-unused-parameter
+	    -isystem $(DPDK_INC_DIR), -isystem $(CUDA_INC_DIR),-D_GNU_SOURCE,-Wall,-Wextra,-Wcast-align,-Wno-unused-parameter
 	    
 CUDAFLAGS += -ccbin g++ -Icudaport/inc -Xcompiler -std=gnu++11,-g3,-ggdb3,-Ofast,-march=native,\
 	    -D_GNU_SOURCE,-Wall,-Wextra,-Wcast-align,-Wno-unused-parameter
