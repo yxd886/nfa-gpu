@@ -35,7 +35,7 @@ private:
 		//	 printf("ntoh packet.GetDstPort:%x\n",ntohs(packet.GetDstPort()));
 		//	 printf("packet.GetSrcPort:%x\n",packet.GetSrcPort());
 		//	 printf("ntoh packet.GetSrcPort:%x\n",ntohs(packet.GetSrcPort()));
-		CSharedBehaviorInfo info;
+		d_CSharedBehaviorInfo info;
 		if(packet.GetIpProtocol()==IPPROTO_TCP&&ntohs(packet.GetDstPort())==0x50){
 			//info.CSharedBehaviorInfo(ntohl(packet.GetDstIp()),ntohl((uint32_t)packet.GetDstPort()),packet.GetIpProtocol());
 			info.m_nIP=ntohl(packet.GetDstIp());
@@ -55,7 +55,7 @@ private:
 
 			 return;//not http packet
 		 }
-		 CSharedBehaviorInfo* pInfo=&info;
+		 d_CSharedBehaviorInfo* pInfo=&info;
 
 		_handle.Process(packet,pInfo,sesp);
 

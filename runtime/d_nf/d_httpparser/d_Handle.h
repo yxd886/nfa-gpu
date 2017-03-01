@@ -12,8 +12,8 @@ public:
 	d_CHandle();
 	~d_CHandle();
 	void Init();
-	void Process(d_CFormatPacket packet, CSharedBehaviorInfo* pInfo, d_http_parser_fsPtr& sesp);
-	void Create(d_IFormatPacket *pPacket,CSharedBehaviorInfo* pInfo,d_http_parser_fsPtr& ptr);
+	void Process(d_CFormatPacket packet, d_CSharedBehaviorInfo* pInfo, d_http_parser_fsPtr& sesp);
+	void Create(d_IFormatPacket *pPacket,d_CSharedBehaviorInfo* pInfo,d_http_parser_fsPtr& ptr);
 
 private:
 	void TimeOutCheck();

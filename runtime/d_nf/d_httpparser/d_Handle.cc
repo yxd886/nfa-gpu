@@ -1,7 +1,7 @@
 
 #include "d_Handle.h"
 #include <stdio.h>
-void d_CHandle::Process(d_CFormatPacket packet, CSharedBehaviorInfo* pInfo, d_http_parser_fsPtr& fhs)
+void d_CHandle::Process(d_CFormatPacket packet, d_CSharedBehaviorInfo* pInfo, d_http_parser_fsPtr& fhs)
 {
 
 
@@ -101,7 +101,7 @@ void d_CHandle::Init(){
 
 
 
-void d_CHandle::Create(d_IFormatPacket *pPacket,CSharedBehaviorInfo* pInfo,d_http_parser_fsPtr& ptr){
+void d_CHandle::Create(d_IFormatPacket *pPacket,d_CSharedBehaviorInfo* pInfo,d_http_parser_fsPtr& ptr){
 
 
 
