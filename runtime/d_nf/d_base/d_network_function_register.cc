@@ -6,7 +6,7 @@
 
 std::vector<d_network_function_base*>
 d_network_function_register::get_service_chain(uint64_t service_chain_type_sig){
-  std::vector<network_function_base*> v;
+  std::vector<d_network_function_base*> v;
   for(int i=0; i<compute_service_chain_length(service_chain_type_sig); i++){
     uint8_t nf_id = compute_network_function(service_chain_type_sig, i);
     v.push_back(id_nf_map_.find(nf_id)->second.get());
