@@ -132,38 +132,38 @@ SAMPLES_SRCS += $(wildcard samples/*/*.cc)
 SAMPLES_OBJS = $(SAMPLES_SRCS:.cc=.o)
 
 NFA_RPC_CLIENT_EXEC = samples/nfa_rpc_client
-NFA_RPC_CLIENT_OBJS = $(filter-out main.o $(filter-out samples/nfa_rpc_client.o,$(SAMPLES_OBJS)),$(OBJS))
+NFA_RPC_CLIENT_OBJS = $(filter-out main.o $(filter-out samples/nfa_rpc_client.o,$(SAMPLES_OBJS)),$(OBJS)) $(CU_OBJS)
 
 MODULE_BASIC_EXEC = samples/module_basic
-MODULE_BASIC_OBJS = $(filter-out main.o $(filter-out samples/module_basic.o,$(SAMPLES_OBJS)),$(OBJS))
+MODULE_BASIC_OBJS = $(filter-out main.o $(filter-out samples/module_basic.o,$(SAMPLES_OBJS)),$(OBJS)) $(CU_OBJS)
 
 REAL_RPC_BASIC_MAIN_EXEC = samples/real_rpc_basic/server_main
-REAL_RPC_BASIC_MAIN_OJBS = $(filter-out main.o $(filter-out samples/real_rpc_basic/server_main.o,$(SAMPLES_OBJS)),$(OBJS))
+REAL_RPC_BASIC_MAIN_OJBS = $(filter-out main.o $(filter-out samples/real_rpc_basic/server_main.o,$(SAMPLES_OBJS)),$(OBJS)) $(CU_OBJS)
 
 MIGRATION_START_EXEC = samples/migration_start
-MIGRATION_START_OBJS = $(filter-out main.o $(filter-out samples/migration_start.o,$(SAMPLES_OBJS)),$(OBJS))
+MIGRATION_START_OBJS = $(filter-out main.o $(filter-out samples/migration_start.o,$(SAMPLES_OBJS)),$(OBJS)) $(CU_OBJS)
 
 REPLICATION_START_EXEC = samples/replication_start
-REPLICATION_START_OBJS = $(filter-out main.o $(filter-out samples/replication_start.o,$(SAMPLES_OBJS)),$(OBJS))
+REPLICATION_START_OBJS = $(filter-out main.o $(filter-out samples/replication_start.o,$(SAMPLES_OBJS)),$(OBJS)) $(CU_OBJS)
 
 RECOVER_START_EXEC = samples/recover_start
-RECOVER_START_OBJS = $(filter-out main.o $(filter-out samples/recover_start.o,$(SAMPLES_OBJS)),$(OBJS))
+RECOVER_START_OBJS = $(filter-out main.o $(filter-out samples/recover_start.o,$(SAMPLES_OBJS)),$(OBJS)) $(CU_OBJS)
 
 #for migration test
 M_INIT_EXEC = samples/migration/m_init
-M_INIT_OBJS = $(filter-out main.o $(filter-out samples/migration/m_init.o,$(SAMPLES_OBJS)),$(OBJS))
+M_INIT_OBJS = $(filter-out main.o $(filter-out samples/migration/m_init.o,$(SAMPLES_OBJS)),$(OBJS)) $(CU_OBJS)
 
 M_START_EXEC = samples/migration/m_start
-M_START_OBJS = $(filter-out main.o $(filter-out samples/migration/m_start.o,$(SAMPLES_OBJS)),$(OBJS))
+M_START_OBJS = $(filter-out main.o $(filter-out samples/migration/m_start.o,$(SAMPLES_OBJS)),$(OBJS)) $(CU_OBJS)
 
 R_INIT_EXEC = samples/replication/r_init
-R_INIT_OBJS = $(filter-out main.o $(filter-out samples/replication/r_init.o,$(SAMPLES_OBJS)),$(OBJS))
+R_INIT_OBJS = $(filter-out main.o $(filter-out samples/replication/r_init.o,$(SAMPLES_OBJS)),$(OBJS)) $(CU_OBJS)
 
 R_START_EXEC = samples/replication/r_start
-R_START_OBJS = $(filter-out main.o $(filter-out samples/replication/r_start.o,$(SAMPLES_OBJS)),$(OBJS))
+R_START_OBJS = $(filter-out main.o $(filter-out samples/replication/r_start.o,$(SAMPLES_OBJS)),$(OBJS)) $(CU_OBJS)
 
 R_RECOVER_EXEC = samples/replication/r_recover
-R_RECOVER_OBJS = $(filter-out main.o $(filter-out samples/replication/r_recover.o,$(SAMPLES_OBJS)),$(OBJS))
+R_RECOVER_OBJS = $(filter-out main.o $(filter-out samples/replication/r_recover.o,$(SAMPLES_OBJS)),$(OBJS)) $(CU_OBJS)
 
 
 .PHONY: all clean tests protobuf
