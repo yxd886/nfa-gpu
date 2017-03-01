@@ -215,6 +215,12 @@ $(eval $(call BUILD, \
 	$$(CXX) -o $$@ -c $$< $$(CXXFLAGS) $$(DEPFLAGS)))
 	
 $(eval $(call BUILD, \
+	CXX, \
+	%.o, \
+	%.cu $(PROTO_HEADERS) $(DEPDIR)/$$@.d, \
+	$$(CXX) -o $$@ -c $$< $$(CXXFLAGS) $$(DEPFLAGS)))
+	
+$(eval $(call BUILD, \
 	TEST_CXX, \
 	%_test.o, \
 	%_test.cc $(DEPDIR)/$$@.d, \
