@@ -210,7 +210,7 @@ private:
 
   replication_processing_func replication_funcs_[3];
 
-  PacketQueue pkt_que;
+  bess::PacketQueue pkt_que;
 
 };
 
