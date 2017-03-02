@@ -418,8 +418,6 @@ slow_path:
 
 class PacketQueue {
  public:
-  PacketQueue():head(0),tail(0),cnt_(0){  }
-  ~PacketQueue(){  }
   int cnt() const { return cnt_; }
   void clear() {
 	  cnt_ = 0;
@@ -441,14 +439,15 @@ class PacketQueue {
   }
 
 
-  bool dequeue(Packet **pkt){
+  bool dequeue(Packet *pkt){
 
 	  if(empty()){
 		  return false;
 	  }
 	  Packet * t= pkts_[head];
-	  *pkt=t;
-
+	  rte_memcpy(reinterpret_cast<void *>(pkt),
+	             reinterpret_cast<const void *>(t),
+	             sizeof(Packet));
 	  head=(head+1)%kMaxBurst;
 	  cnt_--;
 	  return true;
