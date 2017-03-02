@@ -5,6 +5,19 @@
 #include "../actor/base/local_send.h"
 #include "../reliable/process_reliable_msg.h"
 
+
+void Pkt_insert(struct Pkt* Pkts,bess::Packet* bess_pkt,int i){
+
+	while(Pkts[i].empty!=true){
+		i+=bess::PacketBatch::kMaxBurst;
+	}
+	char* dst=Pkts[i].pkt;
+	char* src=bess_pkt->head_data<char*>();
+	memcpy(dst,src,bess_pkt->total_len());
+	Pkts[i].empty=false;
+
+}
+
 void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
   dp_pkt_batch.clear();
   cp_pkt_batch.clear();
