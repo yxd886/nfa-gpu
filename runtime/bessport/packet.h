@@ -441,15 +441,14 @@ class PacketQueue {
   }
 
 
-  bool dequeue(Packet *pkt){
+  bool dequeue(Packet **pkt){
 
 	  if(empty()){
 		  return false;
 	  }
 	  Packet * t= pkts_[head];
-	  rte_memcpy(reinterpret_cast<void *>(pkt),
-	             reinterpret_cast<const void *>(t),
-	             sizeof(Packet));
+	  *pkt=t;
+
 	  head=(head+1)%kMaxBurst;
 	  cnt_--;
 	  return true;
