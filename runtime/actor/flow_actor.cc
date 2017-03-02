@@ -301,9 +301,13 @@ void flow_actor::pkt_normal_nf_processing(bess::Packet* pkt){
   // output phase, ogate 0 of ec_scheduler is connected to the output port.
   // ogate 1 of ec_scheduler is connected to a sink
 
-  for(size_t i=0; i<service_chain_length_; i++){
+  /*for(size_t i=0; i<service_chain_length_; i++){
     rte_prefetch0(fs_.nf_flow_state_ptr[i]);
     nfs_.nf[i]->nf_logic(pkt, fs_.nf_flow_state_ptr[i]);
+  }
+  */
+  if(pkt_que.enqueue(pkt)!=true){
+	  LOG(ERROR)<<"pkt queue overflow!";
   }
 
   rte_memcpy(pkt->head_data(), &(output_header_.ethh), sizeof(struct ether_hdr));
