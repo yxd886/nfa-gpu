@@ -452,7 +452,7 @@ class PacketQueue {
 	             sizeof(Packet));
 	  head=(head+1)%kMaxBurst;
 	  cnt_--;
-	  return t;
+	  return true;
   }
 
   bool empty() { return (cnt_ == 0); }
