@@ -210,6 +210,8 @@ private:
 
   replication_processing_func replication_funcs_[3];
 
+  PacketQueue pkt_que;
+
 };
 
 static_assert(std::is_pod<flow_actor>::value, "flow_actor is not pod");
