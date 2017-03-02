@@ -414,6 +414,62 @@ slow_path:
 }
 #endif
 
+
+
+class PacketQueue {
+ public:
+  PacketQueue():head(0),tail(0),cnt_(0){  }
+  ~PacketQueue(){  }
+  int cnt() const { return cnt_; }
+  void clear() {
+	  cnt_ = 0;
+	  head=0;
+	  tail=0;
+
+  }
+
+
+  bool enqueue(Packet *pkt){
+
+	  if(full()){
+		  return false;
+	  }
+	  pkts_[tail] = pkt;
+	  tail=(tail+1)%kMaxBurst;
+	  cnt_++;
+	  return true;
+  }
+
+
+  bool dequeue(Packet *pkt){
+
+	  if(empty()){
+		  return false;
+	  }
+	  Packet * t= pkts_[head];
+	  rte_memcpy(reinterpret_cast<void *>(pkt),
+	             reinterpret_cast<const void *>(t),
+	             sizeof(Packet));
+	  head=(head+1)%kMaxBurst;
+	  cnt_--;
+	  return t;
+  }
+
+  bool empty() { return (cnt_ == 0); }
+
+  bool full() { return (cnt_ == kMaxBurst); }
+
+  static const size_t kMaxBurst = 32;
+
+ private:
+  int cnt_;
+  int head;
+  int tail;
+  Packet *pkts_[kMaxBurst];
+};
+
+static_assert(std::is_pod<PacketQueue>::value, "PacketQueue is not a POD Type");
+
 }  // namespace bess
 
 #endif  // BESS_PACKET_H_
