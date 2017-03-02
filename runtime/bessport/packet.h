@@ -439,18 +439,15 @@ class PacketQueue {
   }
 
 
-  bool dequeue(Packet *pkt){
+  bess::Packet *dequeue(){
 
 	  if(empty()){
-		  return false;
+		  return nullptr;
 	  }
 	  Packet * t= pkts_[head];
-	  rte_memcpy(reinterpret_cast<void *>(pkt),
-	             reinterpret_cast<const void *>(t),
-	             sizeof(Packet));
 	  head=(head+1)%kMaxBurst;
 	  cnt_--;
-	  return true;
+	  return t;
   }
 
   bool empty() { return (cnt_ == 0); }

@@ -77,6 +77,25 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
     send(*actor_ptr, pkt_msg_t::value, dp_pkt_batch.pkts()[i]);
   }
 
+  //
+  flow_actor* it_actor=nullptr;
+  struct Pkt pkts[bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst];
+  for(int i=0;i<coordinator_actor_->active_flows_rrlist_.get_size();){
+
+	  it_actor=coordinator_actor_->active_flows_rrlist_.rotate();
+	  if(it_actor->get_queue_ptr()->empty()){
+		  continue;
+	  }else{
+		  while(it_actor->get_queue_ptr()->empty()!=true){
+
+			  Pkt_insert(pkts,it_actor->get_queue_ptr()->dequeue(),i);
+
+		  }
+		  i++;
+	  }
+  }
+
+
   for(int i=0; i<cp_pkt_batch.cnt(); i++){
     char* data_start = cp_pkt_batch.pkts()[i]->head_data<char*>();
     uint64_t mac_addr = ((*(reinterpret_cast<uint64_t *>(data_start+6))) & 0x0000FFffFFffFFfflu);

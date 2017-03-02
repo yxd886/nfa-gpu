@@ -89,6 +89,10 @@ public:
     return actor_id_;
   }
 
+  inline bess::PacketQueue* get_queue_ptr(){
+    return &pkt_que;
+  }
+
   inline uint64_t get_id_64(){
     uint64_t actor_id_64 = 0x00000000FfFfFfFf & actor_id_;
     return actor_id_64;
