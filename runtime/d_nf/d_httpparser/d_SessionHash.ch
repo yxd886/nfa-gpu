@@ -1,10 +1,10 @@
 #ifndef D_SESSIONHASH_H_
 #define D_SESSIONHASH_H_
 
-#include "d_Public.h"
-#include "d_Buffer.h"
-#include "d_FormatPacket.h"
-#include "d_BehaviorInfo.h"
+#include "d_Public.ch"
+#include "d_Buffer.ch"
+#include "d_FormatPacket.ch"
+#include "d_BehaviorInfo.ch"
 #include <rte_config.h>
 #include <rte_mbuf.h>
 #include <rte_ether.h>

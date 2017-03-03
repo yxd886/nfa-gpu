@@ -1,5 +1,5 @@
 
-#include "d_Buffer.h"
+#include "d_Buffer.ch"
 
 void d_CBuffer_Reset(struct d_CBuffer& Cbuf){
 	if(!Cbuf.buf){

@@ -2,12 +2,12 @@
 #ifndef D_CAF_NF_HTTP_PARSER_HPP
 #define D_CAF_NF_HTTP_PARSER_HPP
 
-#include "d_Public.h"
-#include "d_Receiver.h"
-#include "d_SessionHash.h"
+#include "d_Public.ch"
+#include "d_Receiver.ch"
+#include "d_SessionHash.ch"
 #include <netinet/ip6.h>
-#include "d_SessionHash.h"
-#include "../../bessport/packet.h"
+#include "d_SessionHash.ch"
+//#include "../../bessport/packet.h"
 
 #include <glog/logging.h>
 

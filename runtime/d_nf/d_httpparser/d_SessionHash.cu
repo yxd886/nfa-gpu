@@ -1,4 +1,4 @@
-#include "d_SessionHash.h"
+#include "d_SessionHash.ch"
 
 void d_http_parser_fs_Reset(d_http_parser_fsPtr& ptr){
 	d_CBuffer_Reset(ptr->ReqBuf);

@@ -1,9 +1,9 @@
 #ifndef D_HTTPPARSE_H_
 #define D_HTTPPARSE_H_
 
-#include "d_Public.h"
-#include "d_SessionHash.h"
-#include "d_FormatPacket.h"
+#include "d_Public.ch"
+#include "d_SessionHash.ch"
+#include "d_FormatPacket.ch"
 #include <string>
 #include <arpa/inet.h>
 #include <memory.h>
@@ -244,12 +244,12 @@ private:
 			pos += ret;
 			pos += 1; //skip the \r\n
 			cout<<"value:"<<value<<endl;
-			ElemType key_value;
+			d_ElemType key_value;
 			memset(key_value.key,0,sizeof(key_value.key));
 			memset(key_value.value,0,sizeof(key_value.value));
 			strcpy(key_value.key,key.c_str());
 			strcpy(key_value.value,value.c_str());
-			InsertHash(&headmap,key_value);
+			d_InsertHash(&headmap,key_value);
 
 		}
 		return true;

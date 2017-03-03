@@ -1,4 +1,4 @@
-#include "d_Public.h"
+#include "d_Public.ch"
 
 
 
@@ -10,8 +10,8 @@ void d_CResult_Reset(struct CResult& r){
 	memset(r.Url,0,sizeof(r.Url));
 	memset(r.RetNote,0,sizeof(r.RetNote));
 	r.Version = VERUNKNOWN;
-	InitHashTable(&(r.RequestHeader));
-	InitHashTable(&(r.ResponseHeader));
+	d_InitHashTable(&(r.RequestHeader));
+	d_InitHashTable(&(r.ResponseHeader));
 	memset(r.RequestData,0,sizeof(r.RequestData));
 	memset(r.ResponseData,0,sizeof(r.ResponseData));
 }

@@ -1,7 +1,7 @@
-#include "d_HttpParse.h"
+#include "d_HttpParse.ch"
 
 
-extern int m;
+extern int d_m;
 
 void d_CHttpParse::Send(d_http_parser_fsPtr&  sesptr){
 	string file("../src/network_function/http_parser/result/");
@@ -22,8 +22,8 @@ void d_CHttpParse::Send(d_http_parser_fsPtr&  sesptr){
 	output << "retrun code : " << sesptr->Result.RetCode << sesptr->Result.RetNote << std::endl;
 	output << "url : " << sesptr->Result.Url << std::endl;
 	output << "Request Header:\n";
-	for(int i=0;i<m;i++){
-		if(*(sesptr->Result.RequestHeader.elem[i].key)!=NULLKEY) // 有数据
+	for(int i=0;i<d_m;i++){
+		if(*(sesptr->Result.RequestHeader.elem[i].key)!=D_NULLKEY) // 有数据
 		output<<std::string(sesptr->Result.RequestHeader.elem[i].key)<<":\t"<<std::string(sesptr->Result.RequestHeader.elem[i].value)<<std::endl;
 	}
 
@@ -33,8 +33,8 @@ void d_CHttpParse::Send(d_http_parser_fsPtr&  sesptr){
 	output.write(tmp,length);
 	output<<std::endl;
 	output << "Response Header:\n";
-	for(int i=0;i<m;i++){
-		if(*(sesptr->Result.ResponseHeader.elem[i].key)!=NULLKEY) // 有数据
+	for(int i=0;i<d_m;i++){
+		if(*(sesptr->Result.ResponseHeader.elem[i].key)!=D_NULLKEY) // 有数据
 		output<<std::string(sesptr->Result.ResponseHeader.elem[i].key)<<":\t"<<std::string(sesptr->Result.ResponseHeader.elem[i].value)<<std::endl;
 	}
 	output << "Response Context:\n";

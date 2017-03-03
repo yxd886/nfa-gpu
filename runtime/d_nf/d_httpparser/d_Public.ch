@@ -17,7 +17,7 @@
 #include <map>
 #include <list>
 #include <memory>
-#include "../../nf/httpparser/hash.h"
+#include "d_hash.ch"
 
 enum d_DIRECTION{
 	DIRUNKNOWN,
@@ -52,7 +52,7 @@ const  static uint32_t C2S_MATCH = 1; //client to server
 const  static uint32_t S2C_MATCH = 2; //server to client
 
 
-typedef HashTable HeaderMap;
+typedef d_HashTable HeaderMap;
 
 struct CResult{
 

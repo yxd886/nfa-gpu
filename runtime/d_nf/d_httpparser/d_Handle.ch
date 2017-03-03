@@ -1,11 +1,11 @@
 #ifndef D_HANDLEA_H_
 #define D_HANDLEA_H_
 
-#include "d_Public.h"
-#include "d_BehaviorInfo.h"
-#include "d_FormatPacket.h"
-#include "d_SessionHash.h"
-#include "d_HttpParse.h"
+#include "d_Public.ch"
+#include "d_BehaviorInfo.ch"
+#include "d_FormatPacket.ch"
+#include "d_SessionHash.ch"
+#include "d_HttpParse.ch"
 
 class d_CHandle{
 public:
