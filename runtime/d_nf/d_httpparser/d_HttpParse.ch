@@ -228,8 +228,9 @@ private:
 			ret = d_GetBufByTag(pBuf + pos,len - pos,":",1,key);
 			if( ret == -1){
 				//log parse header key error
-				return false;
+				
 				printf("find key failure\n");
+				return false;
 			}
 			pos += ret;
 			pos += 1; //skip the :

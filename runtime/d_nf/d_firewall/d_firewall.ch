@@ -59,7 +59,25 @@
 #include <cassert>
 
 
+class Rules{
+public: 
+	Rules(){counter=0;}
+	~Rules(){}
+	int get_number(){
+		return count;
+	}
+	int get_element(int i){
+		return d_rules[i];
+	}
+	void push_pack(struct d_rule* rule_ptr){
+		d_rules[counter]=rule_ptr;
+		counter++;
+	}
+private:
+	int count;
+	struct d_rule* d_rules[10];
 
+};
 
 class d_firewall{
 public:
@@ -93,7 +111,7 @@ public:
       &rp->action);
       std::cout<<"rule push back"<<std::endl;
       std::cout<<rp->saddr.addr<<" "<<rp->protocol<<" "<<rp->sport<<std::endl;
-     rules.push_back(r);
+     rules.push_back(&r);
    }
  //  std::cout<<"begin to close the rule file !"<<std::endl;
    fclose(fp);
@@ -116,7 +134,7 @@ private:
 
 
 
-std::vector <struct d_rule> rules;
+ Rules rules;
 
 };
 

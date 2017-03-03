@@ -68,8 +68,9 @@ void d_firewall::filter_local_out(struct d_headinfo *hd,d_firewall_fs* sesptr){
    sesptr->counter++;
   s_port = GetPort(hd, SRC);
   d_port = GetPort(hd, DEST);
-  std::vector<struct d_rule>::iterator ptr;
-  for(ptr=rules.begin();ptr!=rules.end();ptr++){
+  struct d_rule* ptr;
+  for(int i=0;i<rules.get_number();i++){
+	ptr=rules.get_element(i);
     match = false;
     match = (ptr->saddr.addr == ANY_ADDR ? true : CompareID_with_mask(ptr->saddr.addr,s_addr,ptr->saddr.mask));
     if(!match){
