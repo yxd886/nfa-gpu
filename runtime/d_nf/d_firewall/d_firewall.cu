@@ -1,6 +1,5 @@
 #include "d_firewall.ch"
 
-#include "../d_base/d_network_function_register.h"
 
 #include <glog/logging.h>
 
@@ -137,6 +136,4 @@ void d_firewall::filter_local_out(struct d_headinfo *hd,d_firewall_fs* sesptr){
 	return port;
  }
 
- bool d_registered_firewall =
-     d_static_nf_register::get_register().register_nf<d_firewall, d_firewall_fs>("firewall", 3);
 
