@@ -3,21 +3,14 @@
 
 #ifndef FORWARD_EC_SCHEDULER_H
 #define FORWARD_EC_SCHEDULER_H
-#define PKT_SIZE 500
-
 
 #include "../bessport/module.h"
 #include "../reliable/base/reliable_message_misc.h"
 #include "../bessport/packet.h"
 #include "../bessport/pktbatch.h"
+#include "../d_nf/d_base/Pkt.h"
 
 class coordinator;
-
-struct Pkt{
-	bool empty;
-	char pkt[PKT_SIZE];
-};
-
 
 class forward_ec_scheduler final : public Module {
 public:
