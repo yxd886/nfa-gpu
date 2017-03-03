@@ -64,7 +64,7 @@ public:
 	Rules(){counter=0;}
 	~Rules(){}
 	int get_number(){
-		return count;
+		return counter;
 	}
 	int get_element(int i){
 		return d_rules[i];
@@ -74,7 +74,7 @@ public:
 		counter++;
 	}
 private:
-	int count;
+	int counter;
 	struct d_rule* d_rules[10];
 
 };
