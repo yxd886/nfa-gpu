@@ -104,6 +104,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
 			  Pkt_insert(pkts,it_actor->get_queue_ptr()->dequeue(),i);
 
 		  }
+
 		  i++;
 	  }
   }
