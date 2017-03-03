@@ -1,4 +1,4 @@
-#include "d_firewall.h"
+#include "d_firewall.ch"
 
 #include "../d_base/d_network_function_register.h"
 
