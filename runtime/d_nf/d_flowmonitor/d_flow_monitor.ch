@@ -31,13 +31,16 @@
 
 class d_flow_monitor{
 public:
-  d_flow_monitor(){
+	__device__ d_flow_monitor(){
+
+  }
+	__device__ ~d_flow_monitor(){
 
   }
 
 
 
-	void nf_logic_impl(char* pkt, d_flow_monitor_fs* fs){
+	__device__ void nf_logic_impl(char* pkt, d_flow_monitor_fs* fs){
 
 		process(pkt, fs);
 		//    printf("total number: %d\nudp number: %d\ntcp number: %d\nicmp number: %d\n",ptr->no_total,ptr->no_tcp,ptr->no_udp,ptr->no_icmp);
@@ -45,7 +48,7 @@ public:
 	}
 
 
-  void process(char* raw_packet,d_flow_monitor_fs* fs){
+__device__ void process(char* raw_packet,d_flow_monitor_fs* fs){
 
   	if(fs->counter==0){
   		struct d_head_info t;
@@ -81,7 +84,7 @@ public:
     fs->counter++;
   }
 
-    void Format(char* packet,struct d_head_info* hd){
+    __device__ void Format(char* packet,struct d_head_info* hd){
     hd->m_pEthhdr = (struct ether_hdr*)packet;
     hd->m_pIphdr = (struct iphdr*)(packet + sizeof(struct ether_hdr));
     hd->m_pTcphdr = (struct tcphdr*)(packet + sizeof(struct ether_hdr)+(hd->m_pIphdr->ihl)*4);
