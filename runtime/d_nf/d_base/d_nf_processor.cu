@@ -1,10 +1,10 @@
 #include "d_network_function_base.h"
 #include "d_network_function_derived.h"
 #include "d_nf_item.h"
-#include "d_firewall.ch"
-#include "d_flow_monitor.ch"
-#include "d_http_parser.ch"
-#include "d_pkt_counter.ch"
+#include "../d_firewall/d_firewall.ch"
+#include "../d_flowmonitor/d_flow_monitor.ch"
+#include "../d_httpparser/d_http_parser.ch"
+#include "../d_pktcounter/d_pkt_counter.ch"
 #include "Pkt.h"
 
 void Init_nfs(struct d_flow_actor_nfs* nfs){
