@@ -66,7 +66,7 @@ public:
 	int get_number(){
 		return counter;
 	}
-	int get_element(int i){
+	struct d_rule* get_element(int i){
 		return d_rules[i];
 	}
 	void push_back(struct d_rule* rule_ptr){
