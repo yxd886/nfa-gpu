@@ -69,7 +69,7 @@ public:
 	int get_element(int i){
 		return d_rules[i];
 	}
-	void push_pack(struct d_rule* rule_ptr){
+	void push_back(struct d_rule* rule_ptr){
 		d_rules[counter]=rule_ptr;
 		counter++;
 	}
