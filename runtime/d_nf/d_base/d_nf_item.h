@@ -27,7 +27,7 @@ static constexpr int max_chain_length = 8;;
 
 // 本机大端返回1，小端返回0
 
-int checkCPUendian()
+__device__ int checkCPUendian()
 
 {
 
@@ -51,7 +51,7 @@ int checkCPUendian()
 
 // 模拟htonl函数，本机字节序转网络字节序
 
-unsigned long int Htonl(unsigned long int h)
+__device__ unsigned long int Htonl(unsigned long int h)
 
 {
 
@@ -67,7 +67,7 @@ unsigned long int Htonl(unsigned long int h)
 
 // 模拟ntohl函数，网络字节序转本机字节序
 
-unsigned long int Ntohl(unsigned long int n)
+__device__ unsigned long int Ntohl(unsigned long int n)
 
 {
 
@@ -83,7 +83,7 @@ unsigned long int Ntohl(unsigned long int n)
 
 // 模拟htons函数，本机字节序转网络字节序
 
-unsigned short int Htons(unsigned short int h)
+__device__ unsigned short int Htons(unsigned short int h)
 
 {
 
@@ -99,7 +99,7 @@ unsigned short int Htons(unsigned short int h)
 
 // 模拟ntohs函数，网络字节序转本机字节序
 
-unsigned short int Ntohs(unsigned short int n)
+__device__ unsigned short int Ntohs(unsigned short int n)
 
 {
 

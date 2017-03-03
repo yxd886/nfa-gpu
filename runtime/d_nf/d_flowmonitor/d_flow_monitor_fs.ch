@@ -32,8 +32,8 @@ struct d_flow_monitor_fs
     uint16_t SrcPort;
     uint16_t DstPort;
     uint8_t protocol;
-    time_t   CreatedTime;
-    time_t   RefreshTime;
+    //time_t   CreatedTime;
+    //time_t   RefreshTime;
     uint64_t no_tcp;
     uint64_t no_udp;
     uint64_t no_icmp;
