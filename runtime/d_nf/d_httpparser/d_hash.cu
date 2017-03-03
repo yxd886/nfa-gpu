@@ -49,7 +49,7 @@ void d_collision(int *p,int d){
 // 元素在表中位置,并返回SUCCESS;否则,以p指示插入位置,并返回UNSUCCESS
 // c用以计冲突次数，其初值置零，供建表插入时参考。
 int d_SearchHash(d_HashTable H,d_KeyType K,int *p,int *c){
-	*p=Hash(K); // 求得哈希地址
+	*p=d_Hash(K); // 求得哈希地址
 	while(*(H.elem[*p].key)!=D_NULLKEY&&!(strcmp(K,H.elem[*p].key)==0)){
 	// 该位置中填有记录．并且关键字不相等
 		(*c)++;
