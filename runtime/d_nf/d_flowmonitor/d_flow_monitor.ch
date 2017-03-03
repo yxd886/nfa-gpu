@@ -25,6 +25,7 @@
 #include <asm-generic/int-ll64.h>
 #include "d_flow_monitor_fs.ch"
 #include "d_fm_headinfo.ch"
+#include "../d_base/d_nf_item.h"
 
 
 #include <glog/logging.h>
