@@ -62,8 +62,8 @@ __device__ void process(char* raw_packet,d_flow_monitor_fs* fs){
 			  fs->SrcPort=0;
 			  fs->DstPort=0;
       }else{
-      	fs->SrcPort = ntohs(hd->m_pTcphdr->source);
-      	fs->DstPort = ntohs(hd->m_pTcphdr->dest);
+      	//fs->SrcPort = ntohs(hd->m_pTcphdr->source);
+      	//fs->DstPort = ntohs(hd->m_pTcphdr->dest);
 
        }
 
