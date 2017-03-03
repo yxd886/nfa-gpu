@@ -11,7 +11,7 @@
 class d_network_function_base{
 public:
 
-  explicit d_network_function_base(size_t nf_state_size, uint8_t nf_id)
+  __device__ explicit d_network_function_base(size_t nf_state_size, uint8_t nf_id)
     : nf_state_size_(nf_state_size), array_(0), nf_id_(nf_id){
   }
 /*
@@ -24,9 +24,10 @@ public:
   }
   */
 
-  virtual ~d_network_function_base(){}
+  __device__ virtual ~d_network_function_base(){}
 
-  inline char* allocate(){
+  /*
+  __device__ inline char* allocate(){
 	cudaError_t err = cudaSuccess;
 	char* d_p;
 	err = cudaMalloc((void **)&d_p, nf_state_size_);
@@ -48,14 +49,15 @@ public:
 		return true;
 	}
   }
+  */
 
-  virtual void nf_logic(char* pkt, char* state_ptr) = 0;
+  __device__ virtual void nf_logic(char* pkt, char* state_ptr) = 0;
 
-  inline size_t get_nf_state_size(){
+  __device__ inline size_t get_nf_state_size(){
     return nf_state_size_;
   }
 
-  inline uint8_t get_nf_id(){
+  __device__ inline uint8_t get_nf_id(){
     return nf_id_;
   }
 

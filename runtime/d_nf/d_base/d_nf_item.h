@@ -1,7 +1,7 @@
 #ifndef D_NF_ITEM_H
 #define D_NF_ITEM_H
 
-#include "d_network_function_base.h"
+#include "d_network_function_base.ch"
 
 static constexpr int max_chain_length = 8;;
 
