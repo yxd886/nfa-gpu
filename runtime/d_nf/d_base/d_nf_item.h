@@ -51,7 +51,7 @@ int checkCPUendian()
 
 // 模拟htonl函数，本机字节序转网络字节序
 
-unsigned long int htonl(unsigned long int h)
+unsigned long int Htonl(unsigned long int h)
 
 {
 
@@ -67,7 +67,7 @@ unsigned long int htonl(unsigned long int h)
 
 // 模拟ntohl函数，网络字节序转本机字节序
 
-unsigned long int ntohl(unsigned long int n)
+unsigned long int Ntohl(unsigned long int n)
 
 {
 
@@ -83,7 +83,7 @@ unsigned long int ntohl(unsigned long int n)
 
 // 模拟htons函数，本机字节序转网络字节序
 
-unsigned short int htons(unsigned short int h)
+unsigned short int Htons(unsigned short int h)
 
 {
 
@@ -99,7 +99,7 @@ unsigned short int htons(unsigned short int h)
 
 // 模拟ntohs函数，网络字节序转本机字节序
 
-unsigned short int ntohs(unsigned short int n)
+unsigned short int Ntohs(unsigned short int n)
 
 {
 
