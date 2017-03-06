@@ -82,39 +82,51 @@ private:
 class d_firewall{
 public:
 	__device__ d_firewall(){
-    FILE*fp=fopen("/home/net/repo/local-dev/rule.txt","r");
+   
     char saddr[200];
     memset(saddr,0,sizeof(saddr));
     char daddr[200];
     memset(daddr,0,sizeof(daddr));
-    if(fp==NULL){
-   //  std::cout<<"open file error!"<<std::endl;
-    }
+    
     struct d_rule r;
     struct d_rule* rp=&r;
   //  std::cout<<"begin to read rules"<<std::endl;
-    while(!feof(fp)){
-      fscanf(fp,"%hhu.%hhu.%hhu.%hhu /%u:%u, %hhu.%hhu.%hhu.%hhu /%u:%u, %u, %d",
-      (unsigned char *)&rp->saddr.addr,
-      ((unsigned char *)&rp->saddr.addr)+1,
-      ((unsigned char *)&rp->saddr.addr)+2,
-      ((unsigned char *)&rp->saddr.addr)+3,
-      &rp->saddr.mask,
-      &rp->sport,
-      (unsigned char *)&rp->daddr.addr,
-      (unsigned char *)&rp->daddr.addr+1,
-      (unsigned char *)&rp->daddr.addr+2,
-      (unsigned char *)&rp->daddr.addr+3,
-      &rp->daddr.mask,
-      &rp->dport,
-      &rp->protocol,
-      &rp->action);
-      std::cout<<"rule push back"<<std::endl;
-      std::cout<<rp->saddr.addr<<" "<<rp->protocol<<" "<<rp->sport<<std::endl;
+   
+      *(unsigned char *)&rp->saddr.addr=0,
+      *(((unsigned char *)&rp->saddr.addr)+1)=0,
+      *(((unsigned char *)&rp->saddr.addr)+2)=0,
+      *(((unsigned char *)&rp->saddr.addr)+3)=0,
+      rp->saddr.mask=32,
+      rp->sport=65535,
+      *((unsigned char *)&rp->daddr.addr)=0,
+      *((unsigned char *)&rp->daddr.addr+1)=0,
+      *(unsigned char *)&rp->daddr.addr+2)=0,
+      *((unsigned char *)&rp->daddr.addr+3)=0,
+      rp->daddr.mask=32,
+      rp->dport=65535,
+      rp->protocol=6,
+      rp->action=0
      rules.push_back(&r);
-   }
+      
+      
+      *(unsigned char *)&rp->saddr.addr=0,
+      *(((unsigned char *)&rp->saddr.addr)+1)=0,
+      *(((unsigned char *)&rp->saddr.addr)+2)=0,
+      *(((unsigned char *)&rp->saddr.addr)+3)=0,
+      rp->saddr.mask=32,
+      rp->sport=65535,
+      *((unsigned char *)&rp->daddr.addr)=119,
+      *((unsigned char *)&rp->daddr.addr+1)=75,
+      *(unsigned char *)&rp->daddr.addr+2)=217,
+      *((unsigned char *)&rp->daddr.addr+3)=109,
+      rp->daddr.mask=32,
+      rp->dport=65535,
+      rp->protocol=6,
+      rp->action=1
+     rules.push_back(&r);
+   
  //  std::cout<<"begin to close the rule file !"<<std::endl;
-   fclose(fp);
+  
  //  std::cout<<"close the rule file successfully !"<<std::endl;
   }
 
