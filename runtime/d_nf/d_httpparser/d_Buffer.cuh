@@ -20,20 +20,20 @@ struct d_CBuffer{
 };
 
 
-void d_CBuffer_Reset(struct d_CBuffer& Cbuf);
+__device__ void d_CBuffer_Reset(struct d_CBuffer& Cbuf);
 
-bool d_Append(struct d_CBuffer& Cbuf,char* p, size_t size);
+__device__ bool d_Append(struct d_CBuffer& Cbuf,char* p, size_t size);
 
-char* d_GetBuf(struct d_CBuffer Cbuf,uint32_t& size);
+__device__ char* d_GetBuf(struct d_CBuffer Cbuf,uint32_t& size);
 
-uint32_t d_GetBufLen(struct d_CBuffer Cbuf);
-
-
-void d_Buf_init(struct d_CBuffer& Cbuf);
+__device__ uint32_t d_GetBufLen(struct d_CBuffer Cbuf);
 
 
+__device__ void d_Buf_init(struct d_CBuffer& Cbuf);
 
-void d_CBuffer_Reset(struct d_CBuffer& Cbuf){
+
+
+__device__ void d_CBuffer_Reset(struct d_CBuffer& Cbuf){
 	if(!Cbuf.buf){
 		Cbuf.buf = (char*) malloc(BUFFER_SIZE);
 		memset(Cbuf.buf,0x00,Cbuf._free);
@@ -50,7 +50,7 @@ void d_CBuffer_Reset(struct d_CBuffer& Cbuf){
 	Cbuf._free = BUFFER_SIZE;
 }
 
-bool d_Append(struct d_CBuffer& Cbuf,char* p, size_t size){
+__device__ bool d_Append(struct d_CBuffer& Cbuf,char* p, size_t size){
 	if(!p || !size)
 			return true;
 	if(size < Cbuf._free){
@@ -64,19 +64,19 @@ bool d_Append(struct d_CBuffer& Cbuf,char* p, size_t size){
 	return true;
 }
 
-char* d_GetBuf(struct d_CBuffer Cbuf,uint32_t& size){
+__device__ char* d_GetBuf(struct d_CBuffer Cbuf,uint32_t& size){
 	size = Cbuf.len;
 	return Cbuf.buf;
 }
 
-uint32_t d_GetBufLen(struct d_CBuffer Cbuf){
+__device__ uint32_t d_GetBufLen(struct d_CBuffer Cbuf){
 
 	return Cbuf.len;
 
 }
 
 
-void d_Buf_init(struct d_CBuffer& Cbuf){
+__device__ void d_Buf_init(struct d_CBuffer& Cbuf){
 	Cbuf.len=0;
 	Cbuf._free=0;
 	Cbuf.buf=0;
