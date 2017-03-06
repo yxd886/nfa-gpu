@@ -115,7 +115,7 @@ private:
 		pos += ret;
 		pos += 1;  //skip the space
 		result.Method = GetMethod(method);
-		cout<<"Method:"<<method<<endl;
+		//cout<<"Method:"<<method<<endl;
 
 
 		//get url
@@ -130,7 +130,7 @@ private:
 		}
 		pos += ret;
 		pos += 1;  //skip the space
-		cout<<"Url:"<<url<<endl;
+		//cout<<"Url:"<<url<<endl;
 
 
 		//get http version
@@ -143,7 +143,7 @@ private:
 		}
 		pos += ret;
 		pos += 1;  //skip the \r\n
-		cout<<"Version:"<<version<<endl;
+		//cout<<"Version:"<<version<<endl;
 		if(!GetVersion(version,result.Version)){
 			//printf(" version compare failure\n");
 			return false;
@@ -213,9 +213,9 @@ private:
 				//log buf modified  %d <=> len
 				return false;
 			}
-			cout<<"pBuf + pos=";
+			//cout<<"pBuf + pos=";
 			putchar(*(pBuf + pos));
-			cout<<endl;
+		//	cout<<endl;
 			if(strncmp(pBuf + pos,"\n",1) == 0){
 				pos += 1;
 				return true;
@@ -234,7 +234,7 @@ private:
 			}
 			pos += ret;
 			pos += 1; //skip the :
-			cout<<"key:"<<key<<endl;
+			//cout<<"key:"<<key<<endl;
 
 			ret = d_GetBufByTag(pBuf + pos,len - pos,"\n",1,value);
 			if( ret == -1){

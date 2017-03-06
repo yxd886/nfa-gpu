@@ -123,12 +123,12 @@ public:
 		m_pEthhdr = (struct ether_hdr*)packet;
 		m_pIphdr = (struct iphdr*)(packet + sizeof(struct ether_hdr));
 		m_pTcphdr = (struct tcphdr*)(packet + sizeof(struct ether_hdr)+(m_pIphdr->ihl)*4);
-		m_uPktLen = ntohs(m_pIphdr->tot_len);
+		m_uPktLen = Ntohs(m_pIphdr->tot_len);
 		m_pEthIndex = (int16_t*)(&m_pEthhdr->ether_type);
 		m_pData = NULL;
 		m_DataLen = 0;
 		if (m_pIphdr){
-			int16_t iplen=ntohs(m_pIphdr->tot_len);
+			int16_t iplen=Ntohs(m_pIphdr->tot_len);
 			int16_t offset;
 			if (m_pIphdr->protocol == IPPROTO_TCP)
 				offset = m_pIphdr->ihl * 4 + m_pTcphdr->doff * 4;

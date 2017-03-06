@@ -133,28 +133,28 @@ __device__ void d_CHandle::Create(d_IFormatPacket *pPacket,d_CSharedBehaviorInfo
 
 
 	d_http_parser_fs_Reset(ptr);
-	if(pInfo->m_nIP == ntohl(pPacket->GetSrcIp()) && pInfo->m_nPort == ntohs(pPacket->GetSrcPort())){
-		ptr->ServerIp   = ntohl(pPacket->GetSrcIp());
-		ptr->ClientIp   = ntohl(pPacket->GetDstIp());
-		ptr->ServerPort = ntohs(pPacket->GetSrcPort());
-		ptr->ClientPort = ntohs(pPacket->GetDstPort());
+	if(pInfo->m_nIP == Ntohl(pPacket->GetSrcIp()) && pInfo->m_nPort == Ntohs(pPacket->GetSrcPort())){
+		ptr->ServerIp   = Ntohl(pPacket->GetSrcIp());
+		ptr->ClientIp   = Ntohl(pPacket->GetDstIp());
+		ptr->ServerPort = Ntohs(pPacket->GetSrcPort());
+		ptr->ClientPort = Ntohs(pPacket->GetDstPort());
 		ptr->ServerMac  = pPacket->GetSrcMac();
 		ptr->ClientMac  = pPacket->GetDstMac();
 		ptr->Protocol   = pInfo->m_nBehaviorId;
 
-		ptr->CreatedTime = time(0);
+		ptr->CreatedTime = 0;
 		ptr->RefreshTime = ptr->CreatedTime;
 		ptr->counter=0;
 	}else{
-		ptr->ServerIp   = ntohl(pPacket->GetDstIp());
-		ptr->ClientIp   = ntohl(pPacket->GetSrcIp());
-		ptr->ServerPort = ntohs(pPacket->GetDstPort());
-		ptr->ClientPort = ntohs(pPacket->GetSrcPort());
+		ptr->ServerIp   = Ntohl(pPacket->GetDstIp());
+		ptr->ClientIp   = Ntohl(pPacket->GetSrcIp());
+		ptr->ServerPort = Ntohs(pPacket->GetDstPort());
+		ptr->ClientPort = Ntohs(pPacket->GetSrcPort());
 		ptr->ServerMac  = pPacket->GetDstMac();
 		ptr->ClientMac  = pPacket->GetSrcMac();
 		ptr->Protocol   = pInfo->m_nBehaviorId;
 
-		ptr->CreatedTime = time(0);
+		ptr->CreatedTime = 0;
 		ptr->RefreshTime = ptr->CreatedTime;
 		ptr->counter=0;
 
