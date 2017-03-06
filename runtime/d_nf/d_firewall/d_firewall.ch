@@ -100,7 +100,7 @@ public:
       rp->sport=65535;
       *((unsigned char *)&rp->daddr.addr)=0;
       *((unsigned char *)&rp->daddr.addr+1)=0;
-      *(unsigned char *)&rp->daddr.addr+2)=0;
+      *((unsigned char *)&rp->daddr.addr+2)=0;
       *((unsigned char *)&rp->daddr.addr+3)=0;
       rp->daddr.mask=32;
       rp->dport=65535;
@@ -117,7 +117,7 @@ public:
       rp->sport=65535;
       *((unsigned char *)&rp->daddr.addr)=119;
       *((unsigned char *)&rp->daddr.addr+1)=75;
-      *(unsigned char *)&rp->daddr.addr+2)=217;
+      *((unsigned char *)&rp->daddr.addr+2)=217;
       *((unsigned char *)&rp->daddr.addr+3)=109;
       rp->daddr.mask=32;
       rp->dport=65535;
