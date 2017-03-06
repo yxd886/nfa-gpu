@@ -124,7 +124,7 @@ __device__ unsigned long myStrlen(char string[])
     return length;
 }
 //自定义实现字符串的拷贝
-__device__ void myStrcpy(char* string1, char* string2)
+__device__ void myStrcpy(char* string1, const char* string2)
 {
     int i = 0;
     while (string2[i] != '\0') {
