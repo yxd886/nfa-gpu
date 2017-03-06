@@ -90,25 +90,25 @@ typedef struct{
 
 class d_IFormatPacket{
 public:
-	virtual ~d_IFormatPacket(){};
-	virtual void Format(char *packet) = 0;
-	virtual struct ether_hdr *GetEtherHeader() = 0;
-	virtual u_int64_t GetDstMac() = 0;
-	virtual u_int64_t GetSrcMac() = 0;
+	__device__  virtual ~d_IFormatPacket(){};
+	__device__  virtual void Format(char *packet) = 0;
+	__device__  virtual struct ether_hdr *GetEtherHeader() = 0;
+	__device__  virtual u_int64_t GetDstMac() = 0;
+	__device__  virtual u_int64_t GetSrcMac() = 0;
 
-	virtual struct iphdr *GetIphdr() = 0;
-	virtual u_int32_t GetDstIp() = 0;
-	virtual u_int32_t GetSrcIp() = 0;
-	virtual u_int8_t  GetIpProtocol() = 0;
-	virtual u_int16_t GetIpPktLen() = 0;
+	__device__  virtual struct iphdr *GetIphdr() = 0;
+	__device__  virtual u_int32_t GetDstIp() = 0;
+	__device__  virtual u_int32_t GetSrcIp() = 0;
+	__device__  virtual u_int8_t  GetIpProtocol() = 0;
+	__device__  virtual u_int16_t GetIpPktLen() = 0;
 
-	virtual struct tcphdr *GetTcphdr() = 0;
-	virtual struct udphdr *GetUdphdr() = 0;
-	virtual u_int16_t GetDstPort() = 0;
-	virtual u_int16_t GetSrcPort() = 0;
+	__device__  virtual struct tcphdr *GetTcphdr() = 0;
+	__device__  virtual struct udphdr *GetUdphdr() = 0;
+	__device__  virtual u_int16_t GetDstPort() = 0;
+	__device__  virtual u_int16_t GetSrcPort() = 0;
 	//virtual int16_t GetDirect() = 0;
-	virtual u_int8_t *GetData() = 0;
-	virtual int16_t  GetDataLen() = 0;
+	__device__  virtual u_int8_t *GetData() = 0;
+	__device__  virtual int16_t  GetDataLen() = 0;
  // virtual SRawPacket *GetRawPacket() = 0;
 };
 
@@ -116,7 +116,9 @@ public:
 
 class d_CFormatPacket : public d_IFormatPacket{
 public:
-	void Format(char* packet){
+	__device__ d_CFormatPacket(){}
+	__device__ ~d_CFormatPacket(){}
+	__device__  void Format(char* packet){
 		m_pPkt = packet;
 		m_pEthhdr = (struct ether_hdr*)packet;
 		m_pIphdr = (struct iphdr*)(packet + sizeof(struct ether_hdr));
@@ -145,7 +147,7 @@ public:
 	 *      \n NULL failed / not exist
 	 *      \n point to ether header in packet
 	 */
-	struct ether_hdr *GetEtherHeader(){
+	__device__ struct ether_hdr *GetEtherHeader(){
 	    return m_pEthhdr;
 	}
 
@@ -155,7 +157,7 @@ public:
 	 *      \n NULL :failed / no destinatiom MAC address
 	 *      \n pointer to ether destination MAC address
 	 */
-	u_int64_t GetDstMac(){
+	__device__ u_int64_t GetDstMac(){
 		if(m_pEthhdr){
 			//return BCD2UInt64(m_pEthhdr->ether_dhost, 6);
 			return 0;
@@ -170,7 +172,7 @@ public:
 	 *      \n NULL :failed / no source MAC address
 	 *      \n pointer to ether source MAC address
 	 */
-	u_int64_t GetSrcMac(){
+	__device__ u_int64_t GetSrcMac(){
 		if(m_pEthhdr){
 			//return BCD2UInt64(m_pEthhdr->ether_shost, 6);
 			return 0;
@@ -185,7 +187,7 @@ public:
 	 *      \n NULL failed / not exist
 	 *      \n point to IP header in packet
 	 */
-	struct iphdr *GetIphdr(){
+	__device__ struct iphdr *GetIphdr(){
 		return m_pIphdr;
 	}
 
@@ -195,7 +197,7 @@ public:
 	 *      \n NULL :failed / no destinatiom IP address
 	 *      \n pointer to destination IP address
 	 */
-	u_int32_t GetDstIp(){
+	__device__ u_int32_t GetDstIp(){
 		if(m_pIphdr){
 			return m_pIphdr->daddr;
 		}
@@ -210,7 +212,7 @@ public:
 	 *      \n NULL :failed / no source IP address
 	 *      \n pointer to source IP address
 	 */
-	u_int32_t GetSrcIp(){
+	__device__ u_int32_t GetSrcIp(){
 		if(m_pIphdr){
 			return m_pIphdr->saddr;
 		}else{
@@ -224,7 +226,7 @@ public:
 	 *      \n NULL :failed / no exist
 	 *      \n pointer to IP protocol
 	 */
-	u_int8_t  GetIpProtocol(){
+	__device__ u_int8_t  GetIpProtocol(){
 		if(m_pIphdr){
 			return m_pIphdr->protocol;
 		}else{
@@ -232,7 +234,7 @@ public:
 		}
 	}
 
-	u_int16_t GetIpPktLen(){
+	__device__ u_int16_t GetIpPktLen(){
 		return m_uPktLen;
 	}
 	/**
@@ -241,7 +243,7 @@ public:
 	 *      \n NULL failed / not exist
 	 *      \n point to TCP header in packet
 	 */
-	struct tcphdr *GetTcphdr(){
+	__device__ struct tcphdr *GetTcphdr(){
 		return m_pTcphdr;
 	}
 
@@ -251,7 +253,7 @@ public:
 	 *      \n NULL failed / not exist
 	 *      \n point to UDP header in packet
 	 */
-	struct udphdr *GetUdphdr(){
+	__device__ struct udphdr *GetUdphdr(){
 		return (struct udphdr *)m_pTcphdr;
 	}
 
@@ -261,7 +263,7 @@ public:
 	 *      \n NULL :failed / no destinatiom TCP/UDP port
 	 *      \n pointer to destination TCP/UDP port
 	 */
-	u_int16_t GetDstPort(){
+	__device__ u_int16_t GetDstPort(){
 		if(m_pTcphdr){
 			return m_pTcphdr->dest;
 		}else{
@@ -275,7 +277,7 @@ public:
 	 *      \n NULL :failed / no Source TCP/UDP port
 	 *      \n pointer to Source TCP/UDP port
 	 */
-	u_int16_t GetSrcPort(){
+	__device__ u_int16_t GetSrcPort(){
 		if(m_pTcphdr){
 			return m_pTcphdr->source;
 		}	else	{
@@ -283,14 +285,14 @@ public:
 		}
 	}
 	//int16_t GetDirect(){return m_pPacketData->direct;}
-	u_int8_t *GetData()   {return m_pData;}
-	int16_t  GetDataLen() {return m_DataLen;}
+	__device__ u_int8_t *GetData()   {return m_pData;}
+	__device__ int16_t  GetDataLen() {return m_DataLen;}
 	//SRawPacket *GetRawPacket() {return m_pPacketData;}
-	struct timeval *GetPacketTime() {return &(_time);}
-	int16_t *GetEthIndex(){return m_pEthIndex;}
+	__device__ struct timeval *GetPacketTime() {return &(_time);}
+	__device__ int16_t *GetEthIndex(){return m_pEthIndex;}
 
-	char * GetPkt(){return m_pPkt;};
-	u_int16_t GetPktLen(){return m_uPktLen;};
+	__device__ char * GetPkt(){return m_pPkt;};
+	__device__ u_int16_t GetPktLen(){return m_uPktLen;};
 
 
 private:

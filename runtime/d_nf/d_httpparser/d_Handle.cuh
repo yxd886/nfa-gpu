@@ -10,14 +10,14 @@
 
 class d_CHandle{
 public:
-	d_CHandle();
-	~d_CHandle();
-	void Init();
-	void Process(d_CFormatPacket packet, d_CSharedBehaviorInfo* pInfo, d_http_parser_fsPtr& sesp);
-	void Create(d_IFormatPacket *pPacket,d_CSharedBehaviorInfo* pInfo,d_http_parser_fsPtr& ptr);
+	__device__ d_CHandle();
+	__device__ ~d_CHandle();
+	__device__ void Init();
+	__device__ void Process(d_CFormatPacket packet, d_CSharedBehaviorInfo* pInfo, d_http_parser_fsPtr& sesp);
+	__device__ void Create(d_IFormatPacket *pPacket,d_CSharedBehaviorInfo* pInfo,d_http_parser_fsPtr& ptr);
 
 private:
-	void TimeOutCheck();
+	__device__ void TimeOutCheck();
 
 
 	d_CHttpParse         _httpParse;
@@ -28,7 +28,7 @@ private:
 
 
 
-void d_CHandle::Process(d_CFormatPacket packet, d_CSharedBehaviorInfo* pInfo, d_http_parser_fsPtr& fhs)
+__device__ void d_CHandle::Process(d_CFormatPacket packet, d_CSharedBehaviorInfo* pInfo, d_http_parser_fsPtr& fhs)
 {
 
 
@@ -114,13 +114,13 @@ void d_CHandle::Process(d_CFormatPacket packet, d_CSharedBehaviorInfo* pInfo, d_
 	return;
 }
 
-d_CHandle::d_CHandle(){
+__device__ d_CHandle::d_CHandle(){
 }
 
-d_CHandle::~d_CHandle(){
+__device__ d_CHandle::~d_CHandle(){
 }
 
-void d_CHandle::Init(){
+__device__ void d_CHandle::Init(){
 
 	_httpParse.Init();
 
@@ -128,7 +128,7 @@ void d_CHandle::Init(){
 
 
 
-void d_CHandle::Create(d_IFormatPacket *pPacket,d_CSharedBehaviorInfo* pInfo,d_http_parser_fsPtr& ptr){
+__device__ void d_CHandle::Create(d_IFormatPacket *pPacket,d_CSharedBehaviorInfo* pInfo,d_http_parser_fsPtr& ptr){
 
 
 

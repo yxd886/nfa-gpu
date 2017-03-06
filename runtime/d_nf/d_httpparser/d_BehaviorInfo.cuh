@@ -5,7 +5,7 @@
 
 
 struct d_CSharedBehaviorInfo{
-	d_CSharedBehaviorInfo() :
+	__device__ d_CSharedBehaviorInfo() :
 		m_nIP(0),
 		m_nPort(0),
 		m_nBehaviorId(0),
@@ -13,7 +13,7 @@ struct d_CSharedBehaviorInfo{
 
 	}
 
-	d_CSharedBehaviorInfo(const d_CSharedBehaviorInfo& anoter ) :
+	__device__ d_CSharedBehaviorInfo(const d_CSharedBehaviorInfo& anoter ) :
 	 m_nIP(anoter.m_nIP),
 	 m_nPort(anoter.m_nPort),
 	 m_nBehaviorId(anoter.m_nBehaviorId),
@@ -21,7 +21,7 @@ struct d_CSharedBehaviorInfo{
 
   }
 
-	d_CSharedBehaviorInfo(const uint32_t ip,const uint32_t port,const uint32_t bhvId) :
+	__device__ d_CSharedBehaviorInfo(const uint32_t ip,const uint32_t port,const uint32_t bhvId) :
 		m_nIP(ip),
 		m_nPort(port),
 		m_nBehaviorId(bhvId){

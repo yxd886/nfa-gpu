@@ -71,9 +71,9 @@ struct CResult{
 	char          ResponseData[40];
 };
 
-void d_CResult_Reset(struct CResult& r);
+__device__ void d_CResult_Reset(struct CResult& r);
 
-void d_CResult_Reset(struct CResult& r){
+__device__ void d_CResult_Reset(struct CResult& r){
 	r.RequestTimeStamp = 0;
 	r.ResponseTimeStamp = 0;
 	r.Method = METUNKNOWN;

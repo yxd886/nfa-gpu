@@ -22,17 +22,17 @@ union d_iptrans{
 class d_CHttpParse{
 public:
 
-	d_CHttpParse(){
+	__device__ d_CHttpParse(){
 	}
 
-	~d_CHttpParse(){
+	__device__ 	~d_CHttpParse(){
 
 	}
 
-	void Init(){
+	__device__ void Init(){
 	}
 
-	void Parse(d_http_parser_fsPtr& sesptr){
+	__device__ void Parse(d_http_parser_fsPtr& sesptr){
 		uint32_t reqLen = 0;
 		uint32_t rspLen = 0;
 		const char*  reqBuf = d_GetBuf(sesptr->ReqBuf,reqLen);
@@ -103,7 +103,7 @@ public:
 	return;
 }
 private:
-	bool ParseMethodAndUri(const char* pBuf, const uint32_t len, uint32_t& pos, CResult& result){
+	__device__ bool ParseMethodAndUri(const char* pBuf, const uint32_t len, uint32_t& pos, CResult& result){
 		//get method
 		string method;
 		int ret = d_GetBufByTag(pBuf+pos,len-pos," ",1,method);
@@ -152,7 +152,7 @@ private:
 
 	}
 
-	bool ParseRspState(const char* pBuf, const uint32_t len,uint32_t& pos, CResult& result){
+	__device__ bool ParseRspState(const char* pBuf, const uint32_t len,uint32_t& pos, CResult& result){
 		int ret = 0;
 
 		//check the version with reqeust version
@@ -201,7 +201,7 @@ private:
 		return true;
 	}
 
-	bool ParseHeader(const char* pBuf, const uint32_t len,uint32_t& pos,  HeaderMap& headmap){
+	__device__ bool ParseHeader(const char* pBuf, const uint32_t len,uint32_t& pos,  HeaderMap& headmap){
 		int ret = 0;
 
 
@@ -256,17 +256,17 @@ private:
 		return true;
 	}
 
-	bool ParseReqData(const char* pBuf, const uint32_t len,uint32_t& pos, CResult& result){
+	__device__ bool ParseReqData(const char* pBuf, const uint32_t len,uint32_t& pos, CResult& result){
 		return true;
 	}
 
-	bool ParseRspData(const char* pBuf, const uint32_t len,uint32_t& pos, CResult& result){
+	__device__ bool ParseRspData(const char* pBuf, const uint32_t len,uint32_t& pos, CResult& result){
 		return true;
 	}
 
-	void Send(d_http_parser_fsPtr&  sesptr);
+	__device__ void Send(d_http_parser_fsPtr&  sesptr);
 
-	bool GetVersion(string version, uint32_t& ver){
+	__device__ bool GetVersion(string version, uint32_t& ver){
 		if(version.size() != 8){
 				//log error to get version. %s <=> version
 				return false;
@@ -289,7 +289,7 @@ private:
 		return true;
 	}
 
-	uint32_t GetMethod(string method){
+	__device__ uint32_t GetMethod(string method){
 		if(method.compare("GET") == 0){
 				return GET;
 		}else if(method.compare("POST") == 0){
@@ -313,7 +313,7 @@ private:
 
 
 
-	int d_GetBufByTag(const char* in, const int len, const char* tag, const int tagsize, string& out){
+	__device__ int d_GetBufByTag(const char* in, const int len, const char* tag, const int tagsize, string& out){
 		int i;
 		for(i = 0; i< len; i++){
 			if(strncmp(in + i, tag, tagsize) == 0){
@@ -327,7 +327,7 @@ private:
 
 };
 
-void d_CHttpParse::Send(d_http_parser_fsPtr&  sesptr){
+__device__ void d_CHttpParse::Send(d_http_parser_fsPtr&  sesptr){
 	/*
 	string file("../src/network_function/http_parser/result/");
 

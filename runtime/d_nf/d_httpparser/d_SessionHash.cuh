@@ -32,12 +32,12 @@ struct d_http_parser_fs{
 };
 typedef d_http_parser_fs*    d_http_parser_fsPtr;
 
-void d_http_parser_fs_Reset(d_http_parser_fsPtr& ptr);
+__device__ void d_http_parser_fs_Reset(d_http_parser_fsPtr& ptr);
 
 
 
 
-void d_http_parser_fs_Reset(d_http_parser_fsPtr& ptr){
+__device__ void d_http_parser_fs_Reset(d_http_parser_fsPtr& ptr){
 	d_CBuffer_Reset(ptr->ReqBuf);
 	d_CBuffer_Reset(ptr->RspBuf);
 	d_CResult_Reset(ptr->Result);

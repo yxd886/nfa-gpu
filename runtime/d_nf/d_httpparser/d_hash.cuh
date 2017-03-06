@@ -33,42 +33,42 @@ typedef struct{
 
 
 // 构造一个空的哈希表
-int d_InitHashTable(d_HashTable *H);
+__device__ int d_InitHashTable(d_HashTable *H);
 
 //  销毁哈希表H
-void d_DestroyHashTable(d_HashTable *H);
+__device__ void d_DestroyHashTable(d_HashTable *H);
 // 一个简单的哈希函数(m为表长，全局变量)
 
-unsigned int d_Hash(char *str);
+__device__ unsigned int d_Hash(char *str);
 
 // 开放定址法处理冲突
-void d_collision(int *p,int d);
+__device__ void d_collision(int *p,int d);
 // 算法9.17
 // 在开放定址哈希表H中查找关键码为K的元素,若查找成功,以p指示待查数据
 // 元素在表中位置,并返回SUCCESS;否则,以p指示插入位置,并返回UNSUCCESS
 // c用以计冲突次数，其初值置零，供建表插入时参考。
-int d_SearchHash(d_HashTable H,d_KeyType K,int *p,int *c);
-int d_InsertHash(d_HashTable *,d_ElemType); // 对函数的声明
+__device__ int d_SearchHash(d_HashTable H,d_KeyType K,int *p,int *c);
+__device__ int d_InsertHash(d_HashTable *,d_ElemType); // 对函数的声明
 // 重建哈希表
-void d_RecreateHashTable(d_HashTable *H);
+__device__ void d_RecreateHashTable(d_HashTable *H);
 // 算法9.18
 // 查找不成功时插入数据元素e到开放定址哈希表H中，并返回1；
 // 若冲突次数过大，则重建哈希表。
-int d_InsertHash(d_HashTable *H,d_ElemType e);
+__device__ int d_InsertHash(d_HashTable *H,d_ElemType e);
 // 按哈希地址的顺序遍历哈希表
-void TraverseHash(d_HashTable H,void(*Vi)(int,d_ElemType));
+__device__ void TraverseHash(d_HashTable H,void(*Vi)(int,d_ElemType));
 // 在开放定址哈希表H中查找关键码为K的元素,若查找成功,以p指示待查数据
 // 元素在表中位置,并返回SUCCESS;否则,返回UNSUCCESS
-int d_Find(d_HashTable H,d_KeyType K,int *p);
-void d_print(int p,d_ElemType r);
+__device__ int d_Find(d_HashTable H,d_KeyType K,int *p);
+__device__ void d_print(int p,d_ElemType r);
 
 
-static int d_hashsize[]={11,19,29,37}; // 哈希表容量递增表，一个合适的素数序列
-static int d_m=0; // 哈希表表长，全局变量
+__device__ static int d_hashsize[]={11,19,29,37}; // 哈希表容量递增表，一个合适的素数序列
+__device__ static int d_m=0; // 哈希表表长，全局变量
 
 
 // 构造一个空的哈希表
-int d_InitHashTable(d_HashTable *H){
+__device__ int d_InitHashTable(d_HashTable *H){
 	int i;
 	(*H).count=0; // 当前元素个数为0
 	(*H).sizeindex=0; // 初始存储容量为hashsize[0]
@@ -82,7 +82,7 @@ int d_InitHashTable(d_HashTable *H){
 	return 1;
 }
 //  销毁哈希表H
-void d_DestroyHashTable(d_HashTable *H){
+__device__ void d_DestroyHashTable(d_HashTable *H){
 	free((*H).elem);
 	(*H).elem=NULL;
 	(*H).count=0;
@@ -90,7 +90,7 @@ void d_DestroyHashTable(d_HashTable *H){
 }
 // 一个简单的哈希函数(m为表长，全局变量)
 
-unsigned int d_Hash(char *str){
+__device__ unsigned int d_Hash(char *str){
 	unsigned int hash = 0;
 
 	while (*str){
@@ -102,14 +102,14 @@ unsigned int d_Hash(char *str){
 }
 
 // 开放定址法处理冲突
-void d_collision(int *p,int d){
+__device__ void d_collision(int *p,int d){
 	*p=(*p+d)%d_m;
 }
 // 算法9.17
 // 在开放定址哈希表H中查找关键码为K的元素,若查找成功,以p指示待查数据
 // 元素在表中位置,并返回SUCCESS;否则,以p指示插入位置,并返回UNSUCCESS
 // c用以计冲突次数，其初值置零，供建表插入时参考。
-int d_SearchHash(d_HashTable H,d_KeyType K,int *p,int *c){
+__device__ int d_SearchHash(d_HashTable H,d_KeyType K,int *p,int *c){
 	*p=d_Hash(K); // 求得哈希地址
 	while(*(H.elem[*p].key)!=D_NULLKEY&&!(strcmp(K,H.elem[*p].key)==0)){
 	// 该位置中填有记录．并且关键字不相等
@@ -126,7 +126,7 @@ int d_SearchHash(d_HashTable H,d_KeyType K,int *p,int *c){
 }
 int d_InsertHash(d_HashTable *,d_ElemType); // 对函数的声明
 // 重建哈希表
-void d_RecreateHashTable(d_HashTable *H){
+__device__ void d_RecreateHashTable(d_HashTable *H){
 	int i,count=(*H).count;
 	d_ElemType *p,*elem=(d_ElemType*)malloc(count*sizeof(d_ElemType));
 	p=elem;
@@ -149,7 +149,7 @@ void d_RecreateHashTable(d_HashTable *H){
 // 算法9.18
 // 查找不成功时插入数据元素e到开放定址哈希表H中，并返回1；
 // 若冲突次数过大，则重建哈希表。
-int d_InsertHash(d_HashTable *H,d_ElemType e){
+__device__ int d_InsertHash(d_HashTable *H,d_ElemType e){
 	int c,p;
 	c=0;
 	if(d_SearchHash(*H,e.key,&p,&c)) // 表中已有与e有相同关键字的元素
@@ -165,7 +165,7 @@ int d_InsertHash(d_HashTable *H,d_ElemType e){
 	return 0;
 }
 // 按哈希地址的顺序遍历哈希表
-void TraverseHash(d_HashTable H,void(*Vi)(int,d_ElemType)){
+__device__ void TraverseHash(d_HashTable H,void(*Vi)(int,d_ElemType)){
 	int i;
 	//printf("哈希地址0～%d\n",d_m-1);
 	for(i=0;i<d_m;i++)
@@ -174,7 +174,7 @@ void TraverseHash(d_HashTable H,void(*Vi)(int,d_ElemType)){
 }
 // 在开放定址哈希表H中查找关键码为K的元素,若查找成功,以p指示待查数据
 // 元素在表中位置,并返回SUCCESS;否则,返回UNSUCCESS
-int d_Find(d_HashTable H,d_KeyType K,int *p){
+__device__ int d_Find(d_HashTable H,d_KeyType K,int *p){
 	int c=0;
 	*p=d_Hash(K); // 求得哈希地址
 	while(*(H.elem[*p].key)!=D_NULLKEY&&!(strcmp(K,H.elem[*p].key)==0)){ // 该位置中填有记录．并且关键字不相等
@@ -189,7 +189,7 @@ int d_Find(d_HashTable H,d_KeyType K,int *p){
 	else
 		return UNSUCCESS; // 查找不成功(H.elem[p].key==NULLKEY)
 }
-void d_print(int p,d_ElemType r){
+__device__ void d_print(int p,d_ElemType r){
 	//printf("address=%d (%s,%s)\n",p,r.key,r.value);
 }
 

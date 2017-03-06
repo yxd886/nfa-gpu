@@ -8,13 +8,13 @@
 
 class d_Receiver{
 public:
-	d_Receiver(){
+	__device__ d_Receiver(){
 	_handle.Init();
 
   }
 
-	~d_Receiver(){}
-	void Work(char* msg, d_http_parser_fsPtr& sesp){
+	__device__ 	~d_Receiver(){}
+	__device__ void Work(char* msg, d_http_parser_fsPtr& sesp){
 
 		HandleMessage( msg,sesp);
 
@@ -23,7 +23,7 @@ public:
 
 
 private:
-	void HandleMessage(char* msg, d_http_parser_fsPtr& sesp){
+	__device__ 	void HandleMessage(char* msg, d_http_parser_fsPtr& sesp){
 		if(msg == NULL){
 			cout<<"message is empty, return"<<endl;
 			return;
