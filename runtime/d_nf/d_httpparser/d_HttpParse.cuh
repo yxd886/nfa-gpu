@@ -122,7 +122,7 @@ private:
 		std::string url(result.Url);
 		ret = d_GetBufByTag(pBuf+pos,len-pos," ",1,url);
 		memset(result.Url,0,sizeof(result.Url));
-		strcpy(result.Url,url.c_str());
+		myStrcpy(result.Url,url.c_str());
 		if(ret == -1){
 			//log get url error
 			//printf("get url failure\n");
@@ -189,7 +189,7 @@ private:
 		string retnote(result.RetNote);
 		ret = d_GetBufByTag(pBuf+pos,len-pos,"\r\n",2,retnote);
 		memset(result.RetNote,0,sizeof(result.RetNote));
-		strcpy(result.RetNote,retnote.c_str());
+		myStrcpy(result.RetNote,retnote.c_str());
 		if( ret == -1){
 			//log reponse get version error
 			return false;
@@ -214,7 +214,6 @@ private:
 				return false;
 			}
 			//cout<<"pBuf + pos=";
-			putchar(*(pBuf + pos));
 		//	cout<<endl;
 			if(strncmp(pBuf + pos,"\n",1) == 0){
 				pos += 1;
@@ -229,7 +228,7 @@ private:
 			if( ret == -1){
 				//log parse header key error
 				
-				printf("find key failure\n");
+				//printf("find key failure\n");
 				return false;
 			}
 			pos += ret;
@@ -239,17 +238,17 @@ private:
 			ret = d_GetBufByTag(pBuf + pos,len - pos,"\n",1,value);
 			if( ret == -1){
 				//log parse header value error
-				printf("find value failure\n");
+				//printf("find value failure\n");
 				return false;
 			}
 			pos += ret;
 			pos += 1; //skip the \r\n
-			cout<<"value:"<<value<<endl;
+			//cout<<"value:"<<value<<endl;
 			d_ElemType key_value;
 			memset(key_value.key,0,sizeof(key_value.key));
 			memset(key_value.value,0,sizeof(key_value.value));
-			strcpy(key_value.key,key.c_str());
-			strcpy(key_value.value,value.c_str());
+			myStrcpy(key_value.key,key.c_str());
+			myStrcpy(key_value.value,value.c_str());
 			d_InsertHash(&headmap,key_value);
 
 		}

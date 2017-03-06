@@ -111,7 +111,56 @@ __device__ unsigned short int Ntohs(unsigned short int n)
 
 }
 
+//自定义实现计算字符串的长度
 
+__device__ unsigned long myStrlen(char string[])
+{
+    unsigned long length = 0;
+
+    while (string[length] != '\0') {
+        length++;
+    }
+
+    return length;
+}
+//自定义实现字符串的拷贝
+__device__ void myStrcpy(char string1[], char string2[])
+{
+    int i = 0;
+    while (string2[i] != '\0') {
+        string1[i] = string2[i];
+        i++;
+    }
+    string1[i] = '\0';
+}
+//自定义函数实现字符串的凭拼接
+__device__ void myStrcat(char string1[], char string2[])
+{
+    //找string1的'\0'位置
+    int i = 0;
+    while (string1[i] != '\0') {
+        i++;
+    }
+
+    //把string2加到string1后面
+    int j = 0;
+    while (string2[j] != '\0') {
+        string1[i++] = string2[j++];
+    }
+
+//不要忘记在最后添加\0
+    string1[i] = '\0';
+}
+//自定义函数实现字符串的比较
+__device__ int myStrcmp(char string1[], char string2[])
+{
+    int i = 0;
+    while (string1[i] == string2[i] && string1[i] != '\0') {
+        i++;
+    }
+
+    return string1[i] - string2[i];
+}
 
 struct d_flow_actor_nfs{
   d_network_function_base* nf[max_chain_length];

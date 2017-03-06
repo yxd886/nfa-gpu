@@ -111,7 +111,7 @@ __device__ void d_collision(int *p,int d){
 // c用以计冲突次数，其初值置零，供建表插入时参考。
 __device__ int d_SearchHash(d_HashTable H,d_KeyType K,int *p,int *c){
 	*p=d_Hash(K); // 求得哈希地址
-	while(*(H.elem[*p].key)!=D_NULLKEY&&!(strcmp(K,H.elem[*p].key)==0)){
+	while(*(H.elem[*p].key)!=D_NULLKEY&&!(myStrcmp(K,H.elem[*p].key)==0)){
 	// 该位置中填有记录．并且关键字不相等
 		(*c)++;
 		if(*c<d_m)
@@ -119,12 +119,12 @@ __device__ int d_SearchHash(d_HashTable H,d_KeyType K,int *p,int *c){
 		else
 			break;
 	}
-	if (strcmp(K,H.elem[*p].key)==0)
+	if (myStrcmp(K,H.elem[*p].key)==0)
 		return SUCCESS; // 查找成功，p返回待查数据元素位置
 	else
 		return UNSUCCESS; // 查找不成功(H.elem[p].key==NULLKEY)，p返回的是插入位置
 }
-int d_InsertHash(d_HashTable *,d_ElemType); // 对函数的声明
+__device__ int d_InsertHash(d_HashTable *,d_ElemType); // 对函数的声明
 // 重建哈希表
 __device__ void d_RecreateHashTable(d_HashTable *H){
 	int i,count=(*H).count;
@@ -178,14 +178,14 @@ __device__ void TraverseHash(d_HashTable H,void(*Vi)(int,d_ElemType)){
 __device__ int d_Find(d_HashTable H,d_KeyType K,int *p){
 	int c=0;
 	*p=d_Hash(K); // 求得哈希地址
-	while(*(H.elem[*p].key)!=D_NULLKEY&&!(strcmp(K,H.elem[*p].key)==0)){ // 该位置中填有记录．并且关键字不相等
+	while(*(H.elem[*p].key)!=D_NULLKEY&&!(myStrcmp(K,H.elem[*p].key)==0)){ // 该位置中填有记录．并且关键字不相等
 		c++;
 		if(c<d_m)
 			d_collision(p,c); // 求得下一探查地址p
 		else
 			return UNSUCCESS; // 查找不成功(H.elem[p].key==NULLKEY)
 	}
-	if (strcmp(K,H.elem[*p].key)==0)
+	if (myStrcmp(K,H.elem[*p].key)==0)
 		return SUCCESS; // 查找成功，p返回待查数据元素位置
 	else
 		return UNSUCCESS; // 查找不成功(H.elem[p].key==NULLKEY)
