@@ -64,8 +64,8 @@ __device__ void d_CHandle::Process(d_CFormatPacket packet, d_CSharedBehaviorInfo
 		return;
 	}
 
-	fhs->SeqNo=ntohl(packet.GetTcphdr()->seq);
-	fhs->AckSeqNo=ntohl(packet.GetTcphdr()->ack_seq);
+	fhs->SeqNo=Ntohl(packet.GetTcphdr()->seq);
+	fhs->AckSeqNo=Ntohl(packet.GetTcphdr()->ack_seq);
 
 	if(pInfo->m_nIdtMatchWay == UNK_MATCH){
 		//log unknown match

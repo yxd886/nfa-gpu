@@ -137,9 +137,10 @@ __device__ void d_RecreateHashTable(d_HashTable *H){
 	(*H).count=0;
 	(*H).sizeindex++; // 增大存储容量
 	d_m=d_hashsize[(*H).sizeindex];
-	p=(d_ElemType*)realloc((*H).elem,d_m*sizeof(d_ElemType));
+	free(H->elem);
+	p=(d_ElemType*)malloc(d_m*sizeof(d_ElemType));
 	if(!p)
-		exit(0); // 存储分配失败
+		return; // 存储分配失败
 	(*H).elem=p;
 	for(i=0;i<d_m;i++)
 		*((*H).elem[i].key)=D_NULLKEY; // 未填记录的标志(初始化)

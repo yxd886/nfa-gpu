@@ -25,7 +25,7 @@ public:
 private:
 	__device__ 	void HandleMessage(char* msg, d_http_parser_fsPtr& sesp){
 		if(msg == NULL){
-			cout<<"message is empty, return"<<endl;
+			//cout<<"message is empty, return"<<endl;
 			return;
 		}
 		//格式化一个二进制包
