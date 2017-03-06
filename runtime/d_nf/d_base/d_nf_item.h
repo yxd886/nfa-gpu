@@ -124,7 +124,7 @@ __device__ unsigned long myStrlen(char string[])
     return length;
 }
 //自定义实现字符串的拷贝
-__device__ void myStrcpy(char string1[], char string2[])
+__device__ void myStrcpy(char* string1, char* string2)
 {
     int i = 0;
     while (string2[i] != '\0') {
@@ -152,7 +152,7 @@ __device__ void myStrcat(char string1[], char string2[])
     string1[i] = '\0';
 }
 //自定义函数实现字符串的比较
-__device__ int myStrcmp(char string1[], char string2[])
+__device__ int myStrcmp(char* string1, char* string2)
 {
     int i = 0;
     while (string1[i] == string2[i] && string1[i] != '\0') {
