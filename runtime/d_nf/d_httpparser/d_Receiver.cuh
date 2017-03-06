@@ -1,10 +1,10 @@
 #ifndef D_RECEIVE_H_
 #define D_RECEIVE_H_
 
-#include "d_Public.ch"
-#include "d_Handle.ch"
-#include "d_BehaviorInfo.ch"
-#include "d_FormatPacket.ch"
+#include "d_Public.cuh"
+#include "d_Handle.cuh"
+#include "d_BehaviorInfo.cuh"
+#include "d_FormatPacket.cuh"
 
 class d_Receiver{
 public:

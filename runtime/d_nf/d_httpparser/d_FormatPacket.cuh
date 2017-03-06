@@ -15,7 +15,7 @@
 #include <stdint.h>
 #include <rte_ether.h>
 #include <rte_ethdev.h>
-#include "d_Public.ch"
+#include "d_Public.cuh"
 
 
 #define MAX_RAW_PACKET_SIZE 4096  /**< \brief maximun raw packet size */

@@ -53,9 +53,9 @@
 #include <rte_mempool.h>
 #include <rte_mbuf.h>
 
-#include "d_fw_headinfo.ch"
+#include "d_fw_headinfo.cuh"
 //#include "../../bessport/packet.h"
-#include "d_firewall_fs.ch"
+#include "d_firewall_fs.cuh"
 #include "../d_base/d_nf_item.h"
 #include <cassert>
 

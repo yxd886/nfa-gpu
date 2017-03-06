@@ -1,10 +1,10 @@
-#include "d_network_function_base.ch"
-#include "d_network_function_derived.ch"
+#include "d_network_function_base.cuh"
+#include "d_network_function_derived.cuh"
 #include "d_nf_item.h"
-#include "../d_firewall/d_firewall.ch"
-#include "../d_flowmonitor/d_flow_monitor.ch"
-#include "../d_httpparser/d_http_parser.ch"
-#include "../d_pktcounter/d_pkt_counter.ch"
+#include "../d_firewall/d_firewall.cuh"
+#include "../d_flowmonitor/d_flow_monitor.cuh"
+#include "../d_httpparser/d_http_parser.cuh"
+#include "../d_pktcounter/d_pkt_counter.cuh"
 #include "Pkt.h"
 
 __device__ void Init_nfs(struct d_flow_actor_nfs* nfs){

@@ -23,8 +23,8 @@
 #include <map>
 #include <list>
 #include <asm-generic/int-ll64.h>
-#include "d_flow_monitor_fs.ch"
-#include "d_fm_headinfo.ch"
+#include "d_flow_monitor_fs.cuh"
+#include "d_fm_headinfo.cuh"
 #include "../d_base/d_nf_item.h"
 
 

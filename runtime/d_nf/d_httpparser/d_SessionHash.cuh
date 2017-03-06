@@ -1,10 +1,10 @@
 #ifndef D_SESSIONHASH_H_
 #define D_SESSIONHASH_H_
 
-#include "d_Public.ch"
-#include "d_Buffer.ch"
-#include "d_FormatPacket.ch"
-#include "d_BehaviorInfo.ch"
+#include "d_Public.cuh"
+#include "d_Buffer.cuh"
+#include "d_FormatPacket.cuh"
+#include "d_BehaviorInfo.cuh"
 #include <rte_config.h>
 #include <rte_mbuf.h>
 #include <rte_ether.h>
@@ -36,6 +36,13 @@ void d_http_parser_fs_Reset(d_http_parser_fsPtr& ptr);
 
 
 
+
+void d_http_parser_fs_Reset(d_http_parser_fsPtr& ptr){
+	d_CBuffer_Reset(ptr->ReqBuf);
+	d_CBuffer_Reset(ptr->RspBuf);
+	d_CResult_Reset(ptr->Result);
+
+}
 
 
 

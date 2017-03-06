@@ -1,7 +1,7 @@
 #ifndef D_NF_ITEM_H
 #define D_NF_ITEM_H
 
-#include "d_network_function_base.ch"
+#include "d_network_function_base.cuh"
 
 typedef unsigned short int uint16;
 

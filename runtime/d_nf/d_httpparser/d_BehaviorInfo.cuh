@@ -1,7 +1,7 @@
 #ifndef D_BEHAVIORINFO_H_
 #define D_BEHAVIORINFO_H_
 
-#include "d_Public.ch"
+#include "d_Public.cuh"
 
 
 struct d_CSharedBehaviorInfo{

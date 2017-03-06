@@ -2,7 +2,7 @@
 #define PKT_COUNTER_H
 
 //#include "../../bessport/packet.h"
-#include "d_pkt_counter_fs.ch"
+#include "d_pkt_counter_fs.cuh"
 
 class d_pkt_counter{
 public:

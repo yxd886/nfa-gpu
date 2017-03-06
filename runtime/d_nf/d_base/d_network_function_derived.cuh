@@ -1,7 +1,7 @@
 #ifndef D_NETWORK_FUNCTION_DERIVED_H
 #define D_NETWORK_FUNCTION_DERIVED_H
 
-#include "d_network_function_base.ch"
+#include "d_network_function_base.cuh"
 
 template<class TNF, class TNFState, class... TNFArgs>
 class d_network_function_derived : public d_network_function_base{
