@@ -56,6 +56,7 @@
 #include "d_fw_headinfo.ch"
 //#include "../../bessport/packet.h"
 #include "d_firewall_fs.ch"
+#include "../d_base/d_nf_item.h"
 #include <cassert>
 
 
@@ -270,15 +271,15 @@ __device__ uint16_t d_firewall::GetPort(struct d_headinfo *hd, int flag){
 	switch(hd->m_pIphdr->protocol){
 		case IPPROTO_TCP:
 			if(flag == SRC)
-				port = ntohs(hd->m_pTcphdr->source);
+				port = Ntohs(hd->m_pTcphdr->source);
 			else if(flag == DEST)
-				port = ntohs(hd->m_pTcphdr->dest);
+				port = Ntohs(hd->m_pTcphdr->dest);
 			break;
 		case IPPROTO_UDP:
 			if(flag == SRC)
-				port = ntohs(hd->m_pUdphdr->source);
+				port = Ntohs(hd->m_pUdphdr->source);
 			else if(flag == DEST)
-				port = ntohs(hd->m_pUdphdr->dest);
+				port = Ntohs(hd->m_pUdphdr->dest);
 			break;
 		default:
 			port = ANY_PORT;
