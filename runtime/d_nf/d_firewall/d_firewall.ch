@@ -61,15 +61,15 @@
 
 class Rules{
 public: 
-	Rules(){counter=0;}
-	~Rules(){}
-	int get_number(){
+	__device__ Rules(){counter=0;}
+	__device__ ~Rules(){}
+	__device__ int get_number(){
 		return counter;
 	}
-	struct d_rule* get_element(int i){
+	__device__ struct d_rule* get_element(int i){
 		return d_rules[i];
 	}
-	void push_back(struct d_rule* rule_ptr){
+	__device__ void push_back(struct d_rule* rule_ptr){
 		d_rules[counter]=rule_ptr;
 		counter++;
 	}
@@ -81,7 +81,7 @@ private:
 
 class d_firewall{
 public:
-	d_firewall(){
+	__device__ d_firewall(){
     FILE*fp=fopen("/home/net/repo/local-dev/rule.txt","r");
     char saddr[200];
     memset(saddr,0,sizeof(saddr));
@@ -118,19 +118,19 @@ public:
  //  std::cout<<"close the rule file successfully !"<<std::endl;
   }
 
-  void nf_logic_impl(char* pkt, d_firewall_fs* fs);
+	__device__ void nf_logic_impl(char* pkt, d_firewall_fs* fs);
 
 private:
 
-  void process(char* packet,d_firewall_fs* fs);
+	__device__ void process(char* packet,d_firewall_fs* fs);
 
-  void Format(char* packet,struct d_headinfo* hd);
+	__device__ void Format(char* packet,struct d_headinfo* hd);
 
-  Bool CompareID_with_mask(uint32_t addr1, uint32_t addr2, uint8_t mask);
+	__device__ Bool CompareID_with_mask(uint32_t addr1, uint32_t addr2, uint8_t mask);
 
-  void filter_local_out(struct d_headinfo *hd,d_firewall_fs* sesptr);
+	__device__ void filter_local_out(struct d_headinfo *hd,d_firewall_fs* sesptr);
 
-  uint16_t GetPort(struct d_headinfo *hd, int flag);
+	__device__ uint16_t GetPort(struct d_headinfo *hd, int flag);
 
 
 

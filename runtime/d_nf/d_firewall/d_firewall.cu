@@ -3,14 +3,14 @@
 
 #include <glog/logging.h>
 
-void d_firewall::nf_logic_impl(char* pkt, d_firewall_fs* fs){
+__device__ void d_firewall::nf_logic_impl(char* pkt, d_firewall_fs* fs){
 
 	process(pkt,fs);
 }
 
 
 
-void d_firewall::process(char* packet,d_firewall_fs* fs){
+__device__ void d_firewall::process(char* packet,d_firewall_fs* fs){
 struct d_headinfo t;
   struct d_headinfo* hd=&t;
   Format(packet,hd);
@@ -19,7 +19,7 @@ struct d_headinfo t;
 
 
 
-void d_firewall::Format(char* packet,struct d_headinfo* hd){
+__device__ void d_firewall::Format(char* packet,struct d_headinfo* hd){
   hd->m_pEthhdr = (struct ether_hdr*)packet;
   hd->m_pIphdr = (struct iphdr*)(packet + sizeof(struct ether_hdr));
   if(hd->m_pIphdr->protocol==IPPROTO_TCP){
@@ -39,7 +39,7 @@ void d_firewall::Format(char* packet,struct d_headinfo* hd){
 
 
 
-Bool d_firewall::CompareID_with_mask(uint32_t addr1, uint32_t addr2, uint8_t mask){
+__device__ Bool d_firewall::CompareID_with_mask(uint32_t addr1, uint32_t addr2, uint8_t mask){
   uint32_t addr1_temp, addr2_temp;
   Bool flag = false;
   addr1_temp = ntohl(addr1);
@@ -56,7 +56,7 @@ Bool d_firewall::CompareID_with_mask(uint32_t addr1, uint32_t addr2, uint8_t mas
 
 
 
-void d_firewall::filter_local_out(struct d_headinfo *hd,d_firewall_fs* sesptr){
+__device__ void d_firewall::filter_local_out(struct d_headinfo *hd,d_firewall_fs* sesptr){
   uint32_t s_addr, d_addr;
   uint8_t protocol;
   uint16_t s_port, d_port;
@@ -116,7 +116,7 @@ void d_firewall::filter_local_out(struct d_headinfo *hd,d_firewall_fs* sesptr){
 }
 
 
- uint16_t d_firewall::GetPort(struct d_headinfo *hd, int flag){
+__device__ uint16_t d_firewall::GetPort(struct d_headinfo *hd, int flag){
 	uint16_t port = ANY_PORT;
 	switch(hd->m_pIphdr->protocol){
 		case IPPROTO_TCP:
