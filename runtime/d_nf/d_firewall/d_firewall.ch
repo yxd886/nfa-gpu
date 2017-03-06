@@ -192,8 +192,8 @@ __device__ void d_firewall::Format(char* packet,struct d_headinfo* hd){
 __device__ Bool d_firewall::CompareID_with_mask(uint32_t addr1, uint32_t addr2, uint8_t mask){
   uint32_t addr1_temp, addr2_temp;
   Bool flag = false;
-  addr1_temp = ntohl(addr1);
-  addr2_temp = ntohl(addr2);
+  addr1_temp = Ntohl(addr1);
+  addr2_temp = Ntohl(addr2);
 
   addr1_temp = MASK_IP(addr1_temp, mask);
   addr2_temp = MASK_IP(addr2_temp, mask);
