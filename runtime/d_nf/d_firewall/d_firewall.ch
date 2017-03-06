@@ -92,37 +92,37 @@ public:
     struct d_rule* rp=&r;
   //  std::cout<<"begin to read rules"<<std::endl;
    
-      *(unsigned char *)&rp->saddr.addr=0,
-      *(((unsigned char *)&rp->saddr.addr)+1)=0,
-      *(((unsigned char *)&rp->saddr.addr)+2)=0,
-      *(((unsigned char *)&rp->saddr.addr)+3)=0,
-      rp->saddr.mask=32,
-      rp->sport=65535,
-      *((unsigned char *)&rp->daddr.addr)=0,
-      *((unsigned char *)&rp->daddr.addr+1)=0,
-      *(unsigned char *)&rp->daddr.addr+2)=0,
-      *((unsigned char *)&rp->daddr.addr+3)=0,
-      rp->daddr.mask=32,
-      rp->dport=65535,
-      rp->protocol=6,
-      rp->action=0
+      *(unsigned char *)&rp->saddr.addr=0;
+      *(((unsigned char *)&rp->saddr.addr)+1)=0;
+      *(((unsigned char *)&rp->saddr.addr)+2)=0;
+      *(((unsigned char *)&rp->saddr.addr)+3)=0;
+      rp->saddr.mask=32;
+      rp->sport=65535;
+      *((unsigned char *)&rp->daddr.addr)=0;
+      *((unsigned char *)&rp->daddr.addr+1)=0;
+      *(unsigned char *)&rp->daddr.addr+2)=0;
+      *((unsigned char *)&rp->daddr.addr+3)=0;
+      rp->daddr.mask=32;
+      rp->dport=65535;
+      rp->protocol=6;
+      rp->action=0;
      rules.push_back(&r);
       
       
-      *(unsigned char *)&rp->saddr.addr=0,
-      *(((unsigned char *)&rp->saddr.addr)+1)=0,
-      *(((unsigned char *)&rp->saddr.addr)+2)=0,
-      *(((unsigned char *)&rp->saddr.addr)+3)=0,
-      rp->saddr.mask=32,
-      rp->sport=65535,
-      *((unsigned char *)&rp->daddr.addr)=119,
-      *((unsigned char *)&rp->daddr.addr+1)=75,
-      *(unsigned char *)&rp->daddr.addr+2)=217,
-      *((unsigned char *)&rp->daddr.addr+3)=109,
-      rp->daddr.mask=32,
-      rp->dport=65535,
-      rp->protocol=6,
-      rp->action=1
+      *(unsigned char *)&rp->saddr.addr=0;
+      *(((unsigned char *)&rp->saddr.addr)+1)=0;
+      *(((unsigned char *)&rp->saddr.addr)+2)=0;
+      *(((unsigned char *)&rp->saddr.addr)+3)=0;
+      rp->saddr.mask=32;
+      rp->sport=65535;
+      *((unsigned char *)&rp->daddr.addr)=119;
+      *((unsigned char *)&rp->daddr.addr+1)=75;
+      *(unsigned char *)&rp->daddr.addr+2)=217;
+      *((unsigned char *)&rp->daddr.addr+3)=109;
+      rp->daddr.mask=32;
+      rp->dport=65535;
+      rp->protocol=6;
+      rp->action=1;
      rules.push_back(&r);
    
  //  std::cout<<"begin to close the rule file !"<<std::endl;
