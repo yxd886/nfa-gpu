@@ -136,7 +136,7 @@ public:
 				offset = m_pIphdr->ihl * 4 + 8;
 			m_pData = (u_int8_t *)(packet + sizeof(struct ether_hdr) + offset);
 			m_DataLen = iplen - offset;
-			gettimeofday(&_time,NULL);
+			//gettimeofday(&_time,NULL);
 		}
 		return;
 	}

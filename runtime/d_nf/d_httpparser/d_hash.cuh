@@ -75,7 +75,7 @@ __device__ int d_InitHashTable(d_HashTable *H){
 	d_m=d_hashsize[0];
 	(*H).elem=(d_ElemType*)malloc(d_m*sizeof(d_ElemType));
 	if(!(*H).elem)
-	exit(0); // 存储分配失败
+	  return 0; // 存储分配失败
 	for(i=0;i<d_m;i++)
 	*((*H).elem[i].key)=D_NULLKEY; // 未填记录的标志
 
