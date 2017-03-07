@@ -5,3 +5,5 @@ change d_pkt_counter.cc to d_pkt_counter.cu change the structure of makefile to 
 add pkt queue class, pass compile.
 
 pkt_counter and flowmonitor port ok, pass compile.
+
+httpparser port ok, pass compile.!!!!

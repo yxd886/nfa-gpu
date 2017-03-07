@@ -280,7 +280,7 @@ private:
 
 		float i;
 
-		i = myatof(tmp.c_str());
+		i =  myatof(tmp.c_str());
 
 
 		ver = (uint32_t) (i * 10);
