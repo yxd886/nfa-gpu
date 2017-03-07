@@ -185,7 +185,7 @@ private:
 		}
 		pos += ret;
 		pos += 1;  //skip the space
-		result.RetCode  = atoi(rspCode.c_str());
+		result.RetCode  = myatoi(rspCode.c_str());
 		Mystring retnote(result.RetNote);
 		ret = d_GetBufByTag(pBuf+pos,len-pos,"\r\n",2,retnote);
 		memset(result.RetNote,0,sizeof(result.RetNote));
@@ -280,7 +280,7 @@ private:
 
 		float i;
 
-		i = atof(tmp.c_str());
+		i = myatof(tmp.c_str());
 
 
 		ver = (uint32_t) (i * 10);
