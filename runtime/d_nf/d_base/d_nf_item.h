@@ -250,7 +250,7 @@ public:
 
 		free(p);
 	}
-	__device__ Mystring& append(char* src, int i){
+	__device__ Mystring& append(const char* src, int i){
 		char dst[20];
 		memset(dst,0,20);
 
