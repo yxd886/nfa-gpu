@@ -163,7 +163,7 @@ __device__ int myStrcmp(char* string1, char* string2)
 }
 
 
-__device__ int myStrncmp ( char * s1, char * s2, size_t n)
+__device__ int myStrncmp ( const char * s1, const char * s2, size_t n)
 {
   if ( !n )//n为无符号整形变量;如果n为0,则返回0
 
@@ -250,7 +250,7 @@ public:
 
 		free(p);
 	}
-	__device__ Mystring& append(const char* src, int i){
+	__device__ Mystring& append(char* src, int i){
 		char dst[20];
 		memset(dst,0,20);
 
@@ -261,7 +261,7 @@ public:
 	}
 	__device__ int compare(const char* src){
 
-		return(Mystrcmp(src,this->p));
+		return(myStrcmp(src,this->p));
 
 	}
 	__device__ int size(){
@@ -277,7 +277,7 @@ public:
 	}
 	__device__ bool find(const char* dst ){
 		if(myStrstr(this->p,dst)==NULL){
-			return fasle;
+			return false;
 		}
 		else
 			return true;
