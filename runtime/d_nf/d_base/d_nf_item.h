@@ -152,7 +152,7 @@ __device__ void myStrcat(char string1[], char string2[])
     string1[i] = '\0';
 }
 //自定义函数实现字符串的比较
-__device__ int myStrcmp(char* string1, char* string2)
+__device__ int myStrcmp(const char* string1, const char* string2)
 {
     int i = 0;
     while (string1[i] == string2[i] && string1[i] != '\0') {
@@ -189,7 +189,7 @@ __device__ int myStrncmp ( const char * s1, const char * s2, size_t n)
 }
 
 
-__device__ int mySubstr(char dst[], char src[],int start, int len)
+__device__ int mySubstr(char dst[], const char src[],int start, int len)
 {
     int i;
     for(i=0;i<len;i++)
