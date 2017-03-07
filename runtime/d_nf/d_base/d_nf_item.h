@@ -162,6 +162,133 @@ __device__ int myStrcmp(char* string1, char* string2)
     return string1[i] - string2[i];
 }
 
+
+__device__ int myStrncmp ( char * s1, char * s2, size_t n)
+{
+  if ( !n )//n为无符号整形变量;如果n为0,则返回0
+
+  return(0);
+
+  //在接下来的while函数中
+
+  //第一个循环条件：--n,如果比较到前n个字符则退出循环
+
+  //第二个循环条件：*s1,如果s1指向的字符串末尾退出循环
+
+  //第二个循环条件：*s1 == *s2,如果两字符比较不等则退出循环
+
+  while (--n && *s1 && *s1 == *s2)
+  {
+  s1++;//S1指针自加1,指向下一个字符
+
+  s2++;//S2指针自加1,指向下一个字符
+
+  }
+  return( *s1 - *s2 );//返回比较结果
+
+}
+
+
+__device__ int mySubstr(char dst[], char src[],int start, int len)
+{
+    int i;
+    for(i=0;i<len;i++)
+    {
+        dst[i]=src[start+i];    //从第start+i个元素开始向数组内赋值
+    }
+        dst[i]='\0';
+        return i;
+}
+
+__device__ const char* myStrstr(const char *src, const char *dst)
+{
+      //入口参数检查
+      assert(NULL != src && NULL != dst);
+      #if 0
+      if(src == NULL || dst == NULL)
+      {
+         // printf("usage: input error parameter\n");
+      //exit(1);
+    	  return NULL;
+      }
+      #endif
+      while(NULL != src)
+      {
+          const char *temp1 = src;
+          const char *temp2 = dst;
+          const char *res = NULL;
+          if(*temp1 == *temp2)
+          {
+                res = temp1;
+                while(*temp1 && *temp2 && *temp1++ == *temp2++)
+                ;
+
+                if(*temp2 == '\0')
+        {
+                      return res;
+        }
+          }
+          src++;
+      }
+      return NULL;
+}
+
+class Mystring{
+public:
+	__device__ Mystring(){
+
+		p=(char*)malloc(40*sizeof(char));
+		memset(p,0,40);
+	}
+	__device__ Mystring(const char* src){
+
+		p=(char*)malloc(40*sizeof(char));
+		memset(p,0,40);
+		myStrcpy(this->p,src);
+	}
+	__device__ ~Mystring(){
+
+		free(p);
+	}
+	__device__ Mystring& append(const char* src, int i){
+		char dst[20];
+		memset(dst,0,20);
+
+		mySubstr(dst,src,0,i);
+		myStrcat(this->p,dst);
+		return *this;
+
+	}
+	__device__ int compare(const char* src){
+
+		return(Mystrcmp(src,this->p));
+
+	}
+	__device__ int size(){
+		return myStrlen(this->p);
+	}
+	__device__ Mystring& substr(int start,int len){
+		char dst[20];
+		memset(dst,0,20);
+		mySubstr(dst,this->p,start,len);
+		Mystring ret(dst);
+		return ret;
+
+	}
+	__device__ bool find(const char* dst ){
+		if(myStrstr(this->p,dst)==NULL){
+			return fasle;
+		}
+		else
+			return true;
+	}
+	__device__ char* c_str(){
+		return this->p;
+	}
+private:
+	char* p;
+};
+
 struct d_flow_actor_nfs{
   d_network_function_base* nf[max_chain_length];
 };

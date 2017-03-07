@@ -105,7 +105,7 @@ public:
 private:
 	__device__ bool ParseMethodAndUri(const char* pBuf, const uint32_t len, uint32_t& pos, CResult& result){
 		//get method
-		string method;
+		Mystring method;
 		int ret = d_GetBufByTag(pBuf+pos,len-pos," ",1,method);
 		if( ret == -1){
 			//log get method error
@@ -119,7 +119,7 @@ private:
 
 
 		//get url
-		std::string url(result.Url);
+		Mystring url(result.Url);
 		ret = d_GetBufByTag(pBuf+pos,len-pos," ",1,url);
 		memset(result.Url,0,sizeof(result.Url));
 		myStrcpy(result.Url,url.c_str());
@@ -134,7 +134,7 @@ private:
 
 
 		//get http version
-		string version;
+		Mystring version;
 		ret = d_GetBufByTag(pBuf+pos,len-pos,"\n",1,version);
 		if( ret == -1){
 			//log get version error
@@ -156,7 +156,7 @@ private:
 		int ret = 0;
 
 		//check the version with reqeust version
-		string version;
+		Mystring version;
 		uint32_t ver;
 		ret = d_GetBufByTag(pBuf+pos,len-pos," ",1,version);
 		if( ret == -1){
@@ -177,7 +177,7 @@ private:
 
 
 		//get the response code
-		string rspCode;
+		Mystring rspCode;
 		ret = d_GetBufByTag(pBuf+pos,len-pos," ",1,rspCode);
 		if( ret == -1){
 			//log reponse get version error
@@ -186,7 +186,7 @@ private:
 		pos += ret;
 		pos += 1;  //skip the space
 		result.RetCode  = atoi(rspCode.c_str());
-		string retnote(result.RetNote);
+		Mystring retnote(result.RetNote);
 		ret = d_GetBufByTag(pBuf+pos,len-pos,"\r\n",2,retnote);
 		memset(result.RetNote,0,sizeof(result.RetNote));
 		myStrcpy(result.RetNote,retnote.c_str());
@@ -206,8 +206,8 @@ private:
 
 
 		while(true){
-			string key = "";
-			string value = "";
+			Mystring key = "";
+			Mystring value = "";
 
 			if(!(pBuf+pos) || !(len-pos)){
 				//log buf modified  %d <=> len
@@ -215,11 +215,11 @@ private:
 			}
 			//cout<<"pBuf + pos=";
 		//	cout<<endl;
-			if(strncmp(pBuf + pos,"\n",1) == 0){
+			if(myStrncmp(pBuf + pos,"\n",1) == 0){
 				pos += 1;
 				return true;
 			}
-			if(strncmp(pBuf + pos,"\r\n",2) == 0){
+			if(myStrncmp(pBuf + pos,"\r\n",2) == 0){
 				pos += 2;
 				return true;
 			}
@@ -265,7 +265,7 @@ private:
 
 	__device__ void Send(d_http_parser_fsPtr&  sesptr);
 
-	__device__ bool GetVersion(string version, uint32_t& ver){
+	__device__ bool GetVersion(Mystring version, uint32_t& ver){
 		if(version.size() != 8){
 				//log error to get version. %s <=> version
 				return false;
@@ -288,7 +288,7 @@ private:
 		return true;
 	}
 
-	__device__ uint32_t GetMethod(string method){
+	__device__ uint32_t GetMethod(Mystring method){
 		if(method.compare("GET") == 0){
 				return GET;
 		}else if(method.compare("POST") == 0){
@@ -312,10 +312,12 @@ private:
 
 
 
-	__device__ int d_GetBufByTag(const char* in, const int len, const char* tag, const int tagsize, string& out){
+	__device__ int d_GetBufByTag(const char* in, const int len, const char* tag, const int tagsize, Mystring& out){
 		int i;
 		for(i = 0; i< len; i++){
-			if(strncmp(in + i, tag, tagsize) == 0){
+			if(myStrncmp(in + i, tag, tagsize) == 0){
+
+
 				out.append(in,i);
 				return i;
 			}
