@@ -276,7 +276,7 @@ private:
 				return false;
 		}
 
-		string tmp = version.substr(5,3);
+		Mystring tmp = version.substr(5,3);
 
 		float i;
 
