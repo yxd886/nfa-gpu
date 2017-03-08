@@ -271,7 +271,7 @@ private:
 				return false;
 		}
 
-		if(version.find("HTTP/") == string::npos){
+		if(version.find("HTTP/") == false){
 				//log error to get version. %s <=> version
 				return false;
 		}
