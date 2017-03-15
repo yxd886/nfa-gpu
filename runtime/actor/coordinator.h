@@ -64,12 +64,16 @@ public:
     next_msg_id_+=1;
     return return_id;
   }
+  inline uint64_t get_service_chain(){
+	  return uint_service_chain_;
+  }
 
 private:
   uint32_t next_msg_id_;
 
   int counter = 0;
   uint64_t start_time = 0;
+  uint_64 uint_service_chain_ = 0;
 
   uint64_t parse_service_chain(string service_chain_str);
 };

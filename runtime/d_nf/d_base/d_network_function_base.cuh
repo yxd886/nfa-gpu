@@ -26,30 +26,22 @@ public:
 
   __device__ virtual ~d_network_function_base(){}
 
-  /*
-  __device__ inline char* allocate(){
-	cudaError_t err = cudaSuccess;
+
+  __device__ char* allocate(){
+
 	char* d_p;
-	err = cudaMalloc((void **)&d_p, nf_state_size_);
-	if(err!=cudaSuccess){
-		LOG(INFO)<<"allocate d_fs_state fail";
-		exit(-1);
-	}
+	 d_p=(char*)malloc(nf_state_size_*sizeof(char));
+
+
 	return d_p;
   }
 
-  inline bool deallocate(char* state_ptr){
+  __device__ void deallocate(char* state_ptr){
 
-	cudaError_t err = cudaSuccess;
-	err = cudaFree(state_ptr);
-	if(err!=cudaSuccess){
-		LOG(INFO)<<"deallocate d_fs_state fail";
-		exit(-1);
-	}else{
-		return true;
-	}
+	  free(state_ptr);
+
   }
-  */
+
 
   __device__ virtual void nf_logic(char* pkt, char* state_ptr) = 0;
 

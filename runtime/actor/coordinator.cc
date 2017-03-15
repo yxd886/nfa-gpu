@@ -20,6 +20,7 @@ coordinator::coordinator(llring_holder& holder){
   static_nf_register::get_register().init(allocator_.get_max_actor());
 
   service_chain_ = static_nf_register::get_register().get_service_chain(parse_service_chain(FLAGS_service_chain));
+  uint_service_chain_=parse_service_chain(FLAGS_service_chain);
 
   mac_list_item_allocator_.init(reliable_send_queue_size*10);
 

@@ -6,6 +6,7 @@
 #include "../d_httpparser/d_http_parser.cuh"
 #include "../d_pktcounter/d_pkt_counter.cuh"
 #include "Pkt.h"
+#include "d_nf_processor.cuh"
 
 __device__ void Init_nfs(struct d_flow_actor_nfs* nfs){
 
@@ -17,9 +18,11 @@ __device__ void Init_nfs(struct d_flow_actor_nfs* nfs){
 
 }
 
-extern "C"{
-	void gpu_nf_process(Pkt* pkts){
 
-	}
+
+void gpu_nf_process(Pkt* pkts,Fs* fs,uint64_t service_chain,int packet_num){
+
+
 }
+
 

@@ -4,6 +4,7 @@
 #include "../actor/coordinator.h"
 #include "../actor/base/local_send.h"
 #include "../reliable/process_reliable_msg.h"
+#include "../d_nf/d_base/d_nf_processor.cuh"
 
 
 void Pkt_insert(struct Pkt* Pkts,bess::Packet* bess_pkt,int i){
@@ -15,6 +16,28 @@ void Pkt_insert(struct Pkt* Pkts,bess::Packet* bess_pkt,int i){
 	char* src=bess_pkt->head_data<char*>();
 	memcpy(dst,src,bess_pkt->total_len());
 	Pkts[i].empty=false;
+
+}
+
+void Fs_copy(struct Fs* Fs,flow_actor* flow_actor){
+
+	size_t i=0;
+	for(; i<flow_actor->get_service_chain_len(); i++){
+	    char* fs_state_ptr = flow_actor->get_fs()->nf_flow_state_ptr[i];
+	    memcpy(Fs->fs[i],fs_state_ptr,flow_actor->get_fs_size()[i]);
+	  }
+	Fs->actor_id_64=flow_actor->get_id_64();
+
+}
+
+
+void Fs_copyback(struct Fs* Fs,flow_actor* flow_actor){
+
+	size_t i=0;
+	for(; i<flow_actor->get_service_chain_len(); i++){
+	    char* fs_state_ptr = flow_actor->get_fs()->nf_flow_state_ptr[i];
+	    memcpy(fs_state_ptr,Fs->fs[i],flow_actor->get_fs_size()[i]);
+	  }
 
 }
 
@@ -92,7 +115,11 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
 
   //
   flow_actor* it_actor=nullptr;
-  struct Pkt pkts[bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst];
+  struct Pkt *pkts;
+  struct Fs *fs;
+  //***********************************************
+  cudaMallocManaged(&pkts, bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst * sizeof(Pkt));
+  cudaMallocManaged(&fs, bess::PacketBatch::kMaxBurst * sizeof(Fs));
   for(int i=0;i<coordinator_actor_->active_flows_rrlist_.get_size();){
 
 	  it_actor=coordinator_actor_->active_flows_rrlist_.rotate();
@@ -102,12 +129,24 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
 		  while(it_actor->get_queue_ptr()->empty()!=true){
 
 			  Pkt_insert(pkts,it_actor->get_queue_ptr()->dequeue(),i);
+			  Fs_copy(&(fs[i]),it_actor);
 
 		  }
 
 		  i++;
 	  }
   }
+  gpu_nf_process(pkts,fs,coordinator_actor_->get_service_chain(),bess::PacketBatch::kMaxBurst);
+
+  for(int j=0;j<i;j++){
+	  flow_actor** actor_ptr=coordinator_actor_->actorid_htable_.Get(fs[j].actor_id_64);
+	  flow_actor* actor=*actor_ptr;
+	  Fs_copyback(&(fs[j]),actor);
+  }
+
+  cudaFree(pkts);
+  cudaFree(fs);
+
 
 
   for(int i=0; i<cp_pkt_batch.cnt(); i++){

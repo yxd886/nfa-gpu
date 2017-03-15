@@ -151,6 +151,24 @@ public:
     return &list_item_;
   }
 
+  inline struct flow_actor_fs* get_fs(){
+    return &fs_;
+  }
+
+  inline struct flow_actor_fs_size* get_fs_size(){
+    return &fs_size_;
+  }
+
+
+  inline size_t* get_service_chain_len(){
+    return service_chain_length_;
+  }
+
+  inline coordinator* get_coordinator(){
+    return coordinator_actor_;
+  }
+
+
 private:
   struct cdlist_item list_item_;
 
