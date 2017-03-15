@@ -1,5 +1,9 @@
 #ifndef D_NF_PROCESSOR_H
 #define D_NF_PROCESSOR_H
+#include <cuda_runtime.h>
+
+#include <helper_cuda.h>
+
 
 extern "C"{
 

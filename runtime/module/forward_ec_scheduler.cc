@@ -24,7 +24,7 @@ void Fs_copy(struct Fs* Fs,flow_actor* flow_actor){
 	size_t i=0;
 	for(; i<flow_actor->get_service_chain_len(); i++){
 	    char* fs_state_ptr = flow_actor->get_fs()->nf_flow_state_ptr[i];
-	    memcpy(Fs->fs[i],fs_state_ptr,flow_actor->get_fs_size()[i]);
+	    memcpy(Fs->fs[i],fs_state_ptr,flow_actor->get_fs_size()->nf_flow_state_size[i]);
 	  }
 	Fs->actor_id_64=flow_actor->get_id_64();
 
@@ -36,7 +36,7 @@ void Fs_copyback(struct Fs* Fs,flow_actor* flow_actor){
 	size_t i=0;
 	for(; i<flow_actor->get_service_chain_len(); i++){
 	    char* fs_state_ptr = flow_actor->get_fs()->nf_flow_state_ptr[i];
-	    memcpy(fs_state_ptr,Fs->fs[i],flow_actor->get_fs_size()[i]);
+	    memcpy(fs_state_ptr,Fs->fs[i],flow_actor->get_fs_size()->nf_flow_state_size[i]);
 	  }
 
 }
@@ -117,10 +117,10 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
   flow_actor* it_actor=nullptr;
   struct Pkt *pkts;
   struct Fs *fs;
-  //***********************************************
   cudaMallocManaged(&pkts, bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst * sizeof(Pkt));
   cudaMallocManaged(&fs, bess::PacketBatch::kMaxBurst * sizeof(Fs));
-  for(int i=0;i<coordinator_actor_->active_flows_rrlist_.get_size();){
+  int i;
+  for(i=0;i<coordinator_actor_->active_flows_rrlist_.get_size();){
 
 	  it_actor=coordinator_actor_->active_flows_rrlist_.rotate();
 	  if(it_actor->get_queue_ptr()->empty()){
@@ -139,7 +139,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
   gpu_nf_process(pkts,fs,coordinator_actor_->get_service_chain(),bess::PacketBatch::kMaxBurst);
 
   for(int j=0;j<i;j++){
-	  flow_actor** actor_ptr=coordinator_actor_->actorid_htable_.Get(fs[j].actor_id_64);
+	  flow_actor** actor_ptr=coordinator_actor_->actorid_htable_.Get(&(fs[j].actor_id_64));
 	  flow_actor* actor=*actor_ptr;
 	  Fs_copyback(&(fs[j]),actor);
   }
