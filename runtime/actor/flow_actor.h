@@ -160,7 +160,7 @@ public:
   }
 
 
-  inline size_t* get_service_chain_len(){
+  inline size_t get_service_chain_len(){
     return service_chain_length_;
   }
 
