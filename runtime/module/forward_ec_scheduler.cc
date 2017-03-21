@@ -18,21 +18,7 @@ void Pkt_insert(struct Pkt* Pkts,bess::Packet* bess_pkt,int i){
 	Pkts[i].empty=false;
 
 }
-void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs){
 
-
-	  gpu_nf_process(pkts,fs,coordinator_actor->get_service_chain(),bess::PacketBatch::kMaxBurst);
-
-	  for(int j=0;j<i;j++){
-		  flow_actor** actor_ptr=coordinator_actor->actorid_htable_.Get(&(fs[j].actor_id_64));
-		  flow_actor* actor=*actor_ptr;
-		  Fs_copyback(&(fs[j]),actor);
-	  }
-
-	  cudaFree(pkts);
-	  cudaFree(fs);
-
-}
 
 void Fs_copy(struct Fs* Fs,flow_actor* flow_actor){
 
@@ -53,6 +39,22 @@ void Fs_copyback(struct Fs* Fs,flow_actor* flow_actor){
 	    char* fs_state_ptr = flow_actor->get_fs()->nf_flow_state_ptr[i];
 	    memcpy(fs_state_ptr,Fs->fs[i],flow_actor->get_fs_size()->nf_flow_state_size[i]);
 	  }
+
+}
+
+void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i){
+
+
+	  gpu_nf_process(pkts,fs,coordinator_actor->get_service_chain(),bess::PacketBatch::kMaxBurst);
+
+	  for(int j=0;j<i;j++){
+		  flow_actor** actor_ptr=coordinator_actor->actorid_htable_.Get(&(fs[j].actor_id_64));
+		  flow_actor* actor=*actor_ptr;
+		  Fs_copyback(&(fs[j]),actor);
+	  }
+
+	  cudaFree(pkts);
+	  cudaFree(fs);
 
 }
 
@@ -152,7 +154,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
 	  }
   }
 
-  std::thread cpu_thread(GPU_thread,coordinator_actor_,pkts,fs);
+  std::thread gpu_thread(GPU_thread,coordinator_actor_,pkts,fs,i);
 
 
   for(int i=0; i<cp_pkt_batch.cnt(); i++){
@@ -170,7 +172,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
       continue;
     }
 
-    process_reliable_msg::match(msg_ptr, coordinator_actor_,cpu_thread);
+    process_reliable_msg::match(msg_ptr, coordinator_actor_,gpu_thread);
     msg_ptr->clean(&(coordinator_actor_->gp_collector_));
   }
 
