@@ -306,9 +306,12 @@ void flow_actor::pkt_normal_nf_processing(bess::Packet* pkt){
     nfs_.nf[i]->nf_logic(pkt, fs_.nf_flow_state_ptr[i]);
   }
   */
-  if(pkt_que.enqueue(pkt)!=true){
-	  LOG(ERROR)<<"pkt queue overflow!";
+  if(service_chain_length_!=0){
+	  if(pkt_que.enqueue(pkt)!=true){
+		  LOG(ERROR)<<"pkt queue overflow!";
+	  }
   }
+
 
   rte_memcpy(pkt->head_data(), &(output_header_.ethh), sizeof(struct ether_hdr));
 

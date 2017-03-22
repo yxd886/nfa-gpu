@@ -131,30 +131,33 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
   }
 
   //
-  flow_actor* it_actor=nullptr;
-  struct Pkt *pkts;
-  struct Fs *fs;
-  cudaMallocManaged(&pkts, bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst * sizeof(Pkt));
-  cudaMallocManaged(&fs, bess::PacketBatch::kMaxBurst * sizeof(Fs));
-  int i;
-  for(i=0;i<coordinator_actor_->active_flows_rrlist_.get_size();){
+  if(coordinator_actor_->service_chain_.empty()==false){
+	  flow_actor* it_actor=nullptr;
+	  struct Pkt *pkts;
+	  struct Fs *fs;
+	  cudaMallocManaged(&pkts, bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst * sizeof(Pkt));
+	  cudaMallocManaged(&fs, bess::PacketBatch::kMaxBurst * sizeof(Fs));
+	  int i;
+	  for(i=0;i<coordinator_actor_->active_flows_rrlist_.get_size();){
 
-	  it_actor=coordinator_actor_->active_flows_rrlist_.rotate();
-	  if(it_actor->get_queue_ptr()->empty()){
-		  continue;
-	  }else{
-		  while(it_actor->get_queue_ptr()->empty()!=true){
+		  it_actor=coordinator_actor_->active_flows_rrlist_.rotate();
+		  if(it_actor->get_queue_ptr()->empty()){
+			  continue;
+		  }else{
+			  while(it_actor->get_queue_ptr()->empty()!=true){
 
-			  Pkt_insert(pkts,it_actor->get_queue_ptr()->dequeue(),i);
-			  Fs_copy(&(fs[i]),it_actor);
+				  Pkt_insert(pkts,it_actor->get_queue_ptr()->dequeue(),i);
+				  Fs_copy(&(fs[i]),it_actor);
 
+			  }
+
+			  i++;
 		  }
-
-		  i++;
 	  }
+
+	  std::thread gpu_thread(GPU_thread,coordinator_actor_,pkts,fs,i);
   }
 
-  std::thread gpu_thread(GPU_thread,coordinator_actor_,pkts,fs,i);
 
 
   for(int i=0; i<cp_pkt_batch.cnt(); i++){
