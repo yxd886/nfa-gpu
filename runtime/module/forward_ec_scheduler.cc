@@ -156,30 +156,55 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
 	  }
 
 	  std::thread gpu_thread(GPU_thread,coordinator_actor_,pkts,fs,i);
+
+
+	  for(int i=0; i<cp_pkt_batch.cnt(); i++){
+	    char* data_start = cp_pkt_batch.pkts()[i]->head_data<char*>();
+	    uint64_t mac_addr = ((*(reinterpret_cast<uint64_t *>(data_start+6))) & 0x0000FFffFFffFFfflu);
+
+	    reliable_p2p** r_ptr = coordinator_actor_->mac_to_reliables_.Get(&mac_addr);
+	    if(unlikely(r_ptr == nullptr)){
+	      coordinator_actor_->gp_collector_.collect(cp_pkt_batch.pkts()[i]);
+	      continue;
+	    }
+
+	    reliable_single_msg* msg_ptr = (*r_ptr)->recv(cp_pkt_batch.pkts()[i]);
+	    if(unlikely(msg_ptr == nullptr)){
+	      continue;
+	    }
+
+	    process_reliable_msg::match(msg_ptr, coordinator_actor_,gpu_thread);
+	    msg_ptr->clean(&(coordinator_actor_->gp_collector_));
+	  }
+
+	  RunNextModule(&(coordinator_actor_->ec_scheduler_batch_));
+  }else{
+
+
+	  for(int i=0; i<cp_pkt_batch.cnt(); i++){
+	    char* data_start = cp_pkt_batch.pkts()[i]->head_data<char*>();
+	    uint64_t mac_addr = ((*(reinterpret_cast<uint64_t *>(data_start+6))) & 0x0000FFffFFffFFfflu);
+
+	    reliable_p2p** r_ptr = coordinator_actor_->mac_to_reliables_.Get(&mac_addr);
+	    if(unlikely(r_ptr == nullptr)){
+	      coordinator_actor_->gp_collector_.collect(cp_pkt_batch.pkts()[i]);
+	      continue;
+	    }
+
+	    reliable_single_msg* msg_ptr = (*r_ptr)->recv(cp_pkt_batch.pkts()[i]);
+	    if(unlikely(msg_ptr == nullptr)){
+	      continue;
+	    }
+
+	    process_reliable_msg::match(msg_ptr, coordinator_actor_);
+	    msg_ptr->clean(&(coordinator_actor_->gp_collector_));
+	  }
+
+	  RunNextModule(&(coordinator_actor_->ec_scheduler_batch_));
   }
 
 
 
-  for(int i=0; i<cp_pkt_batch.cnt(); i++){
-    char* data_start = cp_pkt_batch.pkts()[i]->head_data<char*>();
-    uint64_t mac_addr = ((*(reinterpret_cast<uint64_t *>(data_start+6))) & 0x0000FFffFFffFFfflu);
-
-    reliable_p2p** r_ptr = coordinator_actor_->mac_to_reliables_.Get(&mac_addr);
-    if(unlikely(r_ptr == nullptr)){
-      coordinator_actor_->gp_collector_.collect(cp_pkt_batch.pkts()[i]);
-      continue;
-    }
-
-    reliable_single_msg* msg_ptr = (*r_ptr)->recv(cp_pkt_batch.pkts()[i]);
-    if(unlikely(msg_ptr == nullptr)){
-      continue;
-    }
-
-    process_reliable_msg::match(msg_ptr, coordinator_actor_,gpu_thread);
-    msg_ptr->clean(&(coordinator_actor_->gp_collector_));
-  }
-
-  RunNextModule(&(coordinator_actor_->ec_scheduler_batch_));
 }
 
 void forward_ec_scheduler::customized_init(coordinator* coordinator_actor){
