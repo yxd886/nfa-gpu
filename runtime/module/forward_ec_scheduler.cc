@@ -7,17 +7,53 @@
 #include "../d_nf/d_base/d_nf_processor.cuh"
 
 
-void Pkt_insert(struct Pkt* Pkts,bess::Packet* bess_pkt,int i){
+void Format(char* packet,struct d_headinfo* hd){
+  struct ether_hdr* m_pEthhdr;
+  struct iphdr* m_pIphdr;
+  struct tcphdr* m_pTcphdr;
+  struct udphdr* m_pUdphdr;
 
-	while(Pkts[i].empty!=true){
-		i+=bess::PacketBatch::kMaxBurst;
-	}
+
+
+  m_pEthhdr = (struct ether_hdr*)packet;
+  memcpy(&(hd->m_pEthhdr),m_pEthhdr,sizeof(struct ether_hdr));
+  m_pIphdr = (struct iphdr*)(packet + sizeof(struct ether_hdr));
+  memcpy(&(hd->m_pIphdr),m_pIphdr,sizeof(struct iphdr));
+  if(m_pIphdr->protocol==IPPROTO_TCP){
+         m_pTcphdr = (struct tcphdr*)(packet + sizeof(struct ether_hdr)+(hd->m_pIphdr.ihl)*4);
+         memcpy(&(hd->m_pTcphdr),m_pTcphdr,sizeof(struct tcphdr));
+         hd->is_udp=0;
+  }else if(m_pIphdr->protocol==IPPROTO_UDP){
+     hd->is_tcp = 0;
+     m_pUdphdr=(struct udphdr*)(packet + sizeof(struct ether_hdr)+(hd->m_pIphdr.ihl)*4);
+     memcpy(&(hd->m_pUdphdr),m_pUdphdr,sizeof(struct udphdr));
+
+   }else{
+      hd->is_tcp = 0;
+      hd->is_udp = 0;
+    }
+
+  hd->protocol =  m_pIphdr->protocol;
+  return;
+}
+
+
+void Pkt_insert(struct Pkt* Pkts,char* pkt,int i,int total_len){
+
 	char* dst=Pkts[i].pkt;
-	char* src=bess_pkt->head_data<char*>();
-	memcpy(dst,src,bess_pkt->total_len());
-	Pkts[i].empty=false;
+	memcpy(dst,pkt,total_len);
+	Format(pkt,&(Pkts[i].headinfo));
+	Pkts[i].empty=0;
 
 }
+
+void Pkt_reset(struct Pkt* Pkts,int num){
+
+	for(int i=0;i<num;i++){
+		Pkts[i].empty=1;
+	}
+}
+
 
 
 void Fs_copy(struct Fs* Fs,flow_actor* flow_actor){

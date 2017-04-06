@@ -8,6 +8,7 @@
 #include "Pkt.h"
 #include "d_nf_processor.cuh"
 
+
 __device__ void Init_nfs(struct d_flow_actor_nfs* nfs){
 
 
@@ -18,6 +19,16 @@ __device__ void Init_nfs(struct d_flow_actor_nfs* nfs){
 
 }
 
+
+__device__ void Release_nfs(struct d_flow_actor_nfs* nfs){
+
+
+	delete nfs->nf[1];
+	delete nfs->nf[2];
+	delete nfs->nf[3];
+	delete nfs->nf[4];
+
+}
 
 
 __device__ uint8_t compute_network_function(uint64_t s, int pos){
@@ -57,15 +68,21 @@ Runtask(Pkt* pkts, Fs* fs, uint64_t service_chain,int packet_num)
     if (i < packet_num)
     {
     	int j=i;
-    	while(pkts[j].empty!=true){
+    	while(pkts[j].empty!=1){
+
     		for(int k=0; k<chain_len; k++){
     			int nf_id=compute_network_function(service_chain,k);
-    			nfs.nf[nf_id]->nf_logic(pkts[j].pkt,fs[j%packet_num].fs[nf_id]);
+    			Pkt* pkt=&(pkts[j]);
+    			int l=nf_id;
+    			nfs.nf[l]->nf_logic(pkt,fs[j%packet_num].fs[l]);
     		}
+
     		j+=packet_num;
+
 
     	}
     }
+    Release_nfs(&nfs);
 }
 
 
@@ -74,7 +91,8 @@ void gpu_nf_process(Pkt* pkts,Fs* fs,uint64_t service_chain,int packet_num){
 
     int threadsPerBlock = 256;
     int blocksPerGrid =(packet_num + threadsPerBlock - 1) / threadsPerBlock;
-    //printf("CUDA kernel launch with %d blocks of %d threads\n", blocksPerGrid, threadsPerBlock);
+    printf("CUDA kernel launch with %d blocks of %d threads\n", blocksPerGrid, threadsPerBlock);
+    cudaDeviceSynchronize();
     Runtask<<<blocksPerGrid, threadsPerBlock>>>(pkts, fs, service_chain, packet_num);
     cudaDeviceSynchronize();
 
