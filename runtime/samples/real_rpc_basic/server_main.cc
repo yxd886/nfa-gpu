@@ -2,6 +2,8 @@
 #include <chrono>
 #include <cassert>
 #include <memory>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include <glog/logging.h>
 
@@ -40,10 +42,14 @@ using namespace std;
 
 int main(int argc, char* argv[]){
 
+  printf("begin\n");
+
   // parse command line options
   google::ParseCommandLineFlags(&argc, &argv, true);
+  printf("ParseCommandLineFlags ok\n");
   FLAGS_logtostderr = 1;
   google::InitGoogleLogging(argv[0]);
+  printf("InitGoogleLogging ok\n");
 
   // we do some mandatory checking to ensure that the user has given us
   // valid input
