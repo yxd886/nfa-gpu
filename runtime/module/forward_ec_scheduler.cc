@@ -38,11 +38,15 @@ void Format(char* packet,struct d_headinfo* hd){
 }
 
 
-void Pkt_insert(struct Pkt* Pkts,char* pkt,int i,int total_len){
+void Pkt_insert(struct Pkt* Pkts,bess::Packet* bess_pkt,int i){
 
+	while(Pkts[i].empty!=true){
+		i+=bess::PacketBatch::kMaxBurst;
+	}
 	char* dst=Pkts[i].pkt;
-	memcpy(dst,pkt,total_len);
-	Format(pkt,&(Pkts[i].headinfo));
+	char* src=bess_pkt->head_data<char*>();
+	memcpy(dst,src,bess_pkt->total_len());
+	Format(src,&(Pkts[i].headinfo));
 	Pkts[i].empty=0;
 
 }
@@ -53,9 +57,6 @@ void Pkt_reset(struct Pkt* Pkts,int num){
 		Pkts[i].empty=1;
 	}
 }
-
-
-
 void Fs_copy(struct Fs* Fs,flow_actor* flow_actor){
 
 	size_t i=0;
