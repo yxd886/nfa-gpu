@@ -177,7 +177,7 @@ def start_traffic_gen(options):
   output, error = process.communicate()
 
 def read_pkts(rt_num):
-  cmd="sudo ~/nfa/deps/bess/bessctl/bessctl show port rt"+str(rt_num)+"_iport"
+  cmd="sudo ~/nfa-gpu/deps/bess/bessctl/bessctl show port rt"+str(rt_num)+"_iport"
   process = subprocess.Popen(cmd, stdout=FNULL, shell=True)
   stdout, error = process.communicate()
 
