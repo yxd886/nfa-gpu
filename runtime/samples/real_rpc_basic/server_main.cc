@@ -60,10 +60,10 @@ int main(int argc, char* argv[]){
     LOG(ERROR)<<"Invalid command line arguments";
     exit(-1);
   }
-
+  LOG(INFO)<<"parse arguments ok";
   // initialize dpdk environment
   nfa_init_dpdk(argv[0]);
-
+  LOG(INFO)<<"Init dpdk ok";
   // create the ZeroCopyVPort in the runtime program
   sn_port input_port;
   if(input_port.init_port(FLAGS_input_port.c_str())==false){
