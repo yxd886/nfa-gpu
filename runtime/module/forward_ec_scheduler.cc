@@ -212,7 +212,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
 	      continue;
 	    }
 
-	    process_reliable_msg::match(msg_ptr, coordinator_actor_,gpu_thread);
+	    process_reliable_msg::match(msg_ptr, coordinator_actor_);
 	    msg_ptr->clean(&(coordinator_actor_->gp_collector_));
 	  }
 
