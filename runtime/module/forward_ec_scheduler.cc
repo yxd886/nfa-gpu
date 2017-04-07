@@ -163,6 +163,11 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
 
       actor_ptr = &actor;
     }
+    if(actor->in_have_packet_rrlist==false){
+        coordinator_actor_->have_packet_flows_rrlist_.add_to_tail(actor);
+        actor->in_have_packet_rrlist=true;
+    }
+
 
     send(*actor_ptr, pkt_msg_t::value, dp_pkt_batch.pkts()[i]);
   }
@@ -176,9 +181,10 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
 	  cudaMallocManaged(&fs, bess::PacketBatch::kMaxBurst * sizeof(Fs));
 	  int i=0;
 	  Pkt_reset(pkts,32*32);
-	  while(i<32/*coordinator_actor_->active_flows_rrlist_.get_size()*/){
+	  while(i<coordinator_actor_->have_packet_flows_rrlist_.get_size()){
 
-		  it_actor=coordinator_actor_->active_flows_rrlist_.rotate();
+		  it_actor=coordinator_actor_->have_packet_flows_rrlist_.pop_head();
+		  actor->in_have_packet_rrlist=false;
 		  if(it_actor->get_queue_ptr()->empty()){
 			  continue;
 		  }else{
@@ -188,6 +194,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
 				  Fs_copy(&(fs[i]),it_actor);
 
 			  }
+
 
 			  i++;
 		  }

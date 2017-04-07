@@ -67,6 +67,7 @@ struct rr_lists{
   round_rubin_list<generic_list_item> input_runtime_mac_rrlist_;
 
   round_rubin_list<flow_actor> active_flows_rrlist_;
+  round_rubin_list<flow_actor> have_packet_flows_rrlist_;
 
   round_rubin_list<generic_list_item> replicas_rrlist_;
 

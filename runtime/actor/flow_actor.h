@@ -168,7 +168,7 @@ public:
     return coordinator_actor_;
   }
 
-
+  bool in_have_packet_rrlist;
 private:
   struct cdlist_item list_item_;
 
@@ -233,6 +233,8 @@ private:
   replication_processing_func replication_funcs_[3];
 
   bess::PacketQueue pkt_que;
+
+
 
 };
 
