@@ -178,8 +178,6 @@ public:
 
 private:
 
-  uint64_t in_have_packet_rrlist;
-
   struct cdlist_item list_item_;
 
   flow_actor_id_t actor_id_;
@@ -243,6 +241,8 @@ private:
   replication_processing_func replication_funcs_[3];
 
   bess::PacketQueue pkt_que;
+
+  uint64_t in_have_packet_rrlist;
 
 
 
