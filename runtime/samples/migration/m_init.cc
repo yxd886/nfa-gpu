@@ -7,9 +7,9 @@ int main(int argc, char** argv) {
   google::InitGoogleLogging(argv[0]);
 
   LivenessCheckClient checker_r1_10241(grpc::CreateChannel(
-      "202.45.128.154:10241", grpc::InsecureChannelCredentials()));
+      "localhost:10241", grpc::InsecureChannelCredentials()));
 
-  LivenessCheckClient checker_r1_10242(grpc::CreateChannel(
+ /* LivenessCheckClient checker_r1_10242(grpc::CreateChannel(
       "202.45.128.154:10242", grpc::InsecureChannelCredentials()));
 
   LivenessCheckClient checker_r1_10243(grpc::CreateChannel(
@@ -38,21 +38,23 @@ int main(int argc, char** argv) {
       "202.45.128.156:10242", grpc::InsecureChannelCredentials()));
   LivenessCheckClient checker_r3_10243(grpc::CreateChannel(
       "202.45.128.156:10243", grpc::InsecureChannelCredentials()));
+      */
   // Test set replication
-  LOG(INFO)<<"r2 rt1"<<checker_r2_10241.Check();
-  LOG(INFO)<<"r2 rt2"<<checker_r2_10242.Check();
+  LOG(INFO)<<"r1 rt1"<<checker_r1_10241.Check();
+ /* LOG(INFO)<<"r2 rt2"<<checker_r2_10242.Check();
   LOG(INFO)<<"r2 rt3"<<checker_r2_10243.Check();
 
   LOG(INFO)<<"r3 rt1"<<checker_r3_10241.Check();
   LOG(INFO)<<"r3 rt2"<<checker_r3_10242.Check();
   LOG(INFO)<<"r3 rt3"<<checker_r3_10243.Check();
+  */
   /*
   checker_r1_10241.SingleAddOutputRt("202.45.128.155",10241);
   checker_r1_10241.AddOutputMac("202.45.128.155",10241);
 
   checker_r1_10241.SingleAddOutputRt("202.45.128.156",10241);
   */
-
+/*
   checker_r1_10241.SingleAddOutputRt("202.45.128.155",10241);
   checker_r1_10241.AddOutputMac("202.45.128.155",10241);
 
@@ -160,6 +162,6 @@ int main(int argc, char** argv) {
 
   checker_r1_10246.SingleAddOutputRt("202.45.128.156",10243);
   //checker_r1_10246.AddOutputMac("202.45.128.156",10243);
-
+*/
   return 0;
 }
