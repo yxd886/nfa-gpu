@@ -68,7 +68,7 @@ Runtask(Pkt* pkts, Fs* fs, uint64_t service_chain,int packet_num)
     if (i < packet_num)
     {
     	int j=i;
-    	while(pkts[j].empty!=1){
+    	while(pkts[j].full==1){
 
     		for(int k=0; k<chain_len; k++){
     			int nf_id=compute_network_function(service_chain,k);
@@ -92,7 +92,7 @@ void gpu_nf_process(Pkt* pkts,Fs* fs,uint64_t service_chain,int packet_num){
     int threadsPerBlock = 256;
     int blocksPerGrid =(packet_num + threadsPerBlock - 1) / threadsPerBlock;
     //printf("CUDA kernel launch with %d blocks of %d threads\n", blocksPerGrid, threadsPerBlock);
-    cudaDeviceSynchronize();
+    //cudaDeviceSynchronize();
     Runtask<<<blocksPerGrid, threadsPerBlock>>>(pkts, fs, service_chain, packet_num);
     cudaDeviceSynchronize();
 
