@@ -43,7 +43,7 @@ using namespace std;
 int main(int argc, char* argv[]){
 
   printf("begin\n");
-/*
+
   // parse command line options
   google::ParseCommandLineFlags(&argc, &argv, true);
   printf("ParseCommandLineFlags ok\n");
@@ -109,7 +109,7 @@ int main(int argc, char* argv[]){
 
 
 
-  */
+
 
   /*LOG(INFO)<<"fast_hash_map test starts";
   fixed_array<int32_t> fa;
@@ -146,7 +146,7 @@ int main(int argc, char* argv[]){
   // std::unique_ptr<Module> mod_handle_command_ptr(mod_handle_command);
 
 
-  /*
+
   Module* mod_iport_port_inc = create_module<PortInc>("PortInc", "mod_iport_port_inc", &input_port, 0, 32);
   Module* mod_iport_port_out = create_module<PortOut>("PortOut", "mod_iport_port_out", &input_port);
 
@@ -232,6 +232,6 @@ int main(int argc, char* argv[]){
   rpc_server.Run(FLAGS_rpc_ip, FLAGS_rpc_port);
   rpc_server.HandleRpcs();
 
-  */
+
 }
 
