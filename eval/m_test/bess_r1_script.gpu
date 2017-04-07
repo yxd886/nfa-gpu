@@ -19,7 +19,6 @@ rt1_oport_portout::PortOut(port=rt1_oport)
 rt1_cport_portinc::PortInc(port=rt1_cport)
 rt1_cport_portout::PortOut(port=rt1_cport)
 
-rt1_oport_portinc -> sink
 
 print 'Adding traffic generator module'
 pkt_size = int($SN_PKT_SIZE!'60')
