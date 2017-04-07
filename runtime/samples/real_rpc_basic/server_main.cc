@@ -43,7 +43,7 @@ using namespace std;
 int main(int argc, char* argv[]){
 
   printf("begin\n");
-
+/*
   // parse command line options
   google::ParseCommandLineFlags(&argc, &argv, true);
   printf("ParseCommandLineFlags ok\n");
@@ -106,6 +106,11 @@ int main(int argc, char* argv[]){
 
   coordinator coordinator_actor(communication_ring);
 
+
+
+
+  */
+
   /*LOG(INFO)<<"fast_hash_map test starts";
   fixed_array<int32_t> fa;
   fa.init(2);
@@ -139,6 +144,9 @@ int main(int argc, char* argv[]){
 
   // create module and attach modules to the default traffic class of worker 1.
   // std::unique_ptr<Module> mod_handle_command_ptr(mod_handle_command);
+
+
+  /*
   Module* mod_iport_port_inc = create_module<PortInc>("PortInc", "mod_iport_port_inc", &input_port, 0, 32);
   Module* mod_iport_port_out = create_module<PortOut>("PortOut", "mod_iport_port_out", &input_port);
 
@@ -223,5 +231,7 @@ int main(int argc, char* argv[]){
   ServerImpl rpc_server(communication_ring.rpc2worker_ring(), communication_ring.worker2rpc_ring());
   rpc_server.Run(FLAGS_rpc_ip, FLAGS_rpc_port);
   rpc_server.HandleRpcs();
+
+  */
 }
 
