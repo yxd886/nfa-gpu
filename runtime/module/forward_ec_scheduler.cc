@@ -183,8 +183,9 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
 	  Pkt_reset(pkts,32*32);
 	  while(i<32){
 
-		  it_actor=coordinator_actor_->have_packet_flows_rrlist_.pop_head();
+		  it_actor=coordinator_actor_->have_packet_flows_rrlist_.peek_head();
 		  if(it_actor==nullptr) break;
+		  coordinator_actor_->have_packet_flows_rrlist_.pop_head();
 		  it_actor->set_in_have_packet_rrlist(0);
 		  if(it_actor->get_queue_ptr()->empty()){
 			  continue;
