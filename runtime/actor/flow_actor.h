@@ -168,7 +168,7 @@ public:
     return coordinator_actor_;
   }
 
-  bool in_have_packet_rrlist;
+  uint64_t in_have_packet_rrlist;
 private:
   struct cdlist_item list_item_;
 

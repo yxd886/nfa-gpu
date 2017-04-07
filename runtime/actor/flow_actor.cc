@@ -18,7 +18,7 @@ void flow_actor::handle_message(flow_actor_init_with_pkt_t,
 
   pkt_counter_ = 0;
   sample_counter_ = 0;
-  in_have_packet_rrlist=false;
+  in_have_packet_rrlist=0;
 
   if(replica_item!=nullptr){
     replication_state_ = have_replica;
@@ -96,7 +96,7 @@ void flow_actor::handle_message(flow_actor_init_with_cstruct_t,
 
   pkt_counter_ = 0;
   sample_counter_ = 0;
-  in_have_packet_rrlist=false;
+  in_have_packet_rrlist=0;
   input_header_.init(cstruct->input_header.dest_rtid,
                      &(cstruct->input_header.ethh.d_addr),
                      coordinator_actor->local_runtime_.input_port_mac);
@@ -146,7 +146,7 @@ void flow_actor::handle_message(flow_actor_init_with_first_rep_pkt_t,
 
   pkt_counter_ = 0;
   sample_counter_ = 0;
-  in_have_packet_rrlist=false;
+  in_have_packet_rrlist=0;
 
   uint32_t input_rtid = *(first_fs_msg_batch->pkts()[0]->head_data<uint32_t*>());
   uint64_t input_rt_output_mac =  (*(first_packet->head_data<uint64_t*>(sizeof(uint32_t))) & 0x0000FFffFFffFFfflu);
