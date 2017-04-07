@@ -11,7 +11,7 @@ echo "Service chain: $service_chain"
 if [ "$1" -ge "1" ]
 then
 sudo nohup ../../runtime/samples/real_rpc_basic/server_main --runtime_id=11 --input_port_mac="52:54:01:01:00:01" \
---output_port_mac="52:54:01:01:00:02" --control_port_mac="52:54:01:01:00:03" --rpc_ip="202.45.128.154" --rpc_port=10241 \
+--output_port_mac="52:54:01:01:00:02" --control_port_mac="52:54:01:01:00:03" --rpc_ip="localhost" --rpc_port=10241 \
 --input_port="rt1_iport" --output_port="rt1_oport" --control_port="rt1_cport" --worker_core=1 --service_chain="${service_chain}" > rt1_log.log 2>&1 &
 fi
 
