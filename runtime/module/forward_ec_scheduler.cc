@@ -163,12 +163,10 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
 
       actor_ptr = &actor;
     }
-    if(actor->get_in_have_packet_rrlist()==0){
+    if((*actor_ptr)->get_in_have_packet_rrlist()==0){
         coordinator_actor_->have_packet_flows_rrlist_.add_to_tail(actor);
-        actor->set_in_have_packet_rrlist(1);
+        (*actor_ptr)->set_in_have_packet_rrlist(1);
     }
-
-
     send(*actor_ptr, pkt_msg_t::value, dp_pkt_batch.pkts()[i]);
   }
 
