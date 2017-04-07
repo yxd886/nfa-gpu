@@ -168,8 +168,18 @@ public:
     return coordinator_actor_;
   }
 
-  uint64_t in_have_packet_rrlist;
+  inline uint64_t get_in_have_packet_rrlist(){
+    return in_have_packet_rrlist;
+  }
+  inline void set_in_have_packet_rrlist(uint64_t in_have_packet_rrlist){
+    this->in_have_packet_rrlist=in_have_packet_rrlist;
+  }
+
+
 private:
+
+  uint64_t in_have_packet_rrlist;
+
   struct cdlist_item list_item_;
 
   flow_actor_id_t actor_id_;

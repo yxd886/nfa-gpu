@@ -163,9 +163,9 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
 
       actor_ptr = &actor;
     }
-    if(actor->in_have_packet_rrlist==0){
+    if(actor->get_in_have_packet_rrlist()==0){
         coordinator_actor_->have_packet_flows_rrlist_.add_to_tail(actor);
-        actor->in_have_packet_rrlist=1;
+        actor->set_in_have_packet_rrlist(1);
     }
 
 
@@ -184,7 +184,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
 	  while(i<coordinator_actor_->have_packet_flows_rrlist_.get_size()){
 
 		  it_actor=coordinator_actor_->have_packet_flows_rrlist_.pop_head();
-		  actor->in_have_packet_rrlist=0;
+		  it_actor->set_in_have_packet_rrlist(0);
 		  if(it_actor->get_queue_ptr()->empty()){
 			  continue;
 		  }else{
