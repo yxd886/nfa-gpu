@@ -176,10 +176,9 @@ def start_traffic_gen(options):
   process = subprocess.Popen(cmd, stdout=FNULL, shell=True)
   output, error = process.communicate()
 
-def read_pkts(rt_num):
-  cmd="sudo ~/nfa-gpu/deps/bess/bessctl/bessctl show port rt"+str(rt_num)+"_iport"
-  process = subprocess.Popen(cmd, stdout=FNULL, shell=True)
-  stdout, error = process.communicate()
+def read_pkts(ssh,rt_num):
+  cmd="sudo ~/nfa/deps/bess/bessctl/bessctl show port rt"+str(rt_num)+"_iport"
+  stdin,stdout,stderr = ssh.exec_command(cmd);
 
   received_pkts_line = ''
   dropped_pkts_line = ''
@@ -187,7 +186,7 @@ def read_pkts(rt_num):
   i = 0
   for line in stdout:
     if i == 6:
-	received_pkts_line = line
+  received_pkts_line = line
     if i == 7:
         dropped_pkts_line = line
     i=i+1
@@ -195,13 +194,16 @@ def read_pkts(rt_num):
 
   return long(received_pkts_line.split(":")[1].replace(',', '')), long(dropped_pkts_line.split(":")[1].replace(',', ''))
 
-
 def test():
   options,args = parse_arguments()
   print "Start Test with the following options:"
   print options
 
   #print "Creating SSH to R2 & R3"
+  ssh_r1 = paramiko.SSHClient()
+  ssh_r1.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+  ssh_r1.connect('localhost',username='net',password='netexplo')
+  ssh_r1.exec_command('cd ~/nfa-gpu/eval/m_test')
 
   print "Start runtimes..."
   start_r1(options)
@@ -226,7 +228,7 @@ def test():
 #  if options.test_type == "THROUGHPUT":
   print "Start Testing Throughput"
 
-  tmp1,tmp2 = read_pkts(1)
+  tmp1,tmp2 = read_pkts(ssh_r1,1)
   before_received +=tmp1;
   before_dropped +=tmp2;
 
@@ -235,7 +237,7 @@ def test():
 
   time.sleep(3)
 
-  tmp1,tmp2 = read_pkts(1)
+  tmp1,tmp2 = read_pkts(ssh_r1,1)
   after_received +=tmp1;
   after_dropped +=tmp2;
 
