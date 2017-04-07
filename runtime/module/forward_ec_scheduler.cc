@@ -193,7 +193,8 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
 		  }
 	  }
 
-	  std::thread gpu_thread(GPU_thread,coordinator_actor_,pkts,fs,i);
+	 // std::thread gpu_thread(GPU_thread,coordinator_actor_,pkts,fs,i);
+	  GPU_thread(coordinator_actor_,pkts,fs,i);
 
 
 	  for(int i=0; i<cp_pkt_batch.cnt(); i++){
