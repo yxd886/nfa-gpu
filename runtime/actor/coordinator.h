@@ -16,6 +16,7 @@
 #include "../rpc/llring_holder.h"
 #include "../utils/generic_ring_allocator.h"
 #include "coordinator_public_field.h"
+#include "../d_nf/d_base/d_nf_processor.cuh"
 
 class flow_actor;
 class flow_actor_allocator;
@@ -67,6 +68,9 @@ public:
   inline uint64_t get_service_chain(){
 	  return uint_service_chain_;
   }
+
+  struct Pkt *pkts;
+  struct Fs *fs;
 
 private:
   uint32_t next_msg_id_;

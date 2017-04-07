@@ -90,8 +90,8 @@ void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i){
 		  Fs_copyback(&(fs[j]),actor);
 	  }
 
-	  cudaFree(pkts);
-	  cudaFree(fs);
+	 // cudaFree(pkts);
+	 // cudaFree(fs);
 
 }
 
@@ -169,10 +169,10 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
   //
   if(coordinator_actor_->service_chain_.empty()==false){
 	  flow_actor* it_actor=nullptr;
-	  struct Pkt *pkts;
-	  struct Fs *fs;
-	  cudaMallocManaged(&pkts, bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst * sizeof(Pkt));
-	  cudaMallocManaged(&fs, bess::PacketBatch::kMaxBurst * sizeof(Fs));
+	 // struct Pkt *pkts;
+	 // struct Fs *fs;
+	 // cudaMallocManaged(&pkts, bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst * sizeof(Pkt));
+	 // cudaMallocManaged(&fs, bess::PacketBatch::kMaxBurst * sizeof(Fs));
 	  int i=0;
 	  Pkt_reset(pkts,32*32);
 	  while(i<coordinator_actor_->have_packet_flows_rrlist_.get_size()){
@@ -187,8 +187,8 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
 		  }else{
 			  while(it_actor->get_queue_ptr()->empty()!=true){
 
-				  Pkt_insert(pkts,it_actor->get_queue_ptr()->dequeue(),i);
-				  Fs_copy(&(fs[i]),it_actor);
+				  Pkt_insert(coordinator_actor_->pkts,it_actor->get_queue_ptr()->dequeue(),i);
+				  Fs_copy(&(coordinator_actor_->fs[i]),it_actor);
 
 			  }
 
@@ -197,9 +197,9 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
 		  }
 	  }
 
-	 std::thread gpu_thread(GPU_thread,coordinator_actor_,pkts,fs,i);
-	 // GPU_thread(coordinator_actor_,pkts,fs,i);
-	 gpu_thread.join();
+	 //std::thread gpu_thread(GPU_thread,coordinator_actor_,pkts,fs,i);
+	 GPU_thread(coordinator_actor_,coordinator_actor_->pkts,coordinator_actor_->fs,i);
+	 //gpu_thread.join();
 
 	  for(int i=0; i<cp_pkt_batch.cnt(); i++){
 	    char* data_start = cp_pkt_batch.pkts()[i]->head_data<char*>();

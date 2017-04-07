@@ -73,6 +73,8 @@ coordinator::coordinator(llring_holder& holder){
   next_msg_id_ = message_id_start;
 
   collective_buffer_.init(buffer_batch_size*bess::PacketBatch::kMaxBurst);
+  cudaMallocManaged(&pkts, bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst * sizeof(Pkt));
+  cudaMallocManaged(&fs, bess::PacketBatch::kMaxBurst * sizeof(Fs));
 }
 
 void coordinator::handle_message(remove_flow_t, flow_actor* flow_actor, flow_key_t* flow_key){
