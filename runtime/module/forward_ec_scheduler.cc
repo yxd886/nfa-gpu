@@ -40,7 +40,7 @@ void Format(char* packet,struct d_headinfo* hd){
 
 void Pkt_insert(struct Pkt* Pkts,bess::Packet* bess_pkt,int i){
 
-	while(Pkts[i].empty!=true){
+	while(Pkts[i].empty!=1){
 		i+=bess::PacketBatch::kMaxBurst;
 	}
 	char* dst=Pkts[i].pkt;
