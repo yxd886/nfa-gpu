@@ -313,7 +313,7 @@ void flow_actor::pkt_normal_nf_processing(bess::Packet* pkt){
 		  LOG(ERROR)<<"pkt queue overflow!";
 	  }
   }
-  if(in_have_packet_rrlist==0){
+  if(in_have_packet_rrlist!=1){
       coordinator_actor_->have_packet_flows_rrlist_.add_to_tail(this);
       in_have_packet_rrlist=1;
   }
