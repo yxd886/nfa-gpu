@@ -175,12 +175,12 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
 	  cudaMallocManaged(&fs, bess::PacketBatch::kMaxBurst * sizeof(Fs));
 	  int i=0;
 	  Pkt_reset(pkts,32*32);
-	  while(i<coordinator_actor_->have_packet_flows_rrlist_.get_size()-1){
+	  while(i<coordinator_actor_->have_packet_flows_rrlist_.get_size()){
 
 		  it_actor=coordinator_actor_->have_packet_flows_rrlist_.peek_head();
 		  if(it_actor==nullptr) break;
 		  coordinator_actor_->have_packet_flows_rrlist_.pop_head();
-		  LOG(INFO)<<"POP OK";
+		  //LOG(INFO)<<"POP OK";
 		  it_actor->set_in_have_packet_rrlist(0);
 		  if(it_actor->get_queue_ptr()->empty()){
 			  continue;

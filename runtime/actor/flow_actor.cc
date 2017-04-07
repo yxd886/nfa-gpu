@@ -317,7 +317,7 @@ void flow_actor::pkt_normal_nf_processing(bess::Packet* pkt){
       coordinator_actor_->have_packet_flows_rrlist_.add_to_tail(this);
       in_have_packet_rrlist=1;
   }
-  LOG(INFO)<<"insert self to in have packet rrlist";
+  //LOG(INFO)<<"insert self to in have packet rrlist";
 
 
   rte_memcpy(pkt->head_data(), &(output_header_.ethh), sizeof(struct ether_hdr));
