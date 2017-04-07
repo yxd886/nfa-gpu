@@ -202,7 +202,7 @@ def test():
   #print "Creating SSH to R2 & R3"
   ssh_r1 = paramiko.SSHClient()
   ssh_r1.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-  ssh_r1.connect('localhost',username='net',password='netexplo')
+  ssh_r1.connect('147.8.178.179',username='net',password='netexplo')
   ssh_r1.exec_command('cd ~/nfa-gpu/eval/m_test')
 
   print "Start runtimes..."
