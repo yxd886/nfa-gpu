@@ -179,13 +179,13 @@ def start_traffic_gen(options):
 def read_pkts(rt_num):
   cmd="sudo ~/nfa-gpu/deps/bess/bessctl/bessctl show port rt"+str(rt_num)+"_iport"
   process = subprocess.Popen(cmd, stdout=FNULL, shell=True)
-  stdout, error = process.communicate()
+  output1, error = process.communicate()
 
   received_pkts_line = ''
   dropped_pkts_line = ''
 
   i = 0
-  for line in stdout.split('\n'):
+  for line in output1.split('\n'):
     if i == 2:
 	received_pkts_line = line
     if i == 3:
