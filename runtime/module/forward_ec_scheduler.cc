@@ -120,7 +120,7 @@ void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i){
 
 	long begin=whole_begin.tv_sec*1000000 + whole_begin.tv_usec;
 	long end=whole_end.tv_sec*1000000 + whole_end.tv_usec;
-	printf("time: %ld\n,",end-begin);
+	printf("gpu time: %ld\n,",end-begin);
 
 	 // cudaFree(pkts);
 	 // cudaFree(fs);
@@ -129,6 +129,8 @@ void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i){
 
 void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
+	struct timeval whole_begin;
+	gettimeofday(&whole_begin,0);
 	RECVPacketBatches[counter].Copy(bat);
 	counter++;
 	if(counter!=PROCESS_TIME){
@@ -299,7 +301,12 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		clean_batches(SENDPacketBatches);
 		clean_batches(RECVPacketBatches);
 
+		struct timeval whole_end;
+		gettimeofday(&whole_end,0);
 
+		long begin=whole_begin.tv_sec*1000000 + whole_begin.tv_usec;
+		long end=whole_end.tv_sec*1000000 + whole_end.tv_usec;
+		printf("total time: %ld\n,",end-begin);
 
 	}
 
