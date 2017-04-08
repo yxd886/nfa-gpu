@@ -42,6 +42,7 @@ class PacketBatch {
   Packet *pkts_[kMaxBurst];
 };
 
+
 static_assert(std::is_pod<PacketBatch>::value, "PacketBatch is not a POD Type");
 
 

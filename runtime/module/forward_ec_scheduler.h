@@ -10,6 +10,7 @@
 #include "../bessport/pktbatch.h"
 #include "../d_nf/d_base/Pkt.h"
 #include "../port/sn_port.h"
+#include "../actor/coordinator.h"
 #include <thread>
 #include <chrono>
 
@@ -21,18 +22,26 @@ public:
   static const gate_idx_t kNumOGates = 1;
   static const gate_idx_t kNumIGates = 1;
 
-  forward_ec_scheduler() : Module(), coordinator_actor_(0){}
+  forward_ec_scheduler() : Module(), coordinator_actor_(0),port_(),counter(0){}
 
   virtual void ProcessBatch(bess::PacketBatch *batch);
 
   void customized_init(coordinator* coordinator_actor,  sn_port* port_);
 
 private:
+  void clean_batches(bess::PacketBatch* batches){
+	  for(int i=0;i<PROCESS_TIME;i++){
+		  batches[i].clear();
+	  }
+  }
 
   coordinator* coordinator_actor_;
   bess::PacketBatch dp_pkt_batch;
   bess::PacketBatch cp_pkt_batch;
   sn_port* port_;
+  bess::PacketBatch RECVPacketBatches[PROCESS_TIME];
+  bess::PacketBatch SENDPacketBatches[PROCESS_TIME];
+  int counter;
 };
 
 #endif
