@@ -391,7 +391,7 @@ int Packet::Alloc(Packet **pkts, size_t cnt, uint16_t len) {
 
 void Packet::Free(Packet **pkts, int cnt) {
 
-  for (i = 0; i < cnt; i++)
+  for (int i = 0; i < cnt; i++)
     Free(pkts[i]);
 }
 #endif
