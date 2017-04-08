@@ -59,7 +59,7 @@ __global__ void
 Runtask(Pkt* pkts, Fs* fs, uint64_t service_chain,int packet_num)
 {
 
-
+/*
 	struct d_flow_actor_nfs  nfs;
 	Init_nfs(&nfs);
 	int chain_len=compute_service_chain_length(service_chain);
@@ -83,6 +83,7 @@ Runtask(Pkt* pkts, Fs* fs, uint64_t service_chain,int packet_num)
     	}
     }
     Release_nfs(&nfs);
+    */
 }
 
 
