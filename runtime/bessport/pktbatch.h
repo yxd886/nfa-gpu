@@ -35,7 +35,7 @@ class PacketBatch {
                cnt * sizeof(Packet *));
   }
 
-  static const size_t kMaxBurst = 32;
+  static const size_t kMaxBurst = 320;
 
  private:
   int cnt_;
