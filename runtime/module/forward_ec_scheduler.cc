@@ -81,14 +81,21 @@ void Fs_copyback(struct Fs* Fs,flow_actor* flow_actor){
 
 void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i){
 
+	struct timeval whole_begin;
+	gettimeofday(&whole_begin,0);
+	gpu_nf_process(pkts,fs,coordinator_actor->get_service_chain(),bess::PacketBatch::kMaxBurst);
 
-	  gpu_nf_process(pkts,fs,coordinator_actor->get_service_chain(),bess::PacketBatch::kMaxBurst);
+	for(int j=0;j<i;j++){
+	  flow_actor** actor_ptr=coordinator_actor->actorid_htable_.Get(&(fs[j].actor_id_64));
+	  flow_actor* actor=*actor_ptr;
+	  Fs_copyback(&(fs[j]),actor);
+	}
 
-	  for(int j=0;j<i;j++){
-		  flow_actor** actor_ptr=coordinator_actor->actorid_htable_.Get(&(fs[j].actor_id_64));
-		  flow_actor* actor=*actor_ptr;
-		  Fs_copyback(&(fs[j]),actor);
-	  }
+	struct timeval whole_end;
+	gettimeofday(&whole_end,0);
+	long begin=whole_begin.tv_sec*1000000 + whole_begin.tv_usec;
+	long end=whole_end.tv_sec*1000000 + whole_end.tv_usec;
+	printf("time: %ld\n,",end-begin);
 
 	 // cudaFree(pkts);
 	 // cudaFree(fs);
@@ -198,15 +205,10 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
 	  }
 
 	 //std::thread gpu_thread(GPU_thread,coordinator_actor_,pkts,fs,i);
-	    struct timeval whole_begin;
-	    gettimeofday(&whole_begin,0);
+
 	  GPU_thread(coordinator_actor_,coordinator_actor_->pkts,coordinator_actor_->fs,i);
 	 //gpu_thread.join();
-	    struct timeval whole_end;
-	    gettimeofday(&whole_end,0);
-	    long begin=whole_begin.tv_sec*1000000 + whole_begin.tv_usec;
-	    long end=whole_end.tv_sec*1000000 + whole_end.tv_usec;
-	   printf("time: %ld\n,",end-begin);
+
 
 	  for(int i=0; i<cp_pkt_batch.cnt(); i++){
 	    char* data_start = cp_pkt_batch.pkts()[i]->head_data<char*>();
