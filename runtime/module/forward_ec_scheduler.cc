@@ -5,6 +5,8 @@
 #include "../actor/base/local_send.h"
 #include "../reliable/process_reliable_msg.h"
 #include "../d_nf/d_base/d_nf_processor.cuh"
+#include <time.h>
+#include   <sys/time.h>
 
 
 void Format(char* packet,struct d_headinfo* hd){
@@ -196,8 +198,15 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
 	  }
 
 	 //std::thread gpu_thread(GPU_thread,coordinator_actor_,pkts,fs,i);
-	 GPU_thread(coordinator_actor_,coordinator_actor_->pkts,coordinator_actor_->fs,i);
+	    struct timeval whole_begin;
+	    gettimeofday(&whole_begin,0);
+	  GPU_thread(coordinator_actor_,coordinator_actor_->pkts,coordinator_actor_->fs,i);
 	 //gpu_thread.join();
+	    struct timeval whole_end;
+	    gettimeofday(&whole_end,0);
+	    long begin=whole_begin.tv_sec*1000000 + whole_begin.tv_usec;
+	    long end=whole_end.tv_sec*1000000 + whole_end.tv_usec;
+	   printf("time: %ld\n,",end-begin);
 
 	  for(int i=0; i<cp_pkt_batch.cnt(); i++){
 	    char* data_start = cp_pkt_batch.pkts()[i]->head_data<char*>();
