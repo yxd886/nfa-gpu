@@ -9,6 +9,7 @@
 #include "../bessport/packet.h"
 #include "../bessport/pktbatch.h"
 #include "../d_nf/d_base/Pkt.h"
+#include "../port/sn_port.h"
 #include <thread>
 #include <chrono>
 
@@ -24,13 +25,14 @@ public:
 
   virtual void ProcessBatch(bess::PacketBatch *batch);
 
-  void customized_init(coordinator* coordinator_actor);
+  void customized_init(coordinator* coordinator_actor,  sn_port* port_);
 
 private:
 
   coordinator* coordinator_actor_;
   bess::PacketBatch dp_pkt_batch;
   bess::PacketBatch cp_pkt_batch;
+  sn_port* port_;
 };
 
 #endif

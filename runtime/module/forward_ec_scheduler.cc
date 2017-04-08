@@ -9,6 +9,31 @@
 #include   <sys/time.h>
 
 
+void send_batch(bess::PacketBatch *batch,sn_port* port_) {
+  /* TODO: choose appropriate out queue */
+  const uint8_t qid = 0;
+
+  uint64_t sent_bytes = 0;
+  int sent_pkts;
+
+  sent_pkts = port_->SendPackets(qid, batch->pkts(), batch->cnt());
+
+  const packet_dir_t dir = PACKET_DIR_OUT;
+
+  for (int i = 0; i < sent_pkts; i++){
+    sent_bytes += batch->pkts()[i]->total_len();
+  }
+
+    port_->queue_stats[dir][qid].packets += sent_pkts;
+    port_->queue_stats[dir][qid].dropped += (batch->cnt() - sent_pkts);
+    port_->queue_stats[dir][qid].bytes += sent_bytes;
+
+
+  if (sent_pkts < batch->cnt()) {
+    bess::Packet::Free(batch->pkts() + sent_pkts, batch->cnt() - sent_pkts);
+  }
+}
+
 void Format(char* packet,struct d_headinfo* hd){
   struct ether_hdr* m_pEthhdr;
   struct iphdr* m_pIphdr;
@@ -229,7 +254,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
 	    msg_ptr->clean(&(coordinator_actor_->gp_collector_));
 	  }
 
-	  RunNextModule(&(coordinator_actor_->ec_scheduler_batch_));
+	  send_batch(&(coordinator_actor_->ec_scheduler_batch_),port_);
   }else{
 
 
@@ -252,15 +277,16 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *batch){
 	    msg_ptr->clean(&(coordinator_actor_->gp_collector_));
 	  }
 
-	  RunNextModule(&(coordinator_actor_->ec_scheduler_batch_));
+	  send_batch(&(coordinator_actor_->ec_scheduler_batch_),port_);
   }
 
 
 
 }
 
-void forward_ec_scheduler::customized_init(coordinator* coordinator_actor){
+void forward_ec_scheduler::customized_init(coordinator* coordinator_actor,sn_port* port){
   coordinator_actor_ = coordinator_actor;
+  port_=port;
 }
 
 ADD_MODULE(forward_ec_scheduler, "forward_ec_scheduler",

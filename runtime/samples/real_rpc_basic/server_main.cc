@@ -150,15 +150,15 @@ int main(int argc, char* argv[]){
   Module* mod_iport_port_inc = create_module<PortInc>("PortInc", "mod_iport_port_inc", &input_port, 0, 32);
   Module* mod_iport_port_out = create_module<PortOut>("PortOut", "mod_iport_port_out", &input_port);
 
-  Module* mod_oport_port_inc = create_module<PortInc>("PortInc", "mod_oport_port_inc", &output_port, 0, 32);
-  Module* mod_oport_port_out = create_module<PortOut>("PortOut", "mod_oport_port_out", &output_port);
+  //Module* mod_oport_port_inc = create_module<PortInc>("PortInc", "mod_oport_port_inc", &output_port, 0, 32);
+  //Module* mod_oport_port_out = create_module<PortOut>("PortOut", "mod_oport_port_out", &output_port);
 
   Module* mod_cport_port_inc = create_module<PortInc>("PortInc", "mod_cport_port_inc", &control_port, 0, 32);
   Module* mod_cport_port_out = create_module<PortOut>("PortOut", "mod_cport_port_out", &control_port);
 
   Module* mod_forward_ec_scheduler = create_module<forward_ec_scheduler>("forward_ec_scheduler",
                                                                          "mod_forward_ec_scheduler",
-                                                                         &coordinator_actor);
+                                                                         &coordinator_actor,&output_port);
 
   Module* mod_reverse_ec_scheduler = create_module<reverse_ec_scheduler>("reverse_ec_scheduler",
                                                                          "mod_reverse_ec_scheduler",
@@ -187,15 +187,15 @@ int main(int argc, char* argv[]){
                                                              &coordinator_actor);
 
   int f1 = mod_iport_port_inc->ConnectModules(0, mod_forward_ec_scheduler, 0);
-  int f2 = mod_forward_ec_scheduler->ConnectModules(0, mod_oport_port_out, 0);
-  if(f1!=0 || f2!=0 ){
+ // int f2 = mod_forward_ec_scheduler->ConnectModules(0, mod_oport_port_out, 0);
+  if(f1!=0 ){
     LOG(ERROR)<<"Error connecting mod_iport_port_inc->mod_forward_ec_scheduler->mod_oport_port_out";
     exit(-1);
   }
 
-  int f3 = mod_oport_port_inc->ConnectModules(0, mod_reverse_ec_scheduler, 0);
+ // int f3 = mod_oport_port_inc->ConnectModules(0, mod_reverse_ec_scheduler, 0);
   int f4 = mod_reverse_ec_scheduler->ConnectModules(0, mod_iport_port_out, 0);
-  if(f3!=0 || f4!=0){
+  if( f4!=0){
     LOG(ERROR)<<"Error connecting mod_oport_port_inc->mod_reverse_ec_scheduler->mod_iport_port_out";
     exit(-1);
   }
