@@ -252,7 +252,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 			 //gpu_thread.join();
 	  }
 
-	/*	for(int loop=0;loop<PROCESS_TIME;loop++){
+		for(int loop=0;loop<PROCESS_TIME;loop++){
 		  bess::PacketBatch *batch =&(RECVPacketBatches[loop]);
 		  //dp_pkt_batch.clear();
 		  cp_pkt_batch.clear();
@@ -297,7 +297,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 			 send_batch(&(SENDPacketBatches[loop]),port_);
 		}
-		*/
+
 		clean_batches(SENDPacketBatches);
 		clean_batches(RECVPacketBatches);
 
