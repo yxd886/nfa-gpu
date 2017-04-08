@@ -147,13 +147,13 @@ int main(int argc, char* argv[]){
 
 
 
-  Module* mod_iport_port_inc = create_module<PortInc>("PortInc", "mod_iport_port_inc", &input_port, 0, 320);
+  Module* mod_iport_port_inc = create_module<PortInc>("PortInc", "mod_iport_port_inc", &input_port, 0, 32);
   Module* mod_iport_port_out = create_module<PortOut>("PortOut", "mod_iport_port_out", &input_port);
 
-  Module* mod_oport_port_inc = create_module<PortInc>("PortInc", "mod_oport_port_inc", &output_port, 0, 320);
+  Module* mod_oport_port_inc = create_module<PortInc>("PortInc", "mod_oport_port_inc", &output_port, 0, 32);
   Module* mod_oport_port_out = create_module<PortOut>("PortOut", "mod_oport_port_out", &output_port);
 
-  Module* mod_cport_port_inc = create_module<PortInc>("PortInc", "mod_cport_port_inc", &control_port, 0, 320);
+  Module* mod_cport_port_inc = create_module<PortInc>("PortInc", "mod_cport_port_inc", &control_port, 0, 32);
   Module* mod_cport_port_out = create_module<PortOut>("PortOut", "mod_cport_port_out", &control_port);
 
   Module* mod_forward_ec_scheduler = create_module<forward_ec_scheduler>("forward_ec_scheduler",
