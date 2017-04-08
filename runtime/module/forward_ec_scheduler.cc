@@ -8,10 +8,9 @@
 #include <time.h>
 #include   <sys/time.h>
 
-　　static void sighandler( int sig_no )
-　　{
-　　exit(0);
-　　}
+static void sighandler(int sig_no){
+  exit(0);
+}
 
 void send_batch(bess::PacketBatch *batch,sn_port* port_) {
   /* TODO: choose appropriate out queue */
