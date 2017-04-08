@@ -62,7 +62,7 @@ Runtask(Pkt* pkts, Fs* fs, uint64_t service_chain,int packet_num)
 
 	struct d_flow_actor_nfs  nfs;
 	Init_nfs(&nfs);
-	/*int chain_len=compute_service_chain_length(service_chain);
+	int chain_len=compute_service_chain_length(service_chain);
 	int i = blockDim.x * blockIdx.x + threadIdx.x;
 
     if (i < packet_num)
@@ -81,7 +81,7 @@ Runtask(Pkt* pkts, Fs* fs, uint64_t service_chain,int packet_num)
 
 
     	}
-    }*/
+    }
     Release_nfs(&nfs);
 }
 
