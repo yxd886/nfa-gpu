@@ -109,15 +109,15 @@ void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i){
 	struct timeval whole_begin;
 	gettimeofday(&whole_begin,0);
 	gpu_nf_process(pkts,fs,coordinator_actor->get_service_chain(),bess::PacketBatch::kMaxBurst);
-
+	struct timeval whole_end;
+	gettimeofday(&whole_end,0);
 	for(int j=0;j<i;j++){
 	  flow_actor** actor_ptr=coordinator_actor->actorid_htable_.Get(&(fs[j].actor_id_64));
 	  flow_actor* actor=*actor_ptr;
 	  Fs_copyback(&(fs[j]),actor);
 	}
 
-	struct timeval whole_end;
-	gettimeofday(&whole_end,0);
+
 	long begin=whole_begin.tv_sec*1000000 + whole_begin.tv_usec;
 	long end=whole_end.tv_sec*1000000 + whole_end.tv_usec;
 	printf("time: %ld\n,",end-begin);
