@@ -108,7 +108,7 @@ void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i){
 
 	struct timeval whole_begin;
 	gettimeofday(&whole_begin,0);
-	gpu_nf_process(pkts,fs,coordinator_actor->get_service_chain(),bess::PacketBatch::kMaxBurst);
+	gpu_nf_process(pkts,fs,coordinator_actor->get_service_chain(),bess::PacketBatch::kMaxBurst*PROCESS_TIME);
 	struct timeval whole_end;
 	gettimeofday(&whole_end,0);
 	for(int j=0;j<i;j++){
