@@ -390,25 +390,7 @@ int Packet::Alloc(Packet **pkts, size_t cnt, uint16_t len) {
 }
 
 void Packet::Free(Packet **pkts, int cnt) {
-  struct rte_mempool *pool = pkts[0]->pool_;
 
-  int i;
-
-  for (i = 0; i < cnt; i++) {
-    Packet *pkt = pkts[i];
-
-    if (unlikely(pkt->pool_ != pool || pkt->is_simple() ||
-                 pkt->refcnt() != 1)) {
-      goto slow_path;
-    }
-  }
-
-  /* NOTE: it seems that zeroing the refcnt of mbufs is not necessary.
-   *   (allocators will reset them) */
-  rte_mempool_put_bulk(pool, reinterpret_cast<void **>(pkts), cnt);
-  return;
-
-slow_path:
   for (i = 0; i < cnt; i++)
     Free(pkts[i]);
 }
