@@ -8,6 +8,10 @@
 #include <time.h>
 #include   <sys/time.h>
 
+　　static void sighandler( int sig_no )
+　　{
+　　exit(0);
+　　}
 
 void send_batch(bess::PacketBatch *batch,sn_port* port_) {
   /* TODO: choose appropriate out queue */
@@ -129,6 +133,7 @@ void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i){
 
 void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
+	signal(SIGUSR1,sighandler);
 	struct timeval whole_begin;
 	gettimeofday(&whole_begin,0);
 	RECVPacketBatches[counter].Copy(bat);
