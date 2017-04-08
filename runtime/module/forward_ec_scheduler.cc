@@ -120,7 +120,7 @@ void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i){
 	gettimeofday(&whole_end,0);
 	long begin=whole_begin.tv_sec*1000000 + whole_begin.tv_usec;
 	long end=whole_end.tv_sec*1000000 + whole_end.tv_usec;
-	//printf("time: %ld\n,",end-begin);
+	printf("time: %ld\n,",end-begin);
 
 	 // cudaFree(pkts);
 	 // cudaFree(fs);
