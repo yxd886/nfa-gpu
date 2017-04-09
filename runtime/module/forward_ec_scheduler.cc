@@ -242,12 +242,13 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		  int pos;
 		  while(pos<coordinator_actor_->have_packet_flows_rrlist_.get_size()){
 
-			  it_actor=coordinator_actor_->have_packet_flows_rrlist_.peek_head();
+			  it_actor=coordinator_actor_->have_packet_flows_rrlist_.pop_head();
 			  if(it_actor==nullptr) break;
-			  coordinator_actor_->have_packet_flows_rrlist_.pop_head();
+			 // coordinator_actor_->have_packet_flows_rrlist_.pop_head();
 			  //LOG(INFO)<<"POP OK";
 			  it_actor->set_in_have_packet_rrlist(0);
 			  if(it_actor->get_queue_ptr()->empty()){
+				  printf("empty\n");
 				  continue;
 			  }else{
 				  while(it_actor->get_queue_ptr()->empty()!=true){
