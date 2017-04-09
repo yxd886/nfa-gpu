@@ -69,7 +69,7 @@ Runtask(Pkt* pkts, Fs* fs, uint64_t service_chain,int packet_num)
     {
     	int j=i;
     	while(pkts[j].full==1){
-    		pkts[j].full==1;
+    		pkts[j].full=0;
 
 /*
     		for(int k=0; k<chain_len; k++){
