@@ -20,7 +20,7 @@ def parse_arguments():
                     help="which type of test : THROUGHPUT/REPLICATION/MIGARTION",
                     default="THROUGHPUT")
 
-  parser.add_option('', '--sc', action="store", type="string", dest="service_chain", help="chain rule", default="pkt_counter")
+  parser.add_option('', '--sc', action="store", type="string", dest="service_chain", help="chain rule", default="")
 
   parser.add_option('', '--r1', action="store", type="int", dest="r1_number", help="How many rts in r1", default="1")
 
