@@ -239,9 +239,10 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		 // struct Fs *fs;
 		 // cudaMallocManaged(&pkts, bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst * sizeof(Pkt));
 		 // cudaMallocManaged(&fs, bess::PacketBatch::kMaxBurst * sizeof(Fs));
+		  gettimeofday(&insert_begin,0);
 		  Pkt_reset(coordinator_actor_->pkts,PROCESS_TIME*PROCESS_TIME*bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst);
 		  int pos;
-		  gettimeofday(&insert_begin,0);
+
 		  int size=coordinator_actor_->have_packet_flows_rrlist_.get_size();
 		  while(pos<size){
 
