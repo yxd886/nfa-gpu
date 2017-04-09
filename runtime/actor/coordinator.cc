@@ -78,6 +78,7 @@ coordinator::coordinator(llring_holder& holder){
   cudaMallocManaged(&fs, PROCESS_TIME*bess::PacketBatch::kMaxBurst * sizeof(Fs));
   local_pkts=(struct Pkt*)malloc(PROCESS_TIME*PROCESS_TIME*bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst * sizeof(Pkt));
   local_fs=(struct Fs*)malloc(PROCESS_TIME*bess::PacketBatch::kMaxBurst * sizeof(Fs));
+  Pkt_reset(pkts,PROCESS_TIME*PROCESS_TIME*bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst);
 }
 
 void coordinator::handle_message(remove_flow_t, flow_actor* flow_actor, flow_key_t* flow_key){

@@ -59,17 +59,19 @@ __global__ void
 Runtask(Pkt* pkts, Fs* fs, uint64_t service_chain,int packet_num)
 {
 
-/*
-	struct d_flow_actor_nfs  nfs;
-	Init_nfs(&nfs);
-	int chain_len=compute_service_chain_length(service_chain);
+
+//	struct d_flow_actor_nfs  nfs;
+//	Init_nfs(&nfs);
+//	int chain_len=compute_service_chain_length(service_chain);
 	int i = blockDim.x * blockIdx.x + threadIdx.x;
 
     if (i < packet_num)
     {
     	int j=i;
     	while(pkts[j].full==1){
+    		pkts[j].full==1;
 
+/*
     		for(int k=0; k<chain_len; k++){
     			int nf_id=compute_network_function(service_chain,k);
     			Pkt* pkt=&(pkts[j]);
@@ -79,11 +81,11 @@ Runtask(Pkt* pkts, Fs* fs, uint64_t service_chain,int packet_num)
 
     		j+=packet_num;
 
-
+*/
     	}
     }
-    Release_nfs(&nfs);
-    */
+//    Release_nfs(&nfs);
+
 }
 
 

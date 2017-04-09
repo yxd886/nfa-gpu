@@ -20,6 +20,14 @@
 #include "coordinator_public_field.h"
 #include "../d_nf/d_base/d_nf_processor.cuh"
 
+
+void Pkt_reset(struct Pkt* Pkts,int num){
+
+	for(int i=0;i<num;i++){
+		Pkts[i].full=0;
+	}
+}
+
 class flow_actor;
 class flow_actor_allocator;
 
