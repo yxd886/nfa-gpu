@@ -80,7 +80,9 @@ void Pkt_insert(struct Pkt* Pkts,bess::Packet* bess_pkt,int i){
 
 void Pkt_reset(struct Pkt* Pkts,int num){
 
-	memset(Pkts,0,sizeof(Pkt)*num);
+	for(int i=0;i<num;i++){
+		Pkts[i].full=0;
+	}
 }
 void Fs_copy(struct Fs* Fs,flow_actor* flow_actor){
 
@@ -240,7 +242,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		 // cudaMallocManaged(&pkts, bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst * sizeof(Pkt));
 		 // cudaMallocManaged(&fs, bess::PacketBatch::kMaxBurst * sizeof(Fs));
 		  gettimeofday(&insert_begin,0);
-		  Pkt_reset(coordinator_actor_->local_pkts,PROCESS_TIME*PROCESS_TIME*bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst);
+		  Pkt_reset(coordinator_actor_->pkts,PROCESS_TIME*PROCESS_TIME*bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst);
 		  int pos;
 
 		  int size=coordinator_actor_->have_packet_flows_rrlist_.get_size();
@@ -254,8 +256,8 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 			  while(it_actor->get_queue_ptr()->empty()!=true){
 
-				  Pkt_insert(coordinator_actor_->local_pkts,it_actor->get_queue_ptr()->dequeue(),pos);
-				  Fs_copy(&(coordinator_actor_->local_fs[pos]),it_actor);
+				  Pkt_insert(coordinator_actor_->pkts,it_actor->get_queue_ptr()->dequeue(),pos);
+				  Fs_copy(&(coordinator_actor_->fs[pos]),it_actor);
 
 			  }
 			  pos++;
