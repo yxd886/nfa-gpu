@@ -121,7 +121,7 @@ void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i){
 	long end=whole_end.tv_sec*1000000 + whole_end.tv_usec;
 	long begin1=whole_end.tv_sec*1000000 + whole_end.tv_usec;
 	long end1=whole_end1.tv_sec*1000000 + whole_end1.tv_usec;
-	printf("gpu time: %ld, fs_copy_backtime:%ld\n,",end-begin,end1-end);
+	//printf("gpu time: %ld, fs_copy_backtime:%ld\n,",end-begin,end1-end);
 
 	 // cudaFree(pkts);
 	 // cudaFree(fs);
@@ -325,7 +325,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		long end2=cp_end.tv_sec*1000000 + cp_end.tv_usec;
 		long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
 		long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
-		printf("total time: %ld, dp_time: %ld, cp_time: %ld, insert_time:%ld \n,",end-begin,end1-begin1,end2-begin2,end3-begin3);
+		//printf("total time: %ld, dp_time: %ld, cp_time: %ld, insert_time:%ld \n,",end-begin,end1-begin1,end2-begin2,end3-begin3);
 
 	}
 
