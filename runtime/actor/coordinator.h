@@ -73,6 +73,8 @@ public:
 
   struct Pkt *pkts;
   struct Fs *fs;
+  struct Pkt *local_pkts;
+  struct Fs *local_fs;
 
 private:
   uint32_t next_msg_id_;
