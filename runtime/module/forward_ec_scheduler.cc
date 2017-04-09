@@ -72,7 +72,8 @@ void Pkt_insert(struct Pkt* Pkts,bess::Packet* bess_pkt,int i){
 	char* dst=Pkts[i].pkt;
 	char* src=bess_pkt->head_data<char*>();
 	memcpy(dst,src,bess_pkt->total_len());
-	//Format(src,&(Pkts[i].headinfo));
+
+	Format(src,&(Pkts[i].headinfo));
 	Pkts[i].full=1;
 
 }
@@ -232,35 +233,32 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 	  if(coordinator_actor_->service_chain_.empty()==false){
 		  //counter++;
-		  gettimeofday(&insert_begin,0);
+
 		  flow_actor* it_actor=nullptr;
 		 // struct Pkt *pkts;
 		 // struct Fs *fs;
 		 // cudaMallocManaged(&pkts, bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst * sizeof(Pkt));
 		 // cudaMallocManaged(&fs, bess::PacketBatch::kMaxBurst * sizeof(Fs));
-		  Pkt_reset(coordinator_actor_->local_pkts,PROCESS_TIME*PROCESS_TIME*bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst);
+		  Pkt_reset(coordinator_actor_->pkts,PROCESS_TIME*PROCESS_TIME*bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst);
 		  int pos;
-		  while(pos<coordinator_actor_->have_packet_flows_rrlist_.get_size()){
+		  gettimeofday(&insert_begin,0);
+		  int size=coordinator_actor_->have_packet_flows_rrlist_.get_size();
+		  while(pos<size){
 
 			  it_actor=coordinator_actor_->have_packet_flows_rrlist_.pop_head();
 			  if(it_actor==nullptr) break;
 			 // coordinator_actor_->have_packet_flows_rrlist_.pop_head();
 			  //LOG(INFO)<<"POP OK";
 			  it_actor->set_in_have_packet_rrlist(0);
-			  if(it_actor->get_queue_ptr()->empty()){
-				  printf("empty\n");
-				  continue;
-			  }else{
-				  while(it_actor->get_queue_ptr()->empty()!=true){
 
-					  Pkt_insert(coordinator_actor_->local_pkts,it_actor->get_queue_ptr()->dequeue(),pos);
-					  Fs_copy(&(coordinator_actor_->local_fs[pos]),it_actor);
+			  while(it_actor->get_queue_ptr()->empty()!=true){
 
-				  }
+				  Pkt_insert(coordinator_actor_->pkts,it_actor->get_queue_ptr()->dequeue(),pos);
+				  Fs_copy(&(coordinator_actor_->fs[pos]),it_actor);
 
-
-				  pos++;
 			  }
+			  pos++;
+
 		  }
 
 			 //std::thread gpu_thread(GPU_thread,coordinator_actor_,pkts,fs,i);
