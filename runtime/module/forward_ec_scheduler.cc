@@ -115,11 +115,15 @@ void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i){
 	  flow_actor* actor=*actor_ptr;
 	  Fs_copyback(&(fs[j]),actor);
 	}
+	struct timeval whole_end1;
+	gettimeofday(&whole_end1,0);
 
 
 	long begin=whole_begin.tv_sec*1000000 + whole_begin.tv_usec;
 	long end=whole_end.tv_sec*1000000 + whole_end.tv_usec;
-	printf("gpu time: %ld\n,",end-begin);
+	long begin1=whole_end.tv_sec*1000000 + whole_end.tv_usec;
+	long end1=whole_end1.tv_sec*1000000 + whole_end1.tv_usec;
+	printf("gpu time: %ld, fs_copy_backtime:%ld\n,",end-begin,end1-end);
 
 	 // cudaFree(pkts);
 	 // cudaFree(fs);
@@ -129,14 +133,21 @@ void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i){
 void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 	struct timeval whole_begin;
+	struct timeval dp_end;
+	struct timeval dp_begin;
+	struct timeval cp_end;
+	struct timeval cp_begin;
 	gettimeofday(&whole_begin,0);
 	RECVPacketBatches[counter].Copy(bat);
 	counter++;
 	if(counter!=PROCESS_TIME){
 		return;
 	}else{
-		Pkt_reset(coordinator_actor_->pkts,PROCESS_TIME*PROCESS_TIME*bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst);
+		//Pkt_reset(coordinator_actor_->pkts,PROCESS_TIME*PROCESS_TIME*bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst);
 		counter=0;
+
+
+		gettimeofday(&dp_begin,0);
 		for(int loop=0;loop<PROCESS_TIME;loop++){
 		  bess::PacketBatch *batch =&(RECVPacketBatches[loop]);
 		  dp_pkt_batch.clear();
@@ -213,6 +224,8 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		  SENDPacketBatches[loop].Copy(&(coordinator_actor_->ec_scheduler_batch_));
 		}
 
+		gettimeofday(&dp_end,0);
+
 
 	  if(coordinator_actor_->service_chain_.empty()==false){
 		  //counter++;
@@ -251,7 +264,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		  GPU_thread(coordinator_actor_,coordinator_actor_->pkts,coordinator_actor_->fs,pos);
 			 //gpu_thread.join();
 	  }
-
+	  	gettimeofday(&cp_begin,0);
 		for(int loop=0;loop<PROCESS_TIME;loop++){
 		  bess::PacketBatch *batch =&(RECVPacketBatches[loop]);
 		  //dp_pkt_batch.clear();
@@ -297,6 +310,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 			 send_batch(&(SENDPacketBatches[loop]),port_);
 		}
+		gettimeofday(&cp_end,0);
 
 		clean_batches(SENDPacketBatches);
 		clean_batches(RECVPacketBatches);
@@ -306,7 +320,11 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 		long begin=whole_begin.tv_sec*1000000 + whole_begin.tv_usec;
 		long end=whole_end.tv_sec*1000000 + whole_end.tv_usec;
-		printf("total time: %ld\n,",end-begin);
+		long begin1=dp_begin.tv_sec*1000000 + dp_begin.tv_usec;
+		long end1=dp_end.tv_sec*1000000 + dp_end.tv_usec;
+		long begin2=cp_begin.tv_sec*1000000 + cp_begin.tv_usec;
+		long end2=cp_end.tv_sec*1000000 + cp_end.tv_usec;
+		printf("total time: %ld, dp_time: %ld, cp_time: %ld \n,",end-begin,end1-begin1,end2-begin2);
 
 	}
 
