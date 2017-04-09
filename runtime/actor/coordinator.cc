@@ -7,6 +7,14 @@
 
 #include <glog/logging.h>
 
+void Pkt_reset(struct Pkt* Pkts,int num){
+
+	for(int i=0;i<num;i++){
+		Pkts[i].full=0;
+	}
+}
+
+
 coordinator::coordinator(llring_holder& holder){
   allocator_.init(num_flow_actors);
 
