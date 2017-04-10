@@ -42,7 +42,7 @@ void Format(char* packet,struct d_headinfo* hd){
 
 
   m_pEthhdr = (struct ether_hdr*)packet;
-  memcpy(&(hd->m_pEthhdr),m_pEthhdr,sizeof(struct ether_hdr)+sizeof(struct iphdr));
+  memcpy((char*)&(hd->m_pEthhdr),packet,sizeof(struct ether_hdr)+sizeof(struct iphdr));
  // m_pIphdr = (struct iphdr*)(packet + sizeof(struct ether_hdr));
  // memcpy(&(hd->m_pIphdr),m_pIphdr,sizeof(struct iphdr));
   if(m_pIphdr->protocol==IPPROTO_TCP){
