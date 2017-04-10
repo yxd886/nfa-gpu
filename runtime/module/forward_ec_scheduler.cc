@@ -138,7 +138,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 	//struct timeval cp_begin;
 	struct timeval insert_end;
 	struct timeval insert_begin;
-	//gettimeofday(&whole_begin,0);
+	gettimeofday(&whole_begin,0);
 	RECVPacketBatches[counter].Copy(bat);
 	counter++;
 	if(counter!=PROCESS_TIME){
@@ -251,12 +251,14 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 			  while(it_actor->get_queue_ptr()->empty()!=true){
 
-				  //gettimeofday(&insert_begin,0);
-				  Pkt_insert(coordinator_actor_->pkts,it_actor->get_queue_ptr()->dequeue(),pos);
-				  //gettimeofday(&insert_end,0);
-				//long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
-				//long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
-				//time1+=end3-begin3;
+				  gettimeofday(&insert_begin,0);
+				  bess::Packet* it=it_actor->get_queue_ptr()->dequeue();
+				  gettimeofday(&insert_end,0);
+				  Pkt_insert(coordinator_actor_->pkts,it,pos);
+
+				long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
+				long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
+				time1+=end3-begin3;
 
 
 				  Fs_copy(&(coordinator_actor_->fs[pos]),it_actor);
@@ -324,7 +326,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		clean_batches(RECVPacketBatches);
 
 		struct timeval whole_end;
-		//gettimeofday(&whole_end,0);
+		gettimeofday(&whole_end,0);
 
 		//long begin=whole_begin.tv_sec*1000000 + whole_begin.tv_usec;
 		//long end=whole_end.tv_sec*1000000 + whole_end.tv_usec;
@@ -335,7 +337,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 	//	long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
 	//	long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
 		//printf("total time: %ld, dp_time: %ld, cp_time: %ld, insert_time:%ld \n,",end-begin,end1-begin1,end2-begin2,end3-begin3);
-		//printf("total time: %ld,insert_time:%ld \n,",end-begin,time1);
+		printf("total time: %ld,insert_time:%ld \n,",end-begin,time1);
 	}
 
 
