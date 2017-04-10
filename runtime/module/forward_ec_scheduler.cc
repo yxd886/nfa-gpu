@@ -256,7 +256,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 				  //gettimeofday(&insert_end,0);
 				//long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
 				//long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
-				time1+=end3-begin3;
+				//time1+=end3-begin3;
 
 
 				  Fs_copy(&(coordinator_actor_->fs[pos]),it_actor);
