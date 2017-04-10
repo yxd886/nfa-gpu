@@ -252,7 +252,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 			  int times=0;
 			  while(it_actor->get_queue_ptr()->empty()!=true){
 
-
+				  gettimeofday(&insert_begin,0);
 				  bess::Packet* it=it_actor->get_queue_ptr()->dequeue();
 
 				  //Pkt_insert(coordinator_actor_,it,pos,times);
@@ -261,17 +261,20 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 				//		i+=bess::PacketBatch::kMaxBurst;
 				//	}
 
-					char* dst=coordinator_actor_->local_pkts[i+times*bess::PacketBatch::kMaxBurst].pkt;
+					char* dst=coordinator_actor_->pkts[i+times*bess::PacketBatch::kMaxBurst].pkt;
 					char* src=it->head_data<char*>();
 					memcpy(dst,src,it->total_len());
 
-					Format(src,&(coordinator_actor_->local_pkts[i+times*bess::PacketBatch::kMaxBurst].headinfo));
+					Format(src,&(coordinator_actor_->pkts[i+times*bess::PacketBatch::kMaxBurst].headinfo));
 
-					coordinator_actor_->local_pkts[i+times*bess::PacketBatch::kMaxBurst].full=1;
-
-
+					coordinator_actor_->pkts[i+times*bess::PacketBatch::kMaxBurst].full=1;
 
 
+					 gettimeofday(&insert_end,0);
+
+					long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
+					long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
+					time1+=end3-begin3;
 				  Fs_copy(&(coordinator_actor_->fs[pos]),it_actor);
 
 			  }
@@ -282,12 +285,9 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 			 //std::thread gpu_thread(GPU_thread,coordinator_actor_,pkts,fs,i);
 		  //PacketBatches[counter-1].Copy(&(coordinator_actor_->ec_scheduler_batch_));
 		  //gettimeofday(&insert_end,0);
-		  gettimeofday(&insert_begin,0);
-		  memcpy(coordinator_actor_->pkts,coordinator_actor_->local_pkts,PROCESS_TIME*PROCESS_TIME*bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst * sizeof(Pkt));
-		  gettimeofday(&insert_end,0);
-		long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
-		long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
-		time1=end3-begin3;
+
+		 // memcpy(coordinator_actor_->pkts,coordinator_actor_->local_pkts,PROCESS_TIME*PROCESS_TIME*bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst * sizeof(Pkt));
+
 		  GPU_thread(coordinator_actor_,coordinator_actor_->pkts,coordinator_actor_->fs,pos);
 			 //gpu_thread.join();
 	  }
