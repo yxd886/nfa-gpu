@@ -56,10 +56,14 @@ __device__ int compute_service_chain_length(uint64_t s){
 
 
 __global__ void
-Runtask(Pkt* pkts, Fs* fs, uint64_t service_chain,int packet_num)
+Runtask(Pkt* h_pkts, Fs* h_fs, uint64_t service_chain,int packet_num)
 {
 
 
+	Pkt* pkts;
+	Fs* fs;
+	cudaHostGetDevicePointer((void **)&pkts, (void *)h_pkts, 0);
+	cudaHostGetDevicePointer((void **)&fs, (void *)h_fs, 0);
 	struct d_flow_actor_nfs  nfs;
 	Init_nfs(&nfs);
 	int chain_len=compute_service_chain_length(service_chain);
