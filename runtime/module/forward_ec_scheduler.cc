@@ -328,8 +328,8 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		struct timeval whole_end;
 		gettimeofday(&whole_end,0);
 
-		//long begin=whole_begin.tv_sec*1000000 + whole_begin.tv_usec;
-		//long end=whole_end.tv_sec*1000000 + whole_end.tv_usec;
+		long begin=whole_begin.tv_sec*1000000 + whole_begin.tv_usec;
+		long end=whole_end.tv_sec*1000000 + whole_end.tv_usec;
 	//	long begin1=dp_begin.tv_sec*1000000 + dp_begin.tv_usec;
 	//	long end1=dp_end.tv_sec*1000000 + dp_end.tv_usec;
 	//	long begin2=cp_begin.tv_sec*1000000 + cp_begin.tv_usec;
