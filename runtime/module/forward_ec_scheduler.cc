@@ -134,8 +134,8 @@ void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i){
 void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 	struct timeval whole_begin;
-	//struct timeval dp_end;
-	//struct timeval dp_begin;
+	struct timeval dp_end;
+	struct timeval dp_begin;
 	//struct timeval cp_end;
 	//struct timeval cp_begin;
 	struct timeval insert_end;
@@ -150,7 +150,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		counter=0;
 
 
-		//gettimeofday(&dp_begin,0);
+		gettimeofday(&dp_begin,0);
 		for(int loop=0;loop<PROCESS_TIME;loop++){
 		  bess::PacketBatch *batch =&(RECVPacketBatches[loop]);
 		  dp_pkt_batch.clear();
@@ -227,7 +227,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		  SENDPacketBatches[loop].Copy(&(coordinator_actor_->ec_scheduler_batch_));
 		}
 
-		//gettimeofday(&dp_end,0);
+		gettimeofday(&dp_end,0);
 
 		long time1=0;
 	  if(coordinator_actor_->service_chain_.empty()==false){
@@ -348,14 +348,14 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 		long begin=whole_begin.tv_sec*1000000 + whole_begin.tv_usec;
 		long end=whole_end.tv_sec*1000000 + whole_end.tv_usec;
-	//	long begin1=dp_begin.tv_sec*1000000 + dp_begin.tv_usec;
-	//	long end1=dp_end.tv_sec*1000000 + dp_end.tv_usec;
+		long begin1=dp_begin.tv_sec*1000000 + dp_begin.tv_usec;
+		long end1=dp_end.tv_sec*1000000 + dp_end.tv_usec;
 	//	long begin2=cp_begin.tv_sec*1000000 + cp_begin.tv_usec;
 		//long end2=cp_end.tv_sec*1000000 + cp_end.tv_usec;
 	//	long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
 	//	long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
 		//printf("total time: %ld, dp_time: %ld, cp_time: %ld, insert_time:%ld \n,",end-begin,end1-begin1,end2-begin2,end3-begin3);
-		printf("total time: %ld,insert_time:%ld \n,",end-begin,time1);
+		printf("total time: %ld,insert_time:%ld dp-time： %ld\n,",end-begin,time1,end1-begin1);
 	}
 
 
