@@ -253,9 +253,9 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 				  gettimeofday(&insert_begin,0);
 				  bess::Packet* it=it_actor->get_queue_ptr()->dequeue();
-				  gettimeofday(&insert_end,0);
-				  Pkt_insert(coordinator_actor_->pkts,it,pos);
 
+				  Pkt_insert(coordinator_actor_->pkts,it,pos);
+				  gettimeofday(&insert_end,0);
 				long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
 				long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
 				time1+=end3-begin3;
