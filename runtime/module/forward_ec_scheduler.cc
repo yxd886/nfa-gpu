@@ -261,13 +261,13 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 				//		i+=bess::PacketBatch::kMaxBurst;
 				//	}
 
-					char* dst=coordinator_actor_->pkts[i+times*bess::PacketBatch::kMaxBurst].pkt;
-					char* src=it->head_data<char*>();
-					memcpy(dst,src,it->total_len());
+					//char* dst=coordinator_actor_->pkts[i+times*bess::PacketBatch::kMaxBurst].pkt;
+					//char* src=it->head_data<char*>();
+				//	memcpy(dst,src,it->total_len());
 
 					//Format(src,&(coordinator_actor_->pkts[i+times*bess::PacketBatch::kMaxBurst].headinfo));
 
-				//	coordinator_actor_->pkts[i+times*bess::PacketBatch::kMaxBurst].full=1;
+					coordinator_actor_->local_pkts[i+times*bess::PacketBatch::kMaxBurst].full=1;
 
 				  gettimeofday(&insert_end,0);
 				long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
