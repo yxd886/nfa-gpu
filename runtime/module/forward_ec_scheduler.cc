@@ -110,6 +110,7 @@ void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i){
 	//gettimeofday(&whole_end,0);
 	for(int j=0;j<i;j++){
 	  flow_actor** actor_ptr=coordinator_actor->actorid_htable_.Get(&(fs[j].actor_id_64));
+	  if(unlikely(actor_ptr==nullptr)) continue;
 	  flow_actor* actor=*actor_ptr;
 	  Fs_copyback(&(fs[j]),actor);
 	}
