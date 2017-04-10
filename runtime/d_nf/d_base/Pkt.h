@@ -55,7 +55,7 @@ struct d_headinfo{
 
 
 struct  Pkt{
-	char full;
+	uint64_t full;
 	char pad1;
 	char pad2;
 	char pad3;
