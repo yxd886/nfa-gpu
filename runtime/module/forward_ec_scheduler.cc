@@ -130,14 +130,14 @@ void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i){
 
 void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
-	//struct timeval whole_begin;
+	struct timeval whole_begin;
 	//struct timeval dp_end;
 	//struct timeval dp_begin;
 	//struct timeval cp_end;
 	//struct timeval cp_begin;
-	//struct timeval insert_end;
-	//struct timeval insert_begin;
-	//gettimeofday(&whole_begin,0);
+	struct timeval insert_end;
+	struct timeval insert_begin;
+	gettimeofday(&whole_begin,0);
 	RECVPacketBatches[counter].Copy(bat);
 	counter++;
 	if(counter!=PROCESS_TIME){
@@ -237,6 +237,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		 // cudaMallocManaged(&fs, bess::PacketBatch::kMaxBurst * sizeof(Fs));
 		  //gettimeofday(&insert_begin,0);
 		  int pos;
+		  long time=0;
 
 		  int size=coordinator_actor_->have_packet_flows_rrlist_.get_size();
 		  while(pos<size){
@@ -249,7 +250,14 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 			  while(it_actor->get_queue_ptr()->empty()!=true){
 
+				  gettimeofday(&insert_begin,0);
 				  Pkt_insert(coordinator_actor_->pkts,it_actor->get_queue_ptr()->dequeue(),pos);
+				  gettimeofday(&insert_end,0);
+				long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
+				long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
+				time+=end3-begin3;
+
+
 				  Fs_copy(&(coordinator_actor_->fs[pos]),it_actor);
 
 			  }
@@ -314,11 +322,11 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		clean_batches(SENDPacketBatches);
 		clean_batches(RECVPacketBatches);
 
-		//struct timeval whole_end;
-		//gettimeofday(&whole_end,0);
+		struct timeval whole_end;
+		gettimeofday(&whole_end,0);
 
-		//long begin=whole_begin.tv_sec*1000000 + whole_begin.tv_usec;
-		//long end=whole_end.tv_sec*1000000 + whole_end.tv_usec;
+		long begin=whole_begin.tv_sec*1000000 + whole_begin.tv_usec;
+		long end=whole_end.tv_sec*1000000 + whole_end.tv_usec;
 	//	long begin1=dp_begin.tv_sec*1000000 + dp_begin.tv_usec;
 	//	long end1=dp_end.tv_sec*1000000 + dp_end.tv_usec;
 	//	long begin2=cp_begin.tv_sec*1000000 + cp_begin.tv_usec;
@@ -326,7 +334,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 	//	long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
 	//	long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
 		//printf("total time: %ld, dp_time: %ld, cp_time: %ld, insert_time:%ld \n,",end-begin,end1-begin1,end2-begin2,end3-begin3);
-
+		printf("total time: %ld,insert_time:%ld \n,",end-begin,time);
 	}
 
 
