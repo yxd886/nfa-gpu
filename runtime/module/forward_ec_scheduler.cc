@@ -66,17 +66,17 @@ void Format(char* packet,struct d_headinfo* hd){
 
 void Pkt_insert(coordinator* coordinator_,bess::Packet* bess_pkt,int i){
 
-/*	while(coordinator_->pkts[i].full==1){
+	while(coordinator_->pkts[i].full==1){
 		i+=bess::PacketBatch::kMaxBurst;
-	}*/
+	}
 	char* dst=coordinator_->pkts[i].pkt;
 	char* src=bess_pkt->head_data<char*>();
 	memcpy(dst,src,bess_pkt->total_len());
 
 	Format(src,&(coordinator_->pkts[i].headinfo));
-/*
+
 	coordinator_->pkts[i].full=1;
-*/
+
 }
 
 void Fs_copy(struct Fs* Fs,flow_actor* flow_actor){
@@ -253,7 +253,17 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 				  gettimeofday(&insert_begin,0);
 				  bess::Packet* it=it_actor->get_queue_ptr()->dequeue();
 
-				  Pkt_insert(coordinator_actor_,it,pos);
+				  //Pkt_insert(coordinator_actor_,it,pos);
+				  int i=pos;
+
+					while(coordinator_->pkts[i].full==1){
+						i+=bess::PacketBatch::kMaxBurst;
+					}
+					char* dst=coordinator_->pkts[i].pkt;
+					char* src=it->head_data<char*>();
+					memcpy(dst,src,it->total_len());
+					Format(src,&(coordinator_->pkts[i].headinfo));
+					coordinator_->pkts[i].full=1;
 				  gettimeofday(&insert_end,0);
 				long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
 				long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
