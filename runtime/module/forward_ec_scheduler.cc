@@ -256,14 +256,14 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 				  //Pkt_insert(coordinator_actor_,it,pos);
 				  int i=pos;
 
-					while(coordinator_->pkts[i].full==1){
+					while(coordinator_actor_->pkts[i].full==1){
 						i+=bess::PacketBatch::kMaxBurst;
 					}
-					char* dst=coordinator_->pkts[i].pkt;
+					char* dst=coordinator_actor_->pkts[i].pkt;
 					char* src=it->head_data<char*>();
 					memcpy(dst,src,it->total_len());
-					Format(src,&(coordinator_->pkts[i].headinfo));
-					coordinator_->pkts[i].full=1;
+					Format(src,&(coordinator_actor_->pkts[i].headinfo));
+					coordinator_actor_->pkts[i].full=1;
 				  gettimeofday(&insert_end,0);
 				long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
 				long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
