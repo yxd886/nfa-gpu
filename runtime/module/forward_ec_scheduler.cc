@@ -226,7 +226,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 		//gettimeofday(&dp_end,0);
 
-
+		long time1=0;
 	  if(coordinator_actor_->service_chain_.empty()==false){
 		  //counter++;
 
@@ -237,7 +237,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		 // cudaMallocManaged(&fs, bess::PacketBatch::kMaxBurst * sizeof(Fs));
 		  //gettimeofday(&insert_begin,0);
 		  int pos;
-		  long time=0;
+
 
 		  int size=coordinator_actor_->have_packet_flows_rrlist_.get_size();
 		  while(pos<size){
@@ -255,7 +255,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 				  gettimeofday(&insert_end,0);
 				long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
 				long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
-				time+=end3-begin3;
+				time1+=end3-begin3;
 
 
 				  Fs_copy(&(coordinator_actor_->fs[pos]),it_actor);
@@ -334,7 +334,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 	//	long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
 	//	long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
 		//printf("total time: %ld, dp_time: %ld, cp_time: %ld, insert_time:%ld \n,",end-begin,end1-begin1,end2-begin2,end3-begin3);
-		printf("total time: %ld,insert_time:%ld \n,",end-begin,time);
+		printf("total time: %ld,insert_time:%ld \n,",end-begin,time1);
 	}
 
 
