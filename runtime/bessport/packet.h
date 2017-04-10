@@ -436,7 +436,7 @@ class PacketQueue {
 
   bool full() { return (cnt_ == kMaxBurst); }
 
-  static const size_t kMaxBurst = 3200;
+  static const size_t kMaxBurst = 1600;
 
  private:
   int cnt_;
