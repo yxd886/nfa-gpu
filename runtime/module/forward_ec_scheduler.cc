@@ -256,9 +256,9 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 				  //Pkt_insert(coordinator_actor_,it,pos);
 				  int i=pos;
-					while(coordinator_actor_->pkts[i].full==1){
-						i+=bess::PacketBatch::kMaxBurst;
-					}
+				//	while(coordinator_actor_->pkts[i].full==1){
+				//		i+=bess::PacketBatch::kMaxBurst;
+				//	}
 					char* dst=coordinator_actor_->pkts[i].pkt;
 					char* src=it->head_data<char*>();
 					//memcpy(dst,src,it->total_len());
