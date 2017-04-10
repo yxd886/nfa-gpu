@@ -64,18 +64,18 @@ void Format(char* packet,struct d_headinfo* hd){
 }
 
 
-void Pkt_insert(coordinator* coordinator_,bess::Packet* bess_pkt,int i){
+void Pkt_insert(coordinator* coordinator_,bess::Packet* bess_pkt,int i,int times){
 
-	while(coordinator_->pkts[i].full==1){
-		i+=bess::PacketBatch::kMaxBurst;
-	}
-	char* dst=coordinator_->pkts[i].pkt;
+	//while(coordinator_->pkts[i].full==1){
+	//	i+=bess::PacketBatch::kMaxBurst;
+	//}
+	char* dst=coordinator_->pkts[i+times*bess::PacketBatch::kMaxBurst].pkt;
 	char* src=bess_pkt->head_data<char*>();
 	memcpy(dst,src,bess_pkt->total_len());
 
-	Format(src,&(coordinator_->pkts[i].headinfo));
+	Format(src,&(coordinator_->pkts[i+times*bess::PacketBatch::kMaxBurst].headinfo));
 
-	coordinator_->pkts[i].full=1;
+	coordinator_->pkts[i+times*bess::PacketBatch::kMaxBurst].full=1;
 
 }
 
@@ -249,23 +249,25 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 			 // coordinator_actor_->have_packet_flows_rrlist_.pop_head();
 			  //LOG(INFO)<<"POP OK";
 			  it_actor->set_in_have_packet_rrlist(0);
+			  int times=0;
 			  while(it_actor->get_queue_ptr()->empty()!=true){
 
 				  gettimeofday(&insert_begin,0);
 				  bess::Packet* it=it_actor->get_queue_ptr()->dequeue();
 
-				  //Pkt_insert(coordinator_actor_,it,pos);
+				  //Pkt_insert(coordinator_actor_,it,pos,times);
 				  int i=pos;
 				//	while(coordinator_actor_->pkts[i].full==1){
 				//		i+=bess::PacketBatch::kMaxBurst;
 				//	}
-					char* dst=coordinator_actor_->pkts[i].pkt;
+
+					char* dst=coordinator_actor_->pkts[i+times*bess::PacketBatch::kMaxBurst].pkt;
 					char* src=it->head_data<char*>();
 					//memcpy(dst,src,it->total_len());
 
-					//Format(src,&(coordinator_actor_->pkts[i].headinfo));
+					//Format(src,&(coordinator_actor_->pkts[i+times*bess::PacketBatch::kMaxBurst].headinfo));
 
-					coordinator_actor_->pkts[i].full=1;
+					coordinator_actor_->pkts[i+times*bess::PacketBatch::kMaxBurst].full=1;
 
 				  gettimeofday(&insert_end,0);
 				long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
