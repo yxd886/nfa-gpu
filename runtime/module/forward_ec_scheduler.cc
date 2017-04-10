@@ -74,9 +74,9 @@ void Pkt_insert(coordinator* coordinator_,bess::Packet* bess_pkt,int i){
 	memcpy(dst,src,bess_pkt->total_len());
 
 	Format(src,&(coordinator_->pkts[i].headinfo));
-
-	coordinator_->pkts[i].full=1;
 */
+	coordinator_->pkts[i].full=1;
+
 }
 
 void Fs_copy(struct Fs* Fs,flow_actor* flow_actor){
