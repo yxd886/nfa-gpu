@@ -238,7 +238,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		 // struct Fs *fs;
 		 // cudaMallocManaged(&pkts, bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst * sizeof(Pkt));
 		 // cudaMallocManaged(&fs, bess::PacketBatch::kMaxBurst * sizeof(Fs));
-		  //gettimeofday(&insert_begin,0);
+		  gettimeofday(&insert_begin,0);
 		  int pos;
 
 
@@ -253,7 +253,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 			  int times=0;
 			  while(it_actor->get_queue_ptr()->empty()!=true){
 
-				  gettimeofday(&insert_begin,0);
+
 				  bess::Packet* it=it_actor->get_queue_ptr()->dequeue();
 
 				  //Pkt_insert(coordinator_actor_,it,pos,times);
@@ -270,12 +270,6 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 					coordinator_actor_->pkts[i+times*bess::PacketBatch::kMaxBurst].full=1;
 
-
-					 gettimeofday(&insert_end,0);
-
-					long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
-					long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
-					time1+=end3-begin3;
 				  Fs_copy(&(coordinator_actor_->fs[pos]),it_actor);
 
 			  }
@@ -285,7 +279,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 			 //std::thread gpu_thread(GPU_thread,coordinator_actor_,pkts,fs,i);
 		  //PacketBatches[counter-1].Copy(&(coordinator_actor_->ec_scheduler_batch_));
-		  //gettimeofday(&insert_end,0);
+		  gettimeofday(&insert_end,0);
 
 		 // memcpy(coordinator_actor_->pkts,coordinator_actor_->local_pkts,PROCESS_TIME*PROCESS_TIME*bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst * sizeof(Pkt));
 
@@ -352,10 +346,10 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		long end1=dp_end.tv_sec*1000000 + dp_end.tv_usec;
 	//	long begin2=cp_begin.tv_sec*1000000 + cp_begin.tv_usec;
 		//long end2=cp_end.tv_sec*1000000 + cp_end.tv_usec;
-	//	long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
-	//	long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
+		long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
+		long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
 		//printf("total time: %ld, dp_time: %ld, cp_time: %ld, insert_time:%ld \n,",end-begin,end1-begin1,end2-begin2,end3-begin3);
-		printf("total time: %ld,insert_time:%ld dp-time： %ld\n,",end-begin,time1,end1-begin1);
+		printf("total time: %ld,insert_time:%ld dp_time：%ld, insert_time: %ld\n,",end-begin,time1,end1-begin1,end3-begin3);
 	}
 
 
