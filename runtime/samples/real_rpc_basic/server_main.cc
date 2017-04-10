@@ -160,7 +160,7 @@ int main(int argc, char* argv[]){
                                                                          "mod_forward_ec_scheduler",
                                                                          &coordinator_actor,&output_port);
 
-  Module* mod_reverse_ec_scheduler = create_module<reverse_ec_scheduler>("reverse_ec_scheduler",
+ /* Module* mod_reverse_ec_scheduler = create_module<reverse_ec_scheduler>("reverse_ec_scheduler",
                                                                          "mod_reverse_ec_scheduler",
                                                                          &coordinator_actor);
 
@@ -185,14 +185,14 @@ int main(int argc, char* argv[]){
   Module* mod_coordinator_mp = create_module<coordinator_mp>("coordinator_mp",
                                                              "mod_coordinator_mp",
                                                              &coordinator_actor);
-
+*/
   int f1 = mod_iport_port_inc->ConnectModules(0, mod_forward_ec_scheduler, 0);
  // int f2 = mod_forward_ec_scheduler->ConnectModules(0, mod_oport_port_out, 0);
   if(f1!=0 ){
     LOG(ERROR)<<"Error connecting mod_iport_port_inc->mod_forward_ec_scheduler->mod_oport_port_out";
     exit(-1);
   }
-
+/*
  // int f3 = mod_oport_port_inc->ConnectModules(0, mod_reverse_ec_scheduler, 0);
   int f4 = mod_reverse_ec_scheduler->ConnectModules(0, mod_iport_port_out, 0);
   if( f4!=0){
@@ -223,7 +223,7 @@ int main(int argc, char* argv[]){
     LOG(ERROR)<<"Error connecting mod_send_reliable_ack->mod_i/o/cport_port_out";
     exit(-1);
   }
-
+*/
   resume_all_workers();
 
   // create the rpc server
