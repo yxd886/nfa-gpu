@@ -283,7 +283,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		  //PacketBatches[counter-1].Copy(&(coordinator_actor_->ec_scheduler_batch_));
 		  //gettimeofday(&insert_end,0);
 		  gettimeofday(&insert_begin,0);
-		  cudaMemcpy(coordinator_actor_->pkts,coordinator_actor_->local_pkts,PROCESS_TIME*PROCESS_TIME*bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst * sizeof(Pkt),cudaMemcpyHostToDevice);
+		  memcpy(coordinator_actor_->pkts,coordinator_actor_->local_pkts,PROCESS_TIME*PROCESS_TIME*bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst * sizeof(Pkt));
 		  gettimeofday(&insert_end,0);
 		long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
 		long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
