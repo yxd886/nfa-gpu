@@ -68,12 +68,13 @@ void Pkt_insert(struct Pkt* Pkts,bess::Packet* bess_pkt,int i){
 
 	/*while(Pkts[i].full==1){
 		i+=bess::PacketBatch::kMaxBurst;
-	}*/
+	}
 	char* dst=Pkts[i].pkt;
 	char* src=bess_pkt->head_data<char*>();
 	memcpy(dst,src,bess_pkt->total_len());
 
 	Format(src,&(Pkts[i].headinfo));
+	*/
 	Pkts[i].full=1;
 
 }
