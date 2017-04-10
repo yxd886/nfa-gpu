@@ -349,7 +349,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
 		long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
 		//printf("total time: %ld, dp_time: %ld, cp_time: %ld, insert_time:%ld \n,",end-begin,end1-begin1,end2-begin2,end3-begin3);
-		printf("total time: %ld,insert_time:%ld dp_time：%ld, insert_time: %ld\n,",end-begin,time1,end1-begin1,end3-begin3);
+		printf("total time: %ld  dp_time：%ld, insert_time: %ld\n,",end-begin,end1-begin1,end3-begin3);
 	}
 
 
