@@ -391,8 +391,8 @@ int Packet::Alloc(Packet **pkts, size_t cnt, uint16_t len) {
 
 void Packet::Free(Packet **pkts, int cnt) {
 
-  for (int i = 0; i < cnt; i++)
-    Free(pkts[i]);
+	struct rte_mempool *pool = pkts[0]->pool_;
+	rte_mempool_put_bulk(pool, reinterpret_cast<void **>(pkts), cnt);
 }
 #endif
 
