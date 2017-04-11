@@ -2,13 +2,15 @@
 MAKEFLAGS += --no-builtin-rules
 .SUFFIXES: ;
 
-CXX =/usr/local/cuda-8.0/bin/nvcc
+CXX =g++
+CUCXX =/usr/local/cuda-8.0/bin/nvcc
 PROTOC ?= protoc
 
 VERBOSE ?= 1
 
 DEPDIR ?= .deps
-DEPFLAGS = -MT $@ -Xcompiler -MMD,-MP,-MF$(DEPDIR)/$(@:.o=.d)
+DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$(@:.o=.d)
+CUDEPFLAGS = -MT $@ -Xcompiler -MMD,-MP,-MF$(DEPDIR)/$(@:.o=.d)
 $(shell mkdir -p $(DEPDIR) >/dev/null)
 $(shell mkdir -p $(DEPDIR)/bessport >/dev/null)
 $(shell mkdir -p $(DEPDIR)/bessport/utils >/dev/null)
@@ -69,8 +71,9 @@ CUDA_INC_DIR= cudaport/inc
 
 PROTOCXXFLAGS = -Xcompiler -std=gnu++11,-O0,-Wno-unused-parameter
 
-CXXFLAGS += -ccbin g++ -Xcompiler -std=gnu++11,-g3,-ggdb3,-Ofast,-march=native,\
-	    -isystem $(DPDK_INC_DIR), -isystem $(CUDA_INC_DIR),-D_GNU_SOURCE,-Wall,-rdynamic,-Wextra,-Wcast-align,-Wno-unused-parameter
+CXXFLAGS += -std=gnu++11 -g3 -ggdb3 -Ofast -march=native \
+	    -isystem $(DPDK_INC_DIR) -isystem cudaport/inc -D_GNU_SOURCE \
+	    -Wall -Wextra -Wcast-align -Wno-unused-parameter
 	    
 CUDAFLAGS += -ccbin g++ -m 64 -Icudaport/inc  -I$(DPDK_INC_DIR) -std=c++11 -Xcompiler -g3,-ggdb3,-Ofast,-march=native,-Wall,-Wextra,-Wcast-align,-Wno-unused-parameter
 
@@ -222,7 +225,7 @@ $(eval $(call BUILD, \
 	CUDACXX, \
 	%.o, \
 	%.cu $(PROTO_HEADERS) $(DEPDIR)/$$@.d, \
-	$$(CXX) -o $$@ -c $$< $$(CUDAFLAGS) $$(DEPFLAGS)))
+	$$(CUCXX) -o $$@ -c $$< $$(CUDAFLAGS) $$(CUDEPFLAGS)))
 	
 $(eval $(call BUILD, \
 	TEST_CXX, \
@@ -256,67 +259,67 @@ $(eval $(call BUILD, \
 	LD, \
 	$$(NFA_RPC_CLIENT_EXEC), \
 	$$(NFA_RPC_CLIENT_OBJS), \
-	$$(CXX) -o $$@ $$^ $$(LDFLAGS) $$(LIBS)))
+	$$(CUCXX) -o $$@ $$^ $$(LDFLAGS) $$(LIBS)))
 	
 $(eval $(call BUILD, \
 	LD, \
 	$$(MODULE_BASIC_EXEC), \
 	$$(MODULE_BASIC_OBJS), \
-	$$(CXX) -o $$@ $$^ $$(LDFLAGS) $$(LIBS)))
+	$$(CUCXX) -o $$@ $$^ $$(LDFLAGS) $$(LIBS)))
 	
 $(eval $(call BUILD, \
 	LD, \
 	$$(REAL_RPC_BASIC_MAIN_EXEC), \
 	$$(REAL_RPC_BASIC_MAIN_OJBS), \
-	$$(CXX) -o $$@ $$^ $$(LDFLAGS) $$(LIBS)))
+	$$(CUCXX) -o $$@ $$^ $$(LDFLAGS) $$(LIBS)))
 	
 $(eval $(call BUILD, \
 	LD, \
 	$$(MIGRATION_START_EXEC), \
 	$$(MIGRATION_START_OBJS), \
-	$$(CXX) -o $$@ $$^ $$(LDFLAGS) $$(LIBS)))
+	$$(CUCXX) -o $$@ $$^ $$(LDFLAGS) $$(LIBS)))
 		
 $(eval $(call BUILD, \
 	LD, \
 	$$(REPLICATION_START_EXEC), \
 	$$(REPLICATION_START_OBJS), \
-	$$(CXX) -o $$@ $$^ $$(LDFLAGS) $$(LIBS)))
+	$$(CUCXX) -o $$@ $$^ $$(LDFLAGS) $$(LIBS)))
 	
 $(eval $(call BUILD, \
 	LD, \
 	$$(RECOVER_START_EXEC), \
 	$$(RECOVER_START_OBJS), \
-	$$(CXX) -o $$@ $$^ $$(LDFLAGS) $$(LIBS)))
+	$$(CUCXX) -o $$@ $$^ $$(LDFLAGS) $$(LIBS)))
 	
 $(eval $(call BUILD, \
 	LD, \
 	$$(M_INIT_EXEC), \
 	$$(M_INIT_OBJS), \
-	$$(CXX) -o $$@ $$^ $$(LDFLAGS) $$(LIBS)))
+	$$(CUCXX) -o $$@ $$^ $$(LDFLAGS) $$(LIBS)))
 	
 $(eval $(call BUILD, \
 	LD, \
 	$$(M_START_EXEC), \
 	$$(M_START_OBJS), \
-	$$(CXX) -o $$@ $$^ $$(LDFLAGS) $$(LIBS)))
+	$$(CUCXX) -o $$@ $$^ $$(LDFLAGS) $$(LIBS)))
 	
 $(eval $(call BUILD, \
 	LD, \
 	$$(R_INIT_EXEC), \
 	$$(R_INIT_OBJS), \
-	$$(CXX) -o $$@ $$^ $$(LDFLAGS) $$(LIBS)))
+	$$(CUCXX) -o $$@ $$^ $$(LDFLAGS) $$(LIBS)))
 	
 $(eval $(call BUILD, \
 	LD, \
 	$$(R_START_EXEC), \
 	$$(R_START_OBJS), \
-	$$(CXX) -o $$@ $$^ $$(LDFLAGS) $$(LIBS)))
+	$$(CUCXX) -o $$@ $$^ $$(LDFLAGS) $$(LIBS)))
 	
 $(eval $(call BUILD, \
 	LD, \
 	$$(R_RECOVER_EXEC), \
 	$$(R_RECOVER_OBJS), \
-	$$(CXX) -o $$@ $$^ $$(LDFLAGS) $$(LIBS)))
+	$$(CUCXX) -o $$@ $$^ $$(LDFLAGS) $$(LIBS)))
 
 %.d: ;
 
