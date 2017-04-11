@@ -315,7 +315,7 @@ void flow_actor::pkt_normal_nf_processing(bess::Packet* pkt){
   if(service_chain_length_!=0){
 
 	  pkt_que.push(pkt);
-	  printf("queue_size: %d",pkt_que.size());
+	 // printf("queue_size: %d",pkt_que.size());
 
   }
   if(in_have_packet_rrlist!=1){
