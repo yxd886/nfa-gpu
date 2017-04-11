@@ -403,9 +403,9 @@ void Packet::Free(Packet **pkts, int cnt) {
 class PacketQueue {
  public:
 
-  PacketQueue():cnt_(0),head(0),tail(0){
+ // PacketQueue():cnt_(0),head(0),tail(0){
 
-  }
+//  }
   int cnt() const { return cnt_; }
   void clear() {
 	  cnt_ = 0;

@@ -82,6 +82,7 @@ void flow_actor::handle_message(flow_actor_init_with_pkt_t,
                                                 idle_message_id,
                                                 static_cast<uint16_t>(flow_actor_messages::check_idle));
 */
+  pkt_que.clear();
   cdlist_head_init(&buffer_head_);
 }
 
