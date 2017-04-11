@@ -69,7 +69,7 @@ endif
 
 CUDA_INC_DIR= cudaport/inc
 
-PROTOCXXFLAGS = -Xcompiler -std=gnu++11,-O0,-Wno-unused-parameter
+PROTOCXXFLAGS = -std=gnu++11 -O0 -Wno-unused-parameter
 
 CXXFLAGS += -std=gnu++11 -g3 -ggdb3 -Ofast -march=native \
 	    -isystem $(DPDK_INC_DIR) -isystem cudaport/inc -D_GNU_SOURCE \
