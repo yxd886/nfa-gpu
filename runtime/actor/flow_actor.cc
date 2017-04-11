@@ -83,7 +83,7 @@ void flow_actor::handle_message(flow_actor_init_with_pkt_t,
                                                 static_cast<uint16_t>(flow_actor_messages::check_idle));
 */
   //pkt_que.clear();
-  pkt_que=std::queue();
+  pkt_que=std::queue<bess::Packet*>();
   cdlist_head_init(&buffer_head_);
 }
 
