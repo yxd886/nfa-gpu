@@ -227,11 +227,14 @@ int main(int argc, char* argv[]){
   resume_all_workers();
 
   // create the rpc server
-  LOG(INFO)<<"Prepare server";
+  /*LOG(INFO)<<"Prepare server";
   ServerImpl rpc_server(communication_ring.rpc2worker_ring(), communication_ring.worker2rpc_ring());
   rpc_server.Run(FLAGS_rpc_ip, FLAGS_rpc_port);
   rpc_server.HandleRpcs();
+*/
+  while(1){
 
+  }
 
 }
 
