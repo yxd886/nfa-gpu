@@ -59,7 +59,7 @@ struct  Pkt{
 	char pad1;
 	char pad2;
 	char pad3;
-	uint64_t pad4;
+	uint64_t flow_id;
 	uint64_t pad5;
 	struct d_headinfo headinfo;
 

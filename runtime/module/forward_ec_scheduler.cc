@@ -101,11 +101,11 @@ void Fs_copyback(struct Fs* Fs,flow_actor* flow_actor){
 
 }
 
-void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i){
+void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i, int* flow_size,int *flow_pos){
 
 	struct timeval whole_begin;
 	gettimeofday(&whole_begin,0);
-	gpu_nf_process(pkts,fs,coordinator_actor->get_service_chain(),bess::PacketBatch::kMaxBurst*PROCESS_TIME);
+	gpu_nf_process(pkts,fs,coordinator_actor->get_service_chain(),i,flow_size,flow_pos);
 	struct timeval whole_end;
 
 	for(int j=0;j<i;j++){
@@ -243,6 +243,9 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 
 		  int size=coordinator_actor_->have_packet_flows_rrlist_.get_size();
+
+		  memset(coordinator_actor_->flow_pos,0,sizeof(int)*PROCESS_TIME*bess::PacketBatch::kMaxBurst);
+		  memset(coordinator_actor_->flow_size,0,sizeof(int)*PROCESS_TIME*bess::PacketBatch::kMaxBurst);
 		  while(pos<size){
 
 			  it_actor=coordinator_actor_->have_packet_flows_rrlist_.pop_head();
@@ -251,9 +254,13 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 			  //LOG(INFO)<<"POP OK";
 			  it_actor->set_in_have_packet_rrlist(0);
 			  int times=0;
+			  coordinator_actor_->flow_size[pos]=it_actor->get_queue_ptr()->cnt();
+			  if(pos==0){
+				  coordinator_actor_->flow_pos[pos]=0;
+			  }else{
+				  coordinator_actor_->flow_pos[pos]= coordinator_actor_->flow_pos[pos-1]+coordinator_actor_->flow_size[pos-1];
+			  }
 			  while(it_actor->get_queue_ptr()->empty()!=true){
-
-
 				  bess::Packet* it=it_actor->get_queue_ptr()->dequeue();
 
 				  //Pkt_insert(coordinator_actor_,it,pos,times);
@@ -262,15 +269,17 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 				//		i+=bess::PacketBatch::kMaxBurst;
 				//	}
 
-					char* dst=coordinator_actor_->pkts[i+times*bess::PacketBatch::kMaxBurst].pkt;
+					char* dst=coordinator_actor_->pkts[ coordinator_actor_->flow_pos[pos]+times].pkt;
 					char* src=it->head_data<char*>();
 					memcpy(dst,src,it->total_len()<PKT_SIZE?it->total_len():PKT_SIZE);
 
-					Format(src,&(coordinator_actor_->pkts[i+times*bess::PacketBatch::kMaxBurst].headinfo));
+					Format(src,&(coordinator_actor_->pkts[coordinator_actor_->flow_pos[pos]+times].headinfo));
 
-					coordinator_actor_->pkts[i+times*bess::PacketBatch::kMaxBurst].full=1;
+					//coordinator_actor_->pkts[coordinator_actor_->flow_pos[pos]+times].full=1;
+					coordinator_actor_->pkts[coordinator_actor_->flow_pos[pos]+times].flow_id=pos;
 
 				  Fs_copy(&(coordinator_actor_->fs[pos]),it_actor);
+				  times++;
 
 			  }
 			  pos++;
@@ -283,7 +292,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 		 // memcpy(coordinator_actor_->pkts,coordinator_actor_->local_pkts,PROCESS_TIME*PROCESS_TIME*bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst * sizeof(Pkt));
 
-		  GPU_thread(coordinator_actor_,coordinator_actor_->pkts,coordinator_actor_->fs,pos);
+		  GPU_thread(coordinator_actor_,coordinator_actor_->pkts,coordinator_actor_->fs,pos,coordinator_actor_->flow_size,coordinator_actor_->flow_pos);
 			 //gpu_thread.join();
 	  }
 	  	gettimeofday(&cp_begin,0);

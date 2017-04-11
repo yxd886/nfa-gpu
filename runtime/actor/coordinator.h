@@ -76,6 +76,9 @@ public:
  // struct Pkt *local_pkts;
   //struct Fs *local_fs;
 
+  int * flow_size;
+  int * flow_pos;
+
 private:
   uint32_t next_msg_id_;
 
