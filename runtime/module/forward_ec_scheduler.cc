@@ -154,11 +154,12 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		for(int loop=0;loop<PROCESS_TIME;loop++){
 		  bess::PacketBatch *batch =&(RECVPacketBatches[loop]);
 		  dp_pkt_batch.clear();
+		  dp_pkt_batch.Copy(batch);
 		  //cp_pkt_batch.clear();
 		  coordinator_actor_->ec_scheduler_batch_.clear();
 		  char keys[bess::PacketBatch::kMaxBurst][flow_key_size] __ymm_aligned;
 
-		  for(int i=0; i<batch->cnt(); i++){
+		/*  for(int i=0; i<batch->cnt(); i++){
 			char* data_start = batch->pkts()[i]->head_data<char*>();
 
 			if(unlikely( ((*((uint16_t*)(data_start+14)) & 0x00f0) != 0x0040) ||
@@ -176,7 +177,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 			else{
 			  dp_pkt_batch.add(batch->pkts()[i]);
 			}
-		  }
+		  }*/
 
 		  for(int i=0; i<dp_pkt_batch.cnt(); i++){
 		    char* data_start = dp_pkt_batch.pkts()[i]->head_data<char*>();
@@ -201,16 +202,16 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		      else{
 		        // using a round rubin to choose replica
 		        // LOG(INFO)<<"Receive a flow and select a replica";
-		        generic_list_item* replica_item = coordinator_actor_->replicas_rrlist_.rotate();
+		     //   generic_list_item* replica_item = coordinator_actor_->replicas_rrlist_.rotate();
 
-		        coordinator_actor_->active_flows_rrlist_.add_to_tail(actor);
+		     //   coordinator_actor_->active_flows_rrlist_.add_to_tail(actor);
 
 		        send(actor, flow_actor_init_with_pkt_t::value,
 		             coordinator_actor_,
 		             reinterpret_cast<flow_key_t*>(keys[i]),
 		             coordinator_actor_->service_chain_,
 		             dp_pkt_batch.pkts()[i],
-		             replica_item);
+		             /*replica_item*/nullptr);
 		      }
 
 		      coordinator_actor_->htable_.Set(reinterpret_cast<flow_key_t*>(keys[i]), &actor);
