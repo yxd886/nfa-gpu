@@ -340,7 +340,8 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 			msg_ptr->clean(&(coordinator_actor_->gp_collector_));
 		  }
 
-			 send_batch(&(SENDPacketBatches[loop]),port_);
+		   fflush(stdout);
+		   send_batch(&(SENDPacketBatches[loop]),port_);
 		}
 		gettimeofday(&cp_end,0);
 
