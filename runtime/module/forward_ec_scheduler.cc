@@ -71,7 +71,7 @@ void Pkt_insert(coordinator* coordinator_,bess::Packet* bess_pkt,int i,int times
 	//}
 	char* dst=coordinator_->pkts[i+times*bess::PacketBatch::kMaxBurst].pkt;
 	char* src=bess_pkt->head_data<char*>();
-	memcpy(dst,src,it->total_len()<PKT_SIZE?it->total_len():PKT_SIZE);
+	memcpy(dst,src,bess_pkt->total_len()<PKT_SIZE?bess_pkt->total_len():PKT_SIZE);
 
 	Format(src,&(coordinator_->pkts[i+times*bess::PacketBatch::kMaxBurst].headinfo));
 
