@@ -3,7 +3,7 @@
 
 #ifndef PKT_H
 #define PKT_H
-#define PKT_SIZE 200
+#define PKT_SIZE 100
 #define PKT_NUM 320
 #define FS_STATE_MAX_SIZE 40
 #include <rte_config.h>
