@@ -88,7 +88,7 @@ coordinator::coordinator(llring_holder& holder){
   fs=(struct Fs*)malloc(PROCESS_TIME*bess::PacketBatch::kMaxBurst * sizeof(Fs));
   cudaHostRegister(pkts,PROCESS_TIME*bess::PacketBatch::kMaxBurst * sizeof(Pkt),cudaHostRegisterMapped);
   cudaHostRegister(fs,PROCESS_TIME*bess::PacketBatch::kMaxBurst * sizeof(Fs),cudaHostRegisterMapped);
-  Pkt_reset(pkts,PROCESS_TIME*PROCESS_TIME*bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst);
+  Pkt_reset(pkts,PROCESS_TIME*bess::PacketBatch::kMaxBurst);
 
   flow_size=(int*)malloc(PROCESS_TIME*bess::PacketBatch::kMaxBurst * sizeof(int));
   flow_pos=(int*)malloc(PROCESS_TIME*bess::PacketBatch::kMaxBurst * sizeof(int));
