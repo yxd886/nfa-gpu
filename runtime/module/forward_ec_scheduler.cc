@@ -246,6 +246,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 		  memset(coordinator_actor_->flow_pos,0,sizeof(int)*PROCESS_TIME*bess::PacketBatch::kMaxBurst);
 		  memset(coordinator_actor_->flow_size,0,sizeof(int)*PROCESS_TIME*bess::PacketBatch::kMaxBurst);
+		  gettimeofday(&insert_end,0);
 		  while(pos<size){
 
 			  it_actor=coordinator_actor_->have_packet_flows_rrlist_.pop_head();
@@ -288,7 +289,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 			 //std::thread gpu_thread(GPU_thread,coordinator_actor_,pkts,fs,i);
 		  //PacketBatches[counter-1].Copy(&(coordinator_actor_->ec_scheduler_batch_));
-		  gettimeofday(&insert_end,0);
+
 
 		 // memcpy(coordinator_actor_->pkts,coordinator_actor_->local_pkts,PROCESS_TIME*PROCESS_TIME*bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst * sizeof(Pkt));
 
