@@ -312,8 +312,9 @@ void flow_actor::pkt_normal_nf_processing(bess::Packet* pkt){
   }
   */
   if(service_chain_length_!=0){
-	  pkt_que.push(pkt);
 
+	  pkt_que.push(pkt);
+	  LOG(INFO)<<"queue_size: "<<pkt_que.size();
 
   }
   if(in_have_packet_rrlist!=1){
