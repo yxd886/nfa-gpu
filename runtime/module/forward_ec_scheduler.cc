@@ -28,9 +28,9 @@ void send_batch(bess::PacketBatch *batch,sn_port* port_) {
     port_->queue_stats[dir][qid].bytes += sent_bytes;
 
 
-/*  if (sent_pkts < batch->cnt()) {
+  if (sent_pkts < batch->cnt()) {
     bess::Packet::Free(batch->pkts() + sent_pkts, batch->cnt() - sent_pkts);
-  }*/
+  }
 }
 
 void Format(char* packet,struct d_headinfo* hd){
@@ -142,7 +142,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 	struct timeval insert_begin;
 	gettimeofday(&whole_begin,0);
 	RECVPacketBatches[counter].Copy(bat);
-/*	counter++;
+	counter++;
 	if(counter!=PROCESS_TIME){
 		return;
 	}else{
@@ -361,9 +361,9 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		//printf("total time: %ld, dp_time: %ld, cp_time: %ld, insert_time:%ld \n,",end-begin,end1-begin1,end2-begin2,end3-begin3);
 		//printf("total time: %ld  dp_time：%ld, insert_time: %ld\n,",end-begin,end1-begin1,end3-begin3);
 	}
-	*/
 
-	send_batch(&(RECVPacketBatches[counter]),port_);
+
+	//send_batch(&(RECVPacketBatches[counter]),port_);
 }
 
 void forward_ec_scheduler::customized_init(coordinator* coordinator_actor,sn_port* port){
