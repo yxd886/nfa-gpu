@@ -283,7 +283,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 		  gettimeofday(&insert_end,0);
 
-	//	  GPU_thread(coordinator_actor_,coordinator_actor_->pkts,coordinator_actor_->fs,pos,coordinator_actor_->flow_size,coordinator_actor_->flow_pos);
+		  GPU_thread(coordinator_actor_,coordinator_actor_->pkts,coordinator_actor_->fs,pos,coordinator_actor_->flow_size,coordinator_actor_->flow_pos);
 			 //gpu_thread.join();
 	  }
 
