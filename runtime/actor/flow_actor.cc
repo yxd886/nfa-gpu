@@ -20,7 +20,7 @@ void flow_actor::handle_message(flow_actor_init_with_pkt_t,
   sample_counter_ = 0;
   in_have_packet_rrlist=0;
 
-  if(replica_item!=nullptr){
+ /* if(replica_item!=nullptr){
     replication_state_ = have_replica;
     r_ = coordinator_actor_->reliables_.find(replica_item->replica_rtid_);
     r_->inc_ref_cnt();
@@ -30,7 +30,9 @@ void flow_actor::handle_message(flow_actor_init_with_pkt_t,
     replication_state_ = no_replica;
     // LOG(INFO)<<"No replica";
   }
-
+*/
+  replication_state_ = no_replica;
+/*
   int32_t input_rtid;
   uint64_t input_rt_output_mac =  (*(first_packet->head_data<uint64_t*>(6)) & 0x0000FFffFFffFFfflu);
   reliable_p2p** r_ptr = coordinator_actor->mac_to_reliables_.Get(&input_rt_output_mac);
@@ -41,7 +43,7 @@ void flow_actor::handle_message(flow_actor_init_with_pkt_t,
     input_rtid = (*r_ptr)->get_rt_config()->runtime_id;
   }
   input_header_.init(input_rtid, input_rt_output_mac, coordinator_actor->local_runtime_.input_port_mac);
-
+*/
   int32_t output_rtid;
   uint64_t output_rt_input_mac;
   generic_list_item* first_item = coordinator_actor->output_runtime_mac_rrlist_.rotate();
@@ -74,12 +76,12 @@ void flow_actor::handle_message(flow_actor_init_with_pkt_t,
     fs_.nf_flow_state_ptr[i] = fs_state_ptr;
     fs_size_.nf_flow_state_size[i] = service_chain[i]->get_nf_state_size();
   }
-
+/*
   coordinator_actor_->idle_flow_list_.add_timer(&idle_timer_,
                                                 ctx.current_ns(),
                                                 idle_message_id,
                                                 static_cast<uint16_t>(flow_actor_messages::check_idle));
-
+*/
   cdlist_head_init(&buffer_head_);
 }
 
