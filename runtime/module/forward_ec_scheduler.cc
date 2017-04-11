@@ -243,7 +243,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 
 		  int size=coordinator_actor_->have_packet_flows_rrlist_.get_size();
-		  gettimeofday(&insert_end,0);
+
 		  memset(coordinator_actor_->flow_pos,0,sizeof(int)*PROCESS_TIME*bess::PacketBatch::kMaxBurst);
 		  memset(coordinator_actor_->flow_size,0,sizeof(int)*PROCESS_TIME*bess::PacketBatch::kMaxBurst);
 
@@ -290,7 +290,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 			 //std::thread gpu_thread(GPU_thread,coordinator_actor_,pkts,fs,i);
 		  //PacketBatches[counter-1].Copy(&(coordinator_actor_->ec_scheduler_batch_));
 
-
+		  gettimeofday(&insert_end,0);
 		 // memcpy(coordinator_actor_->pkts,coordinator_actor_->local_pkts,PROCESS_TIME*PROCESS_TIME*bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst * sizeof(Pkt));
 
 		  GPU_thread(coordinator_actor_,coordinator_actor_->pkts,coordinator_actor_->fs,pos,coordinator_actor_->flow_size,coordinator_actor_->flow_pos);
@@ -356,10 +356,10 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		long end1=dp_end.tv_sec*1000000 + dp_end.tv_usec;
 		long begin2=cp_begin.tv_sec*1000000 + cp_begin.tv_usec;
 		long end2=cp_end.tv_sec*1000000 + cp_end.tv_usec;
-		//long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
-		//long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
-		//printf("total time: %ld, dp_time: %ld, cp_time: %ld, insert_time:%ld \n,",end-begin,end1-begin1,end2-begin2,end3-begin3);
-		//printf("total time: %ld  dp_time：%ld, insert_time: %ld\n,",end-begin,end1-begin1,end3-begin3);
+		long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
+		long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
+		printf("total time: %ld, dp_time: %ld, cp_time: %ld, insert_time:%ld \n,",end-begin,end1-begin1,end2-begin2,end3-begin3);
+		printf("total time: %ld  dp_time：%ld, insert_time: %ld\n,",end-begin,end1-begin1,end3-begin3);
 	}
 
 
