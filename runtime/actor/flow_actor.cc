@@ -312,7 +312,7 @@ void flow_actor::pkt_normal_nf_processing(bess::Packet* pkt){
   }
   */
   if(service_chain_length_!=0){
-	  pkt_que.pop(pkt);
+	  pkt_que.push(pkt);
 
 
   }
