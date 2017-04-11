@@ -90,7 +90,7 @@ public:
     return actor_id_;
   }
 
-  inline std::queue<int>* get_queue_ptr(){
+  inline std::queue<bess::Packet*>* get_queue_ptr(){
     return &pkt_que;
   }
 
