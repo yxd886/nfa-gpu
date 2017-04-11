@@ -228,16 +228,11 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		}
 
 		gettimeofday(&dp_end,0);
-/*
+
 		long time1=0;
 	  if(coordinator_actor_->service_chain_.empty()==false){
-		  //counter++;
 
 		  flow_actor* it_actor=nullptr;
-		 // struct Pkt *pkts;
-		 // struct Fs *fs;
-		 // cudaMallocManaged(&pkts, bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst * sizeof(Pkt));
-		 // cudaMallocManaged(&fs, bess::PacketBatch::kMaxBurst * sizeof(Fs));
 		  gettimeofday(&insert_begin,0);
 		  int pos=0;
 
@@ -250,9 +245,11 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		  while(pos<size){
 
 			  it_actor=coordinator_actor_->have_packet_flows_rrlist_.pop_head();
-			  if(it_actor==nullptr) break;
-			 // coordinator_actor_->have_packet_flows_rrlist_.pop_head();
-			  //LOG(INFO)<<"POP OK";
+			  if(it_actor==nullptr) {
+				  LOG(ERROR)<<"it_actor is null!!!!!!!!";
+				  exit(-1);
+			  }
+
 			  it_actor->set_in_have_packet_rrlist(0);
 			  int times=0;
 			  coordinator_actor_->flow_size[pos]=it_actor->get_queue_ptr()->cnt();
@@ -264,11 +261,8 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 			  while(it_actor->get_queue_ptr()->empty()!=true){
 				  bess::Packet* it=it_actor->get_queue_ptr()->dequeue();
 
-				  //Pkt_insert(coordinator_actor_,it,pos,times);
 				  int i=pos;
-				//	while(coordinator_actor_->pkts[i].full==1){
-				//		i+=bess::PacketBatch::kMaxBurst;
-				//	}
+
 
 					char* dst=coordinator_actor_->pkts[ coordinator_actor_->flow_pos[pos]+times].pkt;
 					char* src=it->head_data<char*>();
@@ -276,7 +270,6 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 					Format(src,&(coordinator_actor_->pkts[coordinator_actor_->flow_pos[pos]+times].headinfo));
 
-					//coordinator_actor_->pkts[coordinator_actor_->flow_pos[pos]+times].full=1;
 					coordinator_actor_->pkts[coordinator_actor_->flow_pos[pos]+times].flow_id=pos;
 
 				  Fs_copy(&(coordinator_actor_->fs[pos]),it_actor);
@@ -287,15 +280,19 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 		  }
 
-			 //std::thread gpu_thread(GPU_thread,coordinator_actor_,pkts,fs,i);
-		  //PacketBatches[counter-1].Copy(&(coordinator_actor_->ec_scheduler_batch_));
 
 		  gettimeofday(&insert_end,0);
-		 // memcpy(coordinator_actor_->pkts,coordinator_actor_->local_pkts,PROCESS_TIME*PROCESS_TIME*bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst * sizeof(Pkt));
 
-		  GPU_thread(coordinator_actor_,coordinator_actor_->pkts,coordinator_actor_->fs,pos,coordinator_actor_->flow_size,coordinator_actor_->flow_pos);
+	//	  GPU_thread(coordinator_actor_,coordinator_actor_->pkts,coordinator_actor_->fs,pos,coordinator_actor_->flow_size,coordinator_actor_->flow_pos);
 			 //gpu_thread.join();
-	  }*/
+	  }
+
+
+
+
+
+
+
 	  	gettimeofday(&cp_begin,0);
 		for(int loop=0;loop<PROCESS_TIME;loop++){
 		  bess::PacketBatch *batch =&(RECVPacketBatches[loop]);
