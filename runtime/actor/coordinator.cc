@@ -84,8 +84,8 @@ coordinator::coordinator(llring_holder& holder){
   collective_buffer_.init(buffer_batch_size*bess::PacketBatch::kMaxBurst);
   cudaMallocManaged(&pkts,PROCESS_TIME*PROCESS_TIME*bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst * sizeof(Pkt));
   cudaMallocManaged(&fs, PROCESS_TIME*bess::PacketBatch::kMaxBurst * sizeof(Fs));
-  (struct Pkt*)cudaHostAlloc((void**)&local_pkts,PROCESS_TIME*PROCESS_TIME*bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst * sizeof(Pkt),cudaHostAllocProtable);
-  (struct Fs*)cudaHostAlloc((void**)&local_fs,PROCESS_TIME*bess::PacketBatch::kMaxBurst * sizeof(Fs),cudaHostAllocProtable);
+  (struct Pkt*)cudaHostAlloc((void**)&local_pkts,PROCESS_TIME*PROCESS_TIME*bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst * sizeof(Pkt),cudaHostAllocPortable);
+  (struct Fs*)cudaHostAlloc((void**)&local_fs,PROCESS_TIME*bess::PacketBatch::kMaxBurst * sizeof(Fs),cudaHostAllocPortable);
   //cudaHostRegister(pkts,PROCESS_TIME*PROCESS_TIME*bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst * sizeof(Pkt),cudaHostRegisterMapped);
   //cudaHostRegister(fs,PROCESS_TIME*bess::PacketBatch::kMaxBurst * sizeof(Fs),cudaHostRegisterMapped);
   Pkt_reset(pkts,PROCESS_TIME*PROCESS_TIME*bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst);
