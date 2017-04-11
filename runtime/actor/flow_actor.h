@@ -17,6 +17,7 @@
 #include "./base/actor_misc.h"
 #include "../utils/generic_list_item.h"
 #include "../reliable/reliable_p2p.h"
+#include <queue>
 
 using namespace std;
 
@@ -89,7 +90,7 @@ public:
     return actor_id_;
   }
 
-  inline bess::PacketQueue* get_queue_ptr(){
+  inline std::queue<int>* get_queue_ptr(){
     return &pkt_que;
   }
 
@@ -240,7 +241,7 @@ private:
 
   replication_processing_func replication_funcs_[3];
 
-  bess::PacketQueue pkt_que;
+  std::queue<bess::Packet*> pkt_que;
 
   uint64_t in_have_packet_rrlist;
 
@@ -248,6 +249,6 @@ private:
 
 };
 
-static_assert(std::is_pod<flow_actor>::value, "flow_actor is not pod");
+//static_assert(std::is_pod<flow_actor>::value, "flow_actor is not pod");
 
 #endif

@@ -82,7 +82,7 @@ void flow_actor::handle_message(flow_actor_init_with_pkt_t,
                                                 idle_message_id,
                                                 static_cast<uint16_t>(flow_actor_messages::check_idle));
 */
-  pkt_que.clear();
+  //pkt_que.clear();
   cdlist_head_init(&buffer_head_);
 }
 
@@ -312,9 +312,9 @@ void flow_actor::pkt_normal_nf_processing(bess::Packet* pkt){
   }
   */
   if(service_chain_length_!=0){
-	  if(pkt_que.enqueue(pkt)!=true){
-		  LOG(ERROR)<<"pkt queue overflow!";
-	  }
+	  pkt_que.pop(pkt);
+
+
   }
   if(in_have_packet_rrlist!=1){
       coordinator_actor_->have_packet_flows_rrlist_.add_to_tail(this);

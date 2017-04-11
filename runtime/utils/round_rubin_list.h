@@ -69,7 +69,7 @@ public:
 private:
   struct cdlist_head rr_list_head_;
 
-  static_assert(std::is_pod<T>::value, "The type argument passed to round_rubin_list is not POD");
+  //static_assert(std::is_pod<T>::value, "The type argument passed to round_rubin_list is not POD");
 };
 
 #endif

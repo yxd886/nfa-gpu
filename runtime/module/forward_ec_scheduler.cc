@@ -254,7 +254,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 			  it_actor->set_in_have_packet_rrlist(0);
 			  int times=0;
-			  coordinator_actor_->flow_size[pos]=it_actor->get_queue_ptr()->cnt();
+			  coordinator_actor_->flow_size[pos]=it_actor->get_queue_ptr()->size();
 			  //printf("queue size: %d \n",it_actor->get_queue_ptr()->cnt());
 			  if(pos==0){
 				  coordinator_actor_->flow_pos[pos]=0;
@@ -262,7 +262,8 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 				  coordinator_actor_->flow_pos[pos]= coordinator_actor_->flow_pos[pos-1]+coordinator_actor_->flow_size[pos-1];
 			  }
 			  while(it_actor->get_queue_ptr()->empty()!=true){
-				  bess::Packet* it=it_actor->get_queue_ptr()->dequeue();
+				  bess::Packet* it=it_actor->get_queue_ptr()->front();
+				  it_actor->get_queue_ptr()->pop();
 
 				  int i=pos;
 
