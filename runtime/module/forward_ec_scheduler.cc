@@ -263,6 +263,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 			  }
 			  while(it_actor->get_queue_ptr()->empty()!=true){
 				  printf("queue size: %d",it_actor->get_queue_ptr()->size());
+				  fflush(stdout);
 				  bess::Packet* it=it_actor->get_queue_ptr()->front();
 				  it_actor->get_queue_ptr()->pop();
 
