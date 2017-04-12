@@ -28,9 +28,9 @@ void send_batch(bess::PacketBatch *batch,sn_port* port_) {
     port_->queue_stats[dir][qid].bytes += sent_bytes;
 
 
-  /*if (sent_pkts < batch->cnt()) {
+  if (sent_pkts < batch->cnt()) {
     bess::Packet::Free(batch->pkts() + sent_pkts, batch->cnt() - sent_pkts);
-  }*/
+  }
 }
 
 void Format(char* packet,struct d_headinfo* hd){
