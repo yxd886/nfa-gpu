@@ -101,11 +101,11 @@ void gpu_nf_process(Pkt* h_pkts,Fs* h_fs,uint64_t service_chain,int packet_num,i
 
     cudaSetDeviceFlags(cudaDeviceMapHost);
     cudaHostGetDevicePointer((void **)&pkts, (void *)h_pkts, 0);
-    cudaSetDeviceFlags(cudaDeviceMapHost);
+   // cudaSetDeviceFlags(cudaDeviceMapHost);
 	cudaHostGetDevicePointer((void **)&fs, (void *)h_fs, 0);
-	 cudaSetDeviceFlags(cudaDeviceMapHost);
+	// cudaSetDeviceFlags(cudaDeviceMapHost);
 	cudaHostGetDevicePointer((void **)&flow_size, (void *)h_flow_size, 0);
-	 cudaSetDeviceFlags(cudaDeviceMapHost);
+	// cudaSetDeviceFlags(cudaDeviceMapHost);
 	cudaHostGetDevicePointer((void **)&flow_pos, (void *)h_flow_pos, 0);
 
 
