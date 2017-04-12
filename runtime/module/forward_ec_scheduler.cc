@@ -213,6 +213,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 	struct timeval insert_end;
 	struct timeval insert_begin;
 	gettimeofday(&whole_begin,0);
+	//HTable<uint64_t, flow_actor*, actorid_keycmp, actorid_hash> actorid_htable_;
 	RECVPacketBatches[counter].Copy(bat);
 	counter++;
 	if(counter!=PROCESS_TIME){
