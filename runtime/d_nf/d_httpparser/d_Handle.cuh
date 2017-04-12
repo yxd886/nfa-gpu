@@ -13,8 +13,8 @@ public:
 	__device__ d_CHandle();
 	__device__ ~d_CHandle();
 	__device__ void Init();
-	__device__ void Process(d_CFormatPacket packet, d_CSharedBehaviorInfo* pInfo, d_http_parser_fsPtr& sesp);
-	__device__ void Create(d_IFormatPacket *pPacket,d_CSharedBehaviorInfo* pInfo,d_http_parser_fsPtr& ptr);
+	__device__ void Process(d_CFormatPacket packet, d_CSharedBehaviorInfo* pInfo, d_http_parser_fsPtr sesp);
+	__device__ void Create(d_IFormatPacket *pPacket,d_CSharedBehaviorInfo* pInfo,d_http_parser_fsPtr ptr);
 
 private:
 	__device__ void TimeOutCheck();
@@ -28,7 +28,7 @@ private:
 
 
 
-__device__ void d_CHandle::Process(d_CFormatPacket packet, d_CSharedBehaviorInfo* pInfo, d_http_parser_fsPtr& fhs)
+__device__ void d_CHandle::Process(d_CFormatPacket packet, d_CSharedBehaviorInfo* pInfo, d_http_parser_fsPtr fhs)
 {
 
 
@@ -128,7 +128,7 @@ __device__ void d_CHandle::Init(){
 
 
 
-__device__ void d_CHandle::Create(d_IFormatPacket *pPacket,d_CSharedBehaviorInfo* pInfo,d_http_parser_fsPtr& ptr){
+__device__ void d_CHandle::Create(d_IFormatPacket *pPacket,d_CSharedBehaviorInfo* pInfo,d_http_parser_fsPtr ptr){
 
 
 

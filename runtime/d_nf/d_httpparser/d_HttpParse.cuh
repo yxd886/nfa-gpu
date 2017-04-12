@@ -32,7 +32,7 @@ public:
 	__device__ void Init(){
 	}
 
-	__device__ void Parse(d_http_parser_fsPtr& sesptr){
+	__device__ void Parse(d_http_parser_fsPtr sesptr){
 		uint32_t reqLen = 0;
 		uint32_t rspLen = 0;
 		const char*  reqBuf = d_GetBuf(sesptr->ReqBuf,reqLen);
@@ -263,7 +263,7 @@ private:
 		return true;
 	}
 
-	__device__ void Send(d_http_parser_fsPtr&  sesptr);
+	__device__ void Send(d_http_parser_fsPtr  sesptr);
 
 	__device__ bool GetVersion(Mystring version, uint32_t& ver){
 		if(version.size() != 8){
@@ -328,7 +328,7 @@ private:
 
 };
 
-__device__ void d_CHttpParse::Send(d_http_parser_fsPtr&  sesptr){
+__device__ void d_CHttpParse::Send(d_http_parser_fsPtr  sesptr){
 	/*
 	string file("../src/network_function/http_parser/result/");
 
