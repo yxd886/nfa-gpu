@@ -193,7 +193,7 @@ private:
 
   flow_ether_header input_header_;
 
-  flow_ether_header output_header_;
+
 
   size_t service_chain_length_;
 
@@ -244,6 +244,9 @@ private:
   std::queue<bess::Packet*> pkt_que;
 
   uint64_t in_have_packet_rrlist;
+public:
+  int seq;
+  flow_ether_header output_header_;
 
 
 

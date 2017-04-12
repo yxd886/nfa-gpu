@@ -75,6 +75,7 @@ void flow_actor::handle_message(flow_actor_init_with_pkt_t,
     nfs_.nf[i] = service_chain[i];
     fs_.nf_flow_state_ptr[i] = fs_state_ptr;
     fs_size_.nf_flow_state_size[i] = service_chain[i]->get_nf_state_size();
+    seq=0;
   }
 /*
   coordinator_actor_->idle_flow_list_.add_timer(&idle_timer_,
