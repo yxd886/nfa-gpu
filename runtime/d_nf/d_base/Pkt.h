@@ -5,7 +5,7 @@
 #define PKT_H
 #define PKT_SIZE 100
 #define PKT_NUM 320
-#define FS_STATE_MAX_SIZE 40
+#define FS_STATE_MAX_SIZE 100
 #include <rte_config.h>
 #include <rte_memory.h>
 #include <rte_memzone.h>
