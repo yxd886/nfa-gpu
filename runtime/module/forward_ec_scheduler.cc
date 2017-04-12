@@ -314,7 +314,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		    char* dst=coordinator_actor_->pkts[ pkt_id].pkt;
 			char* src=dp_pkt_batch.pkts()[i]->head_data<char*>();
 			if(dst==NULL||src==NULL) continue;
-			rte_memcpy(dst,src,dp_pkt_batch.pkts()[i]->total_len()<PKT_SIZE?dp_pkt_batch.pkts()[i]->total_len():PKT_SIZE);
+			memcpy(dst,src,dp_pkt_batch.pkts()[i]->total_len()<PKT_SIZE?dp_pkt_batch.pkts()[i]->total_len():PKT_SIZE);
 			Format(src,&(coordinator_actor_->pkts[pkt_id].headinfo));
 			Fs_copy(&(coordinator_actor_->fs[(*actor_ptr)->seq]),*actor_ptr);
 			rte_memcpy(dp_pkt_batch.pkts()[i]->head_data(), &((*actor_ptr)->output_header_.ethh), sizeof(struct ether_hdr));
