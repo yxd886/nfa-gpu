@@ -371,8 +371,8 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		 // memcpy(coordinator_actor_->d_fs,coordinator_actor_->fs,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Fs));
 		 // cudaMemcpy(coordinator_actor_->d_pkts,coordinator_actor_->pkts,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Pkt),cudaMemcpyHostToDevice);
 
-		  GPU_thread(coordinator_actor_,coordinator_actor_->pkts,coordinator_actor_->fs,pos,coordinator_actor_->flow_size,coordinator_actor_->flow_pos);
-			 //gpu_thread.join();
+		  std::thread gpu_thread(GPU_thread,coordinator_actor_,coordinator_actor_->pkts,coordinator_actor_->fs,pos,coordinator_actor_->flow_size,coordinator_actor_->flow_pos);
+		  gpu_thread.detach();
 	  }
 
 		//std::thread Insert_thread(insert_thread,coordinator_actor_);
