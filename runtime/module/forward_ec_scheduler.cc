@@ -148,7 +148,8 @@ void insert_thread(coordinator* coordinator_actor_){
 			  it_actor=coordinator_actor_->have_packet_flows_rrlist_.pop_head();
 			  if(it_actor==nullptr) {
 				  LOG(ERROR)<<"it_actor is null!!!!!!!!";
-				  exit(-1);
+				 // exit(-1);
+				 break;
 			  }
 
 			  it_actor->set_in_have_packet_rrlist(0);
