@@ -212,7 +212,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 	struct timeval cp_begin;
 	struct timeval insert_end;
 	struct timeval insert_begin;
-	//gettimeofday(&whole_begin,0);
+	gettimeofday(&whole_begin,0);
 	RECVPacketBatches[counter].Copy(bat);
 	counter++;
 	if(counter!=PROCESS_TIME){
@@ -222,7 +222,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		counter=0;
 
 
-		//gettimeofday(&dp_begin,0);
+		gettimeofday(&dp_begin,0);
 		for(int loop=0;loop<PROCESS_TIME;loop++){
 		  bess::PacketBatch *batch =&(RECVPacketBatches[loop]);
 		  dp_pkt_batch.clear();
@@ -303,14 +303,14 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		  send_batch(&(coordinator_actor_->ec_scheduler_batch_),port_);
 		}
 
-		//gettimeofday(&dp_end,0);
+		gettimeofday(&dp_end,0);
 
 		long time1=0;
 		int size=0;
 	    if(coordinator_actor_->service_chain_.empty()==false){
 
 		  flow_actor* it_actor=nullptr;
-		  //gettimeofday(&insert_begin,0);
+		  gettimeofday(&insert_begin,0);
 		  int pos=0;
 
 
@@ -367,7 +367,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		  }
 
 
-		  //gettimeofday(&insert_end,0);
+		  gettimeofday(&insert_end,0);
 		 // memcpy(coordinator_actor_->d_fs,coordinator_actor_->fs,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Fs));
 		 // cudaMemcpy(coordinator_actor_->d_pkts,coordinator_actor_->pkts,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Pkt),cudaMemcpyHostToDevice);
 
@@ -430,24 +430,24 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		   fflush(stdout);
 		   //send_batch(&(SENDPacketBatches[loop]),port_);
 		}
-		//gettimeofday(&cp_end,0);
+		gettimeofday(&cp_end,0);
 
 		clean_batches(SENDPacketBatches);
 		clean_batches(RECVPacketBatches);
 */
-	//	struct timeval whole_end;
-		//gettimeofday(&whole_end,0);
-/*
+		struct timeval whole_end;
+		gettimeofday(&whole_end,0);
+
 		long begin=whole_begin.tv_sec*1000000 + whole_begin.tv_usec;
 		long end=whole_end.tv_sec*1000000 + whole_end.tv_usec;
 		long begin1=dp_begin.tv_sec*1000000 + dp_begin.tv_usec;
 		long end1=dp_end.tv_sec*1000000 + dp_end.tv_usec;
-		long begin2=cp_begin.tv_sec*1000000 + cp_begin.tv_usec;
-		long end2=cp_end.tv_sec*1000000 + cp_end.tv_usec;
+		//long begin2=cp_begin.tv_sec*1000000 + cp_begin.tv_usec;
+		//long end2=cp_end.tv_sec*1000000 + cp_end.tv_usec;
 		long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
 		long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
-*/
-	//	printf("total time: %ld, dp_time: %ld, cp_time: %ld, insert_time:%ld size: %d \n,",end-begin,end1-begin1,end2-begin2,end3-begin3,size);
+
+		printf("total time: %ld, dp_time: %ld, insert_time:%ld size: %d \n,",end-begin,end1-begin1,end3-begin3,size);
 		//printf("total time: %ld  dp_time：%ld, insert_time: %ld\n,",end-begin,end1-begin1,end3-begin3);
 	}
 
