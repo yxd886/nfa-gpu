@@ -89,8 +89,8 @@ coordinator::coordinator(llring_holder& holder){
   Pkt_reset(pkts,PROCESS_TIME*bess::PacketBatch::kMaxBurst);
 
 
-  cudaHostAlloc((void**)&flow_size,PROCESS_TIME*bess::PacketBatch::kMaxBurst * sizeof(int),cudaHostAllocMapped|cudaHostAllocWriteCombined);
-  cudaHostAlloc((void**)&flow_pos,PROCESS_TIME*bess::PacketBatch::kMaxBurst * sizeof(int),cudaHostAllocMapped|cudaHostAllocWriteCombined);
+  cudaHostAlloc((void**)&flow_size,PROCESS_TIME*bess::PacketBatch::kMaxBurst * sizeof(int),cudaHostAllocMapped);
+  cudaHostAlloc((void**)&flow_pos,PROCESS_TIME*bess::PacketBatch::kMaxBurst * sizeof(int),cudaHostAllocMapped);
   cudaSetDeviceFlags(cudaDeviceMapHost);
 
 
