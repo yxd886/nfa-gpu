@@ -310,7 +310,9 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		    	printf("number >10!!");
 		    	exit(-1);
 		    }
+
 			int pkt_id=(*actor_ptr)->seq+(coordinator_actor_->flow_size[(*actor_ptr)->seq]-1)*bess::PacketBatch::kMaxBurst;
+			printf("pkt id: %d",pkt_id);
 		    char* dst=coordinator_actor_->pkts[ pkt_id].pkt;
 			char* src=dp_pkt_batch.pkts()[i]->head_data<char*>();
 			if(dst==NULL||src==NULL) continue;
