@@ -375,6 +375,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 */
 		std::thread Insert_thread(insert_thread,coordinator_actor_);
 
+		Insert_thread.detach();
 
 
 /*
