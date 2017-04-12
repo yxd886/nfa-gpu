@@ -273,6 +273,10 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 					char* dst=coordinator_actor_->pkts[ coordinator_actor_->flow_pos[pos]+times].pkt;
 					char* src=it->head_data<char*>();
+					if(it->total_len()>PKT_SIZE){
+						printf("size too small!\n");
+						exit(-1);
+					}
 					memcpy(dst,src,it->total_len()<PKT_SIZE?it->total_len():PKT_SIZE);
 
 					Format(src,&(coordinator_actor_->pkts[coordinator_actor_->flow_pos[pos]+times].headinfo));
