@@ -99,7 +99,8 @@ void gpu_nf_process(Pkt* h_pkts,Fs* h_fs,uint64_t service_chain,int packet_num,i
     int* flow_size;
     int* flow_pos;
 
-	cudaHostGetDevicePointer((void **)&pkts, (void *)h_pkts, 0);
+    cudaSetDeviceFlags(cudaDeviceMapHost);
+    cudaHostGetDevicePointer((void **)&pkts, (void *)h_pkts, 0);
 	cudaHostGetDevicePointer((void **)&fs, (void *)h_fs, 0);
 
 	cudaHostGetDevicePointer((void **)&flow_size, (void *)h_flow_size, 0);
