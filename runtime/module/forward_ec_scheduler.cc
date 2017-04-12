@@ -432,7 +432,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		clean_batches(SENDPacketBatches);
 		clean_batches(RECVPacketBatches);
 */
-		struct timeval whole_end;
+	//	struct timeval whole_end;
 		//gettimeofday(&whole_end,0);
 /*
 		long begin=whole_begin.tv_sec*1000000 + whole_begin.tv_usec;
