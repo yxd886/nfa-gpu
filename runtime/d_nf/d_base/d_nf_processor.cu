@@ -76,7 +76,7 @@ Runtask(Pkt* pkts, Fs* fs, uint64_t service_chain,int packet_num,int* flow_size)
 
     		for(int k=0; k<chain_len; k++){
     			int nf_id=compute_network_function(service_chain,k);
-    			Pkt* pkt=&(pkts[i+j*bess::PacketBatch::kMaxBurst]);
+    			Pkt* pkt=&(pkts[i+j*32]);
     			int l=nf_id;
     			nfs.nf[l]->nf_logic(pkt,fs[i].fs[l]);
     		}
