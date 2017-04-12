@@ -8,6 +8,7 @@
 #include <map>
 #include <time.h>
 #include   <sys/time.h>
+#include <unordered_map>
 
 void send_batch(bess::PacketBatch *batch,sn_port* port_) {
   /* TODO: choose appropriate out queue */
@@ -214,7 +215,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 	struct timeval insert_end;
 	struct timeval insert_begin;
 	gettimeofday(&whole_begin,0);
-	std::map<flow_actor*,int> flow_id;
+	unordered_map <flow_actor*,int> flow_id;
 	int flow_num=0;
 	memset(coordinator_actor_->flow_size,0,sizeof(int)*PROCESS_TIME*bess::PacketBatch::kMaxBurst);
 	//HTable<uint64_t, flow_actor*, actorid_keycmp, actorid_hash> actorid_htable_;
