@@ -218,9 +218,9 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 		      actor_ptr = &actor;
 		    }
-		    //send(*actor_ptr, pkt_msg_t::value, dp_pkt_batch.pkts()[i]);
-		    (*actor_ptr)->get_queue_ptr()->push(dp_pkt_batch.pkts()[i]);
-		    coordinator_actor_->ec_scheduler_batch_.add(dp_pkt_batch.pkts()[i]);
+		    send(*actor_ptr, pkt_msg_t::value, dp_pkt_batch.pkts()[i]);
+		    //(*actor_ptr)->get_queue_ptr()->push(dp_pkt_batch.pkts()[i]);
+		    //coordinator_actor_->ec_scheduler_batch_.add(dp_pkt_batch.pkts()[i]);
 
 
 		  }
