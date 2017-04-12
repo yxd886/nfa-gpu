@@ -85,11 +85,12 @@ __device__ void d_CHandle::Process(d_CFormatPacket packet, d_CSharedBehaviorInfo
 			fhs->Result.RequestTimeStamp=packet.GetPacketTime()->tv_sec * 1000000LL + packet.GetPacketTime()->tv_usec;
 		}
 		//printf("appending request buffer!\n");
-		if(!d_Append(fhs->ReqBuf,(char*) packet.GetData(), (size_t) packet.GetDataLen())){
+	/*	if(!d_Append(fhs->ReqBuf,(char*) packet.GetData(), (size_t) packet.GetDataLen())){
 
 			//log  c2s append date error
 			return;
 		}
+		*/
 	}else if(pInfo->m_nIdtMatchWay == S2C_MATCH){
 		//printf("S2C\n");
 		if(d_GetBufLen(fhs->RspBuf) == 0 && fhs->Result.ResponseTimeStamp == 0){
@@ -100,11 +101,12 @@ __device__ void d_CHandle::Process(d_CFormatPacket packet, d_CSharedBehaviorInfo
 		}
 
   		//printf("appending respone buffer!\n");
-		if(!d_Append(fhs->RspBuf,(char*) packet.GetData(), (size_t) packet.GetDataLen())){
+	/*	if(!d_Append(fhs->RspBuf,(char*) packet.GetData(), (size_t) packet.GetDataLen())){
 			//log  c2s append date error
 			//printf("appending respone buffer failure!\n");
 			return;
 		}
+		*/
 		//printf("RspBuf after append: %s \n",fhs->RspBuf.buf);
 	}
 	unsigned int i;
