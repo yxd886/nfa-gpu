@@ -129,7 +129,7 @@ void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i, int* flo
 }
 
 void insert_thread(coordinator* coordinator_actor_){
-
+		int size=0;
 	  if(coordinator_actor_->service_chain_.empty()==false){
 
 		  flow_actor* it_actor=nullptr;
@@ -302,10 +302,10 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		}
 
 		//gettimeofday(&dp_end,0);
-
+/*
 		long time1=0;
 		int size=0;
-	/*  if(coordinator_actor_->service_chain_.empty()==false){
+	    if(coordinator_actor_->service_chain_.empty()==false){
 
 		  flow_actor* it_actor=nullptr;
 		  //gettimeofday(&insert_begin,0);
