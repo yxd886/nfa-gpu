@@ -91,6 +91,7 @@ coordinator::coordinator(llring_holder& holder){
 
   cudaHostAlloc((void**)&flow_size,PROCESS_TIME*bess::PacketBatch::kMaxBurst * sizeof(int),cudaHostAllocMapped);
   cudaHostAlloc((void**)&flow_pos,PROCESS_TIME*bess::PacketBatch::kMaxBurst * sizeof(int),cudaHostAllocMapped);
+  cudaSetDeviceFlags(cudaDeviceMapHost);
 
 
 }
