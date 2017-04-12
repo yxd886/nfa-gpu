@@ -56,7 +56,7 @@ __device__ int compute_service_chain_length(uint64_t s){
 
 
 __global__ void
-Runtask(Pkt* pkts, Fs* fs, uint64_t service_chain,int packet_num,int* flow_size, int* flow_pos)
+Runtask(Pkt* pkts, Fs* fs, uint64_t service_chain,int packet_num,int* flow_size)
 {
 
 	struct d_flow_actor_nfs  nfs;
@@ -67,16 +67,16 @@ Runtask(Pkt* pkts, Fs* fs, uint64_t service_chain,int packet_num,int* flow_size,
     if (i < packet_num)
     {
 
-    	int begin=flow_pos[i];
+    	//int begin=flow_pos[i];
     	int num=flow_size[i];
     	//int j=i;
-    	for(int j=begin;j<begin+num;j++){
+    	for(int j=0;j<num;j++){
     		//pkts[j].full=0;
 
 
     		for(int k=0; k<chain_len; k++){
     			int nf_id=compute_network_function(service_chain,k);
-    			Pkt* pkt=&(pkts[j]);
+    			Pkt* pkt=&(pkts[i+j*bess::PacketBatch::kMaxBurst]);
     			int l=nf_id;
     			nfs.nf[l]->nf_logic(pkt,fs[i].fs[l]);
     		}
@@ -92,12 +92,12 @@ Runtask(Pkt* pkts, Fs* fs, uint64_t service_chain,int packet_num,int* flow_size,
 
 
 
-void gpu_nf_process(Pkt* h_pkts,Fs* h_fs,uint64_t service_chain,int packet_num,int *h_flow_size,int* h_flow_pos){
+void gpu_nf_process(Pkt* h_pkts,Fs* h_fs,uint64_t service_chain,int packet_num,int *h_flow_size){
 
     Pkt* pkts;
     Fs* fs;
     int* flow_size;
-    int* flow_pos;
+   // int* flow_pos;
 
     cudaHostGetDevicePointer((void **)&pkts, (void *)h_pkts, 0);
    // cudaSetDeviceFlags(cudaDeviceMapHost);
@@ -105,14 +105,14 @@ void gpu_nf_process(Pkt* h_pkts,Fs* h_fs,uint64_t service_chain,int packet_num,i
 	// cudaSetDeviceFlags(cudaDeviceMapHost);
 	cudaHostGetDevicePointer((void **)&flow_size, (void *)h_flow_size, 0);
 	// cudaSetDeviceFlags(cudaDeviceMapHost);
-	cudaHostGetDevicePointer((void **)&flow_pos, (void *)h_flow_pos, 0);
+	//cudaHostGetDevicePointer((void **)&flow_pos, (void *)h_flow_pos, 0);
 
 
 	int threadsPerBlock = 256;
     int blocksPerGrid =(packet_num + threadsPerBlock - 1) / threadsPerBlock;
     //printf("CUDA kernel launch with %d blocks of %d threads\n", blocksPerGrid, threadsPerBlock);
     //cudaDeviceSynchronize();
-    Runtask<<<blocksPerGrid, threadsPerBlock>>>(pkts, fs, service_chain, packet_num,flow_size,flow_pos);
+    Runtask<<<blocksPerGrid, threadsPerBlock>>>(pkts, fs, service_chain, packet_num,flow_size);
     cudaDeviceSynchronize();
 
 

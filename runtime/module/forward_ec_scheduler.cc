@@ -103,11 +103,11 @@ void Fs_copyback(struct Fs* Fs,flow_actor* flow_actor){
 
 }
 
-void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i, int* flow_size,int *flow_pos){
+void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i, int* flow_size){
 
 	struct timeval whole_begin;
 	gettimeofday(&whole_begin,0);
-	gpu_nf_process(pkts,fs,coordinator_actor->get_service_chain(),i,flow_size,flow_pos);
+	gpu_nf_process(pkts,fs,coordinator_actor->get_service_chain(),i,flow_size);
 	struct timeval whole_end;
 
 	for(int j=0;j<i;j++){
@@ -405,7 +405,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		 // memcpy(coordinator_actor_->d_fs,coordinator_actor_->fs,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Fs));
 		 // cudaMemcpy(coordinator_actor_->d_pkts,coordinator_actor_->pkts,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Pkt),cudaMemcpyHostToDevice);
 
-		  GPU_thread(coordinator_actor_,coordinator_actor_->pkts,coordinator_actor_->fs,flow_num,coordinator_actor_->flow_size,coordinator_actor_->flow_pos);
+		  GPU_thread(coordinator_actor_,coordinator_actor_->pkts,coordinator_actor_->fs,flow_num,coordinator_actor_->flow_size);
 		 // gpu_thread.detach();
 	  }
 
