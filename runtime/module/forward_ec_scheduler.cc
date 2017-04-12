@@ -320,7 +320,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		    }
 
 			int pkt_id=flow_id[*actor_ptr]+(coordinator_actor_->flow_size[flow_id[*actor_ptr]]-1)*bess::PacketBatch::kMaxBurst;
-			printf("pkt id: %d\n",pkt_id);
+			//printf("pkt id: %d\n",pkt_id);
 		    char* dst=coordinator_actor_->pkts[ pkt_id].pkt;
 			char* src=dp_pkt_batch.pkts()[i]->head_data<char*>();
 			if(dst==NULL||src==NULL) continue;
