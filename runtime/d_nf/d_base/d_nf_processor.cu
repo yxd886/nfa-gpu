@@ -101,7 +101,7 @@ void gpu_nf_process(Pkt* h_pkts,Fs* h_fs,uint64_t service_chain,int packet_num,i
 
     cudaHostGetDevicePointer((void **)&pkts, (void *)h_pkts, 0);
    // cudaSetDeviceFlags(cudaDeviceMapHost);
-	cudaHostGetDevicePointer((void **)&fs, (void *)h_fs, 0);
+	//cudaHostGetDevicePointer((void **)&fs, (void *)h_fs, 0);
 	// cudaSetDeviceFlags(cudaDeviceMapHost);
 	cudaHostGetDevicePointer((void **)&flow_size, (void *)h_flow_size, 0);
 	// cudaSetDeviceFlags(cudaDeviceMapHost);
@@ -112,7 +112,7 @@ void gpu_nf_process(Pkt* h_pkts,Fs* h_fs,uint64_t service_chain,int packet_num,i
     int blocksPerGrid =(packet_num + threadsPerBlock - 1) / threadsPerBlock;
     //printf("CUDA kernel launch with %d blocks of %d threads\n", blocksPerGrid, threadsPerBlock);
     //cudaDeviceSynchronize();
-    Runtask<<<blocksPerGrid, threadsPerBlock>>>(pkts, fs, service_chain, packet_num,flow_size,flow_pos);
+    Runtask<<<blocksPerGrid, threadsPerBlock>>>(pkts, h_fs, service_chain, packet_num,flow_size,flow_pos);
     cudaDeviceSynchronize();
 
 

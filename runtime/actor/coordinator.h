@@ -75,6 +75,7 @@ public:
   struct Fs *fs;
  // struct Pkt *local_pkts;
   //struct Fs *local_fs;
+  struct Fs* d_fs;
 
   int * flow_size;
   int * flow_pos;
