@@ -69,7 +69,7 @@ Runtask(Pkt* pkts, Fs* fs, uint64_t service_chain,int packet_num,int* flow_size,
 
     	int begin=flow_pos[i];
     	int num=flow_size[i];
-    	int j=i;
+    	//int j=i;
     	for(int j=begin;j<begin+num;j++){
     		//pkts[j].full=0;
 
@@ -78,10 +78,10 @@ Runtask(Pkt* pkts, Fs* fs, uint64_t service_chain,int packet_num,int* flow_size,
     			int nf_id=compute_network_function(service_chain,k);
     			Pkt* pkt=&(pkts[j]);
     			int l=nf_id;
-    			nfs.nf[l]->nf_logic(pkt,fs[j%packet_num].fs[l]);
+    			nfs.nf[l]->nf_logic(pkt,fs[i].fs[l]);
     		}
 
-    		j+=packet_num;
+    		//j+=packet_num;
 
 
     	}
