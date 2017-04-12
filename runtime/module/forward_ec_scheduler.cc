@@ -104,7 +104,7 @@ void Fs_copyback(struct Fs* Fs,flow_actor* flow_actor){
 void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i, int* flow_size,int *flow_pos){
 
 	struct timeval whole_begin;
-	//gettimeofday(&whole_begin,0);
+	gettimeofday(&whole_begin,0);
 	gpu_nf_process(pkts,fs,coordinator_actor->get_service_chain(),i,flow_size,flow_pos);
 	struct timeval whole_end;
 
@@ -114,17 +114,17 @@ void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i, int* flo
 	  flow_actor* actor=*actor_ptr;
 	  Fs_copyback(&(fs[j]),actor);
 	}
-	//gettimeofday(&whole_end,0);
+	gettimeofday(&whole_end,0);
 	//struct timeval whole_end1;
 	//gettimeofday(&whole_end1,0);
 
 
-	//long begin=whole_begin.tv_sec*1000000 + whole_begin.tv_usec;
-	//long end=whole_end.tv_sec*1000000 + whole_end.tv_usec;
+	long begin=whole_begin.tv_sec*1000000 + whole_begin.tv_usec;
+	long end=whole_end.tv_sec*1000000 + whole_end.tv_usec;
 	//long begin1=whole_end.tv_sec*1000000 + whole_end.tv_usec;
 	//long end1=whole_end1.tv_sec*1000000 + whole_end1.tv_usec;
 	//printf("gpu time: %ld, fs_copy_backtime:%ld\n,",end-begin,end1-end);
-	//printf("gpu time: %ld\n,",end-begin);
+	printf("gpu time: %ld\n,",end-begin);
 
 }
 
