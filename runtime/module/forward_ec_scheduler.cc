@@ -295,7 +295,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 
 
-
+/*
 
 
 	  	//gettimeofday(&cp_begin,0);
@@ -349,7 +349,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 		clean_batches(SENDPacketBatches);
 		clean_batches(RECVPacketBatches);
-
+*/
 		struct timeval whole_end;
 		//gettimeofday(&whole_end,0);
 /*
@@ -367,7 +367,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 	}
 
 
-	send_batch(&(RECVPacketBatches[counter]),port_);
+	//send_batch(&(RECVPacketBatches[counter]),port_);
 }
 
 void forward_ec_scheduler::customized_init(coordinator* coordinator_actor,sn_port* port){
