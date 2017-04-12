@@ -212,7 +212,7 @@ def test():
 
   print "Wait for 3 seconds to get traffic ramp up..."
 
-  time.sleep(10)
+  time.sleep(3)
 
   recovery_time = "";
   migration_time = "";
