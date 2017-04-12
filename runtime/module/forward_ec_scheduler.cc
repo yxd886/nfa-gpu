@@ -222,7 +222,8 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 
 		  }
-		  SENDPacketBatches[loop].Copy(&(coordinator_actor_->ec_scheduler_batch_));
+		  //SENDPacketBatches[loop].Copy(&(coordinator_actor_->ec_scheduler_batch_));
+		  send_batch(&(coordinator_actor_->ec_scheduler_batch_),port_);
 		}
 
 		//gettimeofday(&dp_end,0);
@@ -342,7 +343,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		  }
 
 		   fflush(stdout);
-		   send_batch(&(SENDPacketBatches[loop]),port_);
+		   //send_batch(&(SENDPacketBatches[loop]),port_);
 		}
 		//gettimeofday(&cp_end,0);
 
