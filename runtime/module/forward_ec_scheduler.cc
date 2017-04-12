@@ -304,7 +304,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		}
 
 		//gettimeofday(&dp_end,0);
-/*
+
 		long time1=0;
 		int size=0;
 	    if(coordinator_actor_->service_chain_.empty()==false){
@@ -374,9 +374,9 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		  GPU_thread(coordinator_actor_,coordinator_actor_->pkts,coordinator_actor_->fs,pos,coordinator_actor_->flow_size,coordinator_actor_->flow_pos);
 			 //gpu_thread.join();
 	  }
-*/
+
 		//std::thread Insert_thread(insert_thread,coordinator_actor_);
-		insert_thread(coordinator_actor_);
+		//insert_thread(coordinator_actor_);
 		//Insert_thread.detach();
 
 
