@@ -311,7 +311,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 			char* src=dp_pkt_batch.pkts()[i]->head_data<char*>();
 			memcpy(dst,src,dp_pkt_batch.pkts()[i]->total_len()<PKT_SIZE?dp_pkt_batch.pkts()[i]->total_len():PKT_SIZE);
 			Format(src,&(coordinator_actor_->pkts[pkt_id].headinfo));
-			Fs_copy(&(coordinator_actor_->fs[(*actor_ptr)->seq]),it_actor);
+			Fs_copy(&(coordinator_actor_->fs[(*actor_ptr)->seq]),*actor_ptr);
 			rte_memcpy(dp_pkt_batch.pkts()[i]->head_data(), &((*actor_ptr)->output_header_.ethh), sizeof(struct ether_hdr));
 
 
@@ -389,7 +389,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		 // memcpy(coordinator_actor_->d_fs,coordinator_actor_->fs,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Fs));
 		 // cudaMemcpy(coordinator_actor_->d_pkts,coordinator_actor_->pkts,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Pkt),cudaMemcpyHostToDevice);
 
-		  GPU_thread(coordinator_actor_,coordinator_actor_->pkts,coordinator_actor_->fs,pos,coordinator_actor_->flow_size,coordinator_actor_->flow_pos);
+		  GPU_thread(coordinator_actor_,coordinator_actor_->pkts,coordinator_actor_->fs,flow_num,coordinator_actor_->flow_size,coordinator_actor_->flow_pos);
 		 // gpu_thread.detach();
 	  }
 
