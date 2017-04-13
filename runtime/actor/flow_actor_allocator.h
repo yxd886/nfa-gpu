@@ -43,7 +43,7 @@ public:
 
   ~flow_actor_allocator(){
     if(flow_actor_array_ != nullptr){
-      delete[] flow_actor_array_;
+      delete flow_actor_array_;
     }
   }
 
