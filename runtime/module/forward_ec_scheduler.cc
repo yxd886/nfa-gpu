@@ -106,19 +106,20 @@ void Fs_copyback(struct Fs* Fs,flow_actor* flow_actor){
 void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i, int* flow_size){
 
 	struct timeval whole_begin;
-	gettimeofday(&whole_begin,0);
+	struct timeval whole_end;
+
 
 
 	memcpy(coordinator_actor->d_pkts,pkts,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Pkt)*10);
 	memcpy(coordinator_actor->d_fs,fs,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Fs));
 	memcpy(coordinator_actor->d_flow_size,flow_size,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(int));
-
+	gettimeofday(&whole_begin,0);
 	gpu_nf_process(coordinator_actor->d_pkts,coordinator_actor->d_fs,coordinator_actor->get_service_chain(),i,coordinator_actor->d_flow_size);
-
+	gettimeofday(&whole_end,0);
 	memcpy(coordinator_actor->tmp_fs,coordinator_actor->d_fs,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Fs));
 
 
-	struct timeval whole_end;
+
 
 	for(int j=0;j<i;j++){
 	  flow_actor** actor_ptr=coordinator_actor->actorid_htable_.Get(&(fs[j].actor_id_64));
@@ -126,7 +127,7 @@ void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i, int* flo
 	  flow_actor* actor=*actor_ptr;
 	  Fs_copyback(&(coordinator_actor->tmp_fs[j]),actor);
 	}
-	gettimeofday(&whole_end,0);
+
 	//struct timeval whole_end1;
 	//gettimeofday(&whole_end1,0);
 
