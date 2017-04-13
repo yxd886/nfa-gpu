@@ -4,7 +4,7 @@
 #include <cstdint>
 #include "../d_base/Pkt.h"
 struct d_pkt_counter_fs{
-  uint64_t counter;
+  uint32_t counter;
 };
 
 #endif
