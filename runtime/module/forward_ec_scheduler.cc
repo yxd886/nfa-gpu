@@ -322,10 +322,10 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 			int pkt_id=flow_id[*actor_ptr]+(coordinator_actor_->flow_size[flow_id[*actor_ptr]]-1)*bess::PacketBatch::kMaxBurst;
 			//printf("pkt id: %d\n",pkt_id);
-		    char* dst=coordinator_actor_->pkts[ pkt_id].pkt;
-			char* src=dp_pkt_batch.pkts()[i]->head_data<char*>();
+		    //char* dst=coordinator_actor_->pkts[ pkt_id].pkt;
+			//char* src=dp_pkt_batch.pkts()[i]->head_data<char*>();
 			if(dst==NULL||src==NULL) continue;
-			rte_memcpy(dst,src,dp_pkt_batch.pkts()[i]->total_len()<PKT_SIZE?dp_pkt_batch.pkts()[i]->total_len():PKT_SIZE);
+			//rte_memcpy(dst,src,dp_pkt_batch.pkts()[i]->total_len()<PKT_SIZE?dp_pkt_batch.pkts()[i]->total_len():PKT_SIZE);
 			Format(src,&(coordinator_actor_->pkts[pkt_id].headinfo));
 			Fs_copy(&(coordinator_actor_->fs[flow_id[*actor_ptr]]),*actor_ptr);
 			rte_memcpy(dp_pkt_batch.pkts()[i]->head_data(), &((*actor_ptr)->output_header_.ethh), sizeof(struct ether_hdr));

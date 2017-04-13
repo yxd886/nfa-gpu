@@ -63,7 +63,7 @@ struct  Pkt{
 	uint64_t pad5;
 	struct d_headinfo headinfo;
 
-	char pkt[PKT_SIZE];
+	//char pkt[PKT_SIZE];
 };
 
 struct  Fs{
