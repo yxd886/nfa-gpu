@@ -59,8 +59,8 @@ __global__ void
 Runtask(Pkt* pkts, Fs* fs, uint64_t service_chain,int packet_num,int* flow_size)
 {
 
-	__shared__ Pkt share_pkts[200*32*10];
-	__shared__ Fs share_fs[200*32];
+	//__shared__ Pkt share_pkts[200*32*10];
+	//__shared__ Fs share_fs[200*32];
 	struct d_flow_actor_nfs  nfs;
 	Init_nfs(&nfs);
 	int chain_len=compute_service_chain_length(service_chain);
@@ -71,22 +71,14 @@ Runtask(Pkt* pkts, Fs* fs, uint64_t service_chain,int packet_num,int* flow_size)
 
     	//int begin=flow_pos[i];
     	int num=flow_size[i];
-    	for(int j=0;j<num;j++){
-    		memcpy(&share_pkts[i+j*32],&pkts[i+j*32],sizeof(Pkt));
-
-    	}
-    	memcpy(&share_fs[i],&fs[i],sizeof(Fs));
-    	__syncthreads();
-
-
     	//int j=i;
     	for(int j=0;j<num;j++){
     		//pkts[j].full=0;
     		for(int k=0; k<chain_len; k++){
     			int nf_id=compute_network_function(service_chain,k);
-    			Pkt* pkt=&(share_pkts[i+j*32]);
+    			Pkt* pkt=&(pkts[i+j*32]);
     			int l=nf_id;
-    			nfs.nf[l]->nf_logic(pkt,share_fs[i].fs[l]);
+    			nfs.nf[l]->nf_logic(pkt,fs[i].fs[l]);
     		}
 
     		//j+=packet_num;
