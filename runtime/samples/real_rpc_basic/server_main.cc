@@ -227,6 +227,7 @@ int main(int argc, char* argv[]){
 */
   resume_all_workers();
   std::this_thread::sleep_for(std::chrono::milliseconds(20000));
+  cudaDeviceSynchronize();
   cudaProfilerStop();
   return 0;
   // create the rpc server
