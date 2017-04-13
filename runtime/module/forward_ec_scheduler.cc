@@ -109,13 +109,13 @@ void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i, int* flo
 	gettimeofday(&whole_begin,0);
 
 
-	cudaMemcpy(coordinator_actor->d_pkts,pkts,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Pkt)*10,cudaMemcpyHostToDevice);
-	cudaMemcpy(coordinator_actor->d_fs,fs,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Fs),cudaMemcpyHostToDevice);
-	cudaMemcpy(coordinator_actor->d_flow_size,flow_size,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(int),cudaMemcpyHostToDevice);
+	memcpy(coordinator_actor->d_pkts,pkts,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Pkt)*10);
+	memcpy(coordinator_actor->d_fs,fs,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Fs));
+	memcpy(coordinator_actor->d_flow_size,flow_size,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(int));
 
 	gpu_nf_process(coordinator_actor->d_pkts,coordinator_actor->d_fs,coordinator_actor->get_service_chain(),i,coordinator_actor->d_flow_size);
 
-	cudaMemcpy(coordinator_actor->tmp_fs,coordinator_actor->d_fs,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Fs),cudaMemcpyDeviceToHost);
+	memcpy(coordinator_actor->tmp_fs,coordinator_actor->d_fs,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Fs));
 
 
 	struct timeval whole_end;
