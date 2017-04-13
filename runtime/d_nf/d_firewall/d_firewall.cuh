@@ -76,7 +76,7 @@ public:
 	}
 private:
 	int counter;
-	struct d_rule* d_rules[10];
+	struct d_rule* d_rules[60000];
 
 };
 
@@ -92,39 +92,66 @@ public:
     struct d_rule r;
     struct d_rule* rp=&r;
   //  std::cout<<"begin to read rules"<<std::endl;
-   
-      *(unsigned char *)&rp->saddr.addr=0;
-      *(((unsigned char *)&rp->saddr.addr)+1)=0;
-      *(((unsigned char *)&rp->saddr.addr)+2)=0;
-      *(((unsigned char *)&rp->saddr.addr)+3)=0;
-      rp->saddr.mask=32;
-      rp->sport=65535;
-      *((unsigned char *)&rp->daddr.addr)=0;
-      *((unsigned char *)&rp->daddr.addr+1)=0;
-      *((unsigned char *)&rp->daddr.addr+2)=0;
-      *((unsigned char *)&rp->daddr.addr+3)=0;
-      rp->daddr.mask=32;
-      rp->dport=65535;
-      rp->protocol=6;
-      rp->action=0;
-     rules.push_back(&r);
       
-      
-      *(unsigned char *)&rp->saddr.addr=0;
-      *(((unsigned char *)&rp->saddr.addr)+1)=0;
-      *(((unsigned char *)&rp->saddr.addr)+2)=0;
-      *(((unsigned char *)&rp->saddr.addr)+3)=0;
-      rp->saddr.mask=32;
-      rp->sport=65535;
-      *((unsigned char *)&rp->daddr.addr)=119;
-      *((unsigned char *)&rp->daddr.addr+1)=75;
-      *((unsigned char *)&rp->daddr.addr+2)=217;
-      *((unsigned char *)&rp->daddr.addr+3)=109;
-      rp->daddr.mask=32;
-      rp->dport=65535;
-      rp->protocol=6;
-      rp->action=1;
-     rules.push_back(&r);
+      for(int i=0;i<20000;i++){
+
+          *(unsigned char *)&rp->saddr.addr=i%254;
+          *(((unsigned char *)&rp->saddr.addr)+1)=(i+100)%254;
+          *(((unsigned char *)&rp->saddr.addr)+2)=0;
+          *(((unsigned char *)&rp->saddr.addr)+3)=(i+30)%254;
+          rp->saddr.mask=32;
+          rp->sport=65535;
+          *((unsigned char *)&rp->daddr.addr)=i%254;
+          *((unsigned char *)&rp->daddr.addr+1)=75;
+          *((unsigned char *)&rp->daddr.addr+2)=0;
+          *((unsigned char *)&rp->daddr.addr+3)=109;
+          rp->daddr.mask=32;
+          rp->dport=i%65535;
+          rp->protocol=6;
+          rp->action=1;
+         rules.push_back(&r);
+
+      }
+
+      for(int i=0;i<20000;i++){
+
+          *(unsigned char *)&rp->saddr.addr=(i+59)%254;
+          *(((unsigned char *)&rp->saddr.addr)+1)=(i+44)%254;
+          *(((unsigned char *)&rp->saddr.addr)+2)=0;
+          *(((unsigned char *)&rp->saddr.addr)+3)=(i+90)%254;
+          rp->saddr.mask=32;
+          rp->sport=65535;
+          *((unsigned char *)&rp->daddr.addr)=(i+54)%254;
+          *((unsigned char *)&rp->daddr.addr+1)=75;
+          *((unsigned char *)&rp->daddr.addr+2)=0;
+          *((unsigned char *)&rp->daddr.addr+3)=109;
+          rp->daddr.mask=32;
+          rp->dport=i%65535;
+          rp->protocol=6;
+          rp->action=1;
+         rules.push_back(&r);
+
+      }
+      for(int i=0;i<20000;i++){
+
+          *(unsigned char *)&rp->saddr.addr=(i+52)%254;
+          *(((unsigned char *)&rp->saddr.addr)+1)=(i+74)%254;
+          *(((unsigned char *)&rp->saddr.addr)+2)=0;
+          *(((unsigned char *)&rp->saddr.addr)+3)=(i+40)%254;
+          rp->saddr.mask=32;
+          rp->sport=65535;
+          *((unsigned char *)&rp->daddr.addr)=(i+34)%254;
+          *((unsigned char *)&rp->daddr.addr+1)=75;
+          *((unsigned char *)&rp->daddr.addr+2)=0;
+          *((unsigned char *)&rp->daddr.addr+3)=109;
+          rp->daddr.mask=32;
+          rp->dport=i%65535;
+          rp->protocol=6;
+          rp->action=1;
+         rules.push_back(&r);
+
+      }
+
    
  //  std::cout<<"begin to close the rule file !"<<std::endl;
   
@@ -137,7 +164,7 @@ private:
 
 	__device__ void process(Pkt* packet,d_firewall_fs* fs);
 
-	__device__ Bool CompareID_with_mask(uint32_t addr1, uint32_t addr2, uint8_t mask);
+	__device__ bool CompareID_with_mask(uint32_t addr1, uint32_t addr2, uint8_t mask);
 
 	__device__ void filter_local_out(struct d_headinfo *hd,d_firewall_fs* sesptr);
 
@@ -164,9 +191,9 @@ __device__ void d_firewall::process(Pkt* packet,d_firewall_fs* fs){
 }
 
 
-__device__ Bool d_firewall::CompareID_with_mask(uint32_t addr1, uint32_t addr2, uint8_t mask){
+__device__ bool d_firewall::CompareID_with_mask(uint32_t addr1, uint32_t addr2, uint8_t mask){
   uint32_t addr1_temp, addr2_temp;
-  Bool flag = false;
+  bool flag = false;
   addr1_temp = Ntohl(addr1);
   addr2_temp = Ntohl(addr2);
 
@@ -185,8 +212,8 @@ __device__ void d_firewall::filter_local_out(struct d_headinfo *hd,d_firewall_fs
   uint32_t s_addr, d_addr;
   uint8_t protocol;
   uint16_t s_port, d_port;
-  Bool match = false;
-  Bool flag = false;
+  bool match = false;
+  bool flag = false;
   protocol = hd->protocol;
   s_addr = hd->m_pIphdr.saddr;
   d_addr = hd->m_pIphdr.daddr;
@@ -197,39 +224,29 @@ __device__ void d_firewall::filter_local_out(struct d_headinfo *hd,d_firewall_fs
   for(int i=0;i<rules.get_number();i++){
 	ptr=rules.get_element(i);
     match = false;
-    match = (ptr->saddr.addr == ANY_ADDR ? true : CompareID_with_mask(ptr->saddr.addr,s_addr,ptr->saddr.mask));
-    if(!match){
+    match |=  CompareID_with_mask(ptr->saddr.addr,s_addr,ptr->saddr.mask);
 
-      continue;
-    }
-    match = (ptr->daddr.addr == ANY_ADDR ? true : CompareID_with_mask(ptr->daddr.addr,d_addr,ptr->daddr.mask));
-    if(!match){
-      continue;
-    }
-    match = (ptr->protocol == ANY_PROTOCOL) ? true : (ptr->protocol == protocol);
-    if(!match){
-      continue;
-    }
-    match = (ptr->sport == ANY_PORT) ? true : (ptr->sport == s_port);
-    if(!match){
-      continue;
-    }
-    match = (ptr->dport == ANY_PORT) ? true : (ptr->dport == d_port);
-    if(!match){
-      continue;
-    }
+    match |=  CompareID_with_mask(ptr->daddr.addr,d_addr,ptr->daddr.mask);
+
+    match |= ptr->protocol == protocol;
+
+    match |=  ptr->sport == s_port;
+
+    match |=  ptr->dport == d_port;
+
   //  match = ptr->action ? 0 : 1;
 
-    if(match){
-      flag = ptr->action?false:true;
-      ++sesptr->match_no;
-      break;
-    }
-    else{
-      flag = false;
-      break;
-    }
   }//loop for match rule
+  if(match){
+    flag = ptr->action?false:true;
+    ++sesptr->match_no;
+    //break;
+  }
+  else{
+    flag = false;
+    //break;
+  }
+
   if(flag){
     sesptr->drop_no++;
     sesptr->current_pass=false;
