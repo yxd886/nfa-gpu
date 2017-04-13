@@ -76,7 +76,7 @@ public:
 	}
 private:
 	int counter;
-	struct d_rule* d_rules[60000];
+	struct d_rule* d_rules[6000];
 
 };
 
@@ -89,11 +89,11 @@ public:
     char daddr[200];
     memset(daddr,0,sizeof(daddr));
     
-    struct d_rule r[60000];
+    struct d_rule r[6000];
     struct d_rule* rp;
   //  std::cout<<"begin to read rules"<<std::endl;
       
-      for(int i=0;i<20000;i++){
+      for(int i=0;i<2000;i++){
     	  rp=&r[i];
           *(unsigned char *)&rp->saddr.addr=i%254;
           *(((unsigned char *)&rp->saddr.addr)+1)=(i+100)%254;
@@ -113,8 +113,8 @@ public:
 
       }
 
-      for(int i=0;i<20000;i++){
-    	  rp=&r[i+20000];
+      for(int i=0;i<2000;i++){
+    	  rp=&r[i+2000];
           *(unsigned char *)&rp->saddr.addr=(i+59)%254;
           *(((unsigned char *)&rp->saddr.addr)+1)=(i+44)%254;
           *(((unsigned char *)&rp->saddr.addr)+2)=0;
@@ -132,9 +132,9 @@ public:
          rules.push_back(rp);
 
       }
-      for(int i=0;i<20000;i++){
+      for(int i=0;i<2000;i++){
 
-    	  rp=&r[i+40000];
+    	  rp=&r[i+4000];
     	  *(unsigned char *)&rp->saddr.addr=(i+52)%254;
           *(((unsigned char *)&rp->saddr.addr)+1)=(i+74)%254;
           *(((unsigned char *)&rp->saddr.addr)+2)=0;
