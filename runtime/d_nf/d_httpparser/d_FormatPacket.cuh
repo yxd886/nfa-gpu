@@ -119,7 +119,7 @@ public:
 	__device__ d_CFormatPacket(){}
 	__device__ ~d_CFormatPacket(){}
 	__device__  void Format(Pkt* packet){
-		m_pPkt = packet->pkt;
+		//m_pPkt = packet->pkt;
 		m_pEthhdr = &(packet->headinfo.m_pEthhdr);
 		m_pIphdr = &(packet->headinfo.m_pIphdr);
 		m_pTcphdr = &(packet->headinfo.m_pTcphdr);
@@ -134,7 +134,7 @@ public:
 				offset = m_pIphdr->ihl * 4 + m_pTcphdr->doff * 4;
 			else
 				offset = m_pIphdr->ihl * 4 + 8;
-			m_pData = (u_int8_t *)(packet->pkt + sizeof(struct ether_hdr) + offset);
+			//m_pData = (u_int8_t *)(packet->pkt + sizeof(struct ether_hdr) + offset);
 			m_DataLen = iplen - offset;
 			//gettimeofday(&_time,NULL);
 		}
