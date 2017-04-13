@@ -36,6 +36,7 @@
 #include "../../utils/round_rubin_list.h"
 #include "../../utils/fast_hash_map.h"
 #include "../../utils/fixed_array.h"
+#include <cuda_profiler_api.h>
 
 using namespace bess;
 using namespace std;
