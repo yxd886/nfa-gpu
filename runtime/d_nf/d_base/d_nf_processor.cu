@@ -76,7 +76,7 @@ Runtask(Pkt* pkts, Fs* fs, uint64_t service_chain,int packet_num,int* flow_size)
 
     	}
     	memcpy(&share_fs[i],&fs[i],sizeof(Fs));
-    	__Syncthreads();
+    	__syncthreads();
 
 
     	//int j=i;
