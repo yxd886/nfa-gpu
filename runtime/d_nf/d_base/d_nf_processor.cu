@@ -102,9 +102,9 @@ Runtask(Pkt* pkts, Fs* fs, uint64_t service_chain,int packet_num,int* flow_size)
 
 void gpu_nf_process(Pkt* h_pkts,Fs* h_fs,uint64_t service_chain,int packet_num,int *h_flow_size){
 
-  //  Pkt* pkts;
-  //  Fs* fs;
-  //  int* flow_size;
+    Pkt* pkts;
+    Fs* fs;
+    int* flow_size;
    // int* flow_pos;
 
     cudaHostGetDevicePointer((void **)&pkts, (void *)h_pkts, 0);
