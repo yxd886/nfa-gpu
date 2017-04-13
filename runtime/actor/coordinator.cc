@@ -84,7 +84,7 @@ coordinator::coordinator(llring_holder& holder){
   collective_buffer_.init(buffer_batch_size*bess::PacketBatch::kMaxBurst);
   cudaHostAlloc((void**)&d_pkts,PROCESS_TIME*bess::PacketBatch::kMaxBurst * sizeof(Pkt)*10,cudaHostAllocMapped);
   cudaHostAlloc((void**)&d_fs,PROCESS_TIME*bess::PacketBatch::kMaxBurst * sizeof(Fs),cudaHostAllocMapped);
-  cudaHostAlloc((void**)&d_fs,PROCESS_TIME*bess::PacketBatch::kMaxBurst * sizeof(Fs),cudaHostAllocMapped);
+  cudaHostAlloc((void**)&d_flow_size,PROCESS_TIME*bess::PacketBatch::kMaxBurst * sizeof(int),cudaHostAllocMapped);
  // cudaMallocManaged((void**)&d_fs, PROCESS_TIME*bess::PacketBatch::kMaxBurst * sizeof(Fs));
   cudaHostAlloc((void**)&pkts,PROCESS_TIME*bess::PacketBatch::kMaxBurst * sizeof(Pkt)*10,cudaHostAllocMapped);
   cudaHostAlloc((void**)&fs,PROCESS_TIME*bess::PacketBatch::kMaxBurst * sizeof(Fs),cudaHostAllocMapped);
