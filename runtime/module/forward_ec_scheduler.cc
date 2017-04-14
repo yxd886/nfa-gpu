@@ -163,10 +163,10 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		      *(uint64_t *)key = *(uint64_t *)(data_start + coordinator_actor_->fields_[j].offset) &
 		                         coordinator_actor_->fields_[j].mask;
 		    }
-		    gettimeofday(&insert_begin,0);
+
 		    flow_actor** actor_ptr = coordinator_actor_->htable_.Get(reinterpret_cast<flow_key_t*>(keys[i]));
 		    flow_actor* actor = 0;
-		    gettimeofday(&insert_end,0);
+
 
 		    if(unlikely(actor_ptr==nullptr)){
 		      actor = coordinator_actor_->allocator_.allocate();
@@ -204,12 +204,13 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 
 		    if(coordinator_actor_->service_chain_.empty()==false){
+		    	gettimeofday(&insert_begin,0);
 			    if(flow_id.find(*actor_ptr)==flow_id.end()){
 			    	coordinator_actor_->flow_size[idx][flow_num]++;
 			    	flow_id[*actor_ptr]=flow_num;
 			    	flow_num++;
 			    }
-
+			    gettimeofday(&insert_end,0);
 
 			long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
 			long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
