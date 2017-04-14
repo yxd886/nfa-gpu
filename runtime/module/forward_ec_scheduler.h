@@ -50,7 +50,7 @@ private:
   int pre_flow_num;
   int idx;
   bool first_time;
-  int32_t flow_id[50000];
+  int32_t flow_id[60000];
 };
 
 #endif
