@@ -25,6 +25,7 @@
 #include <asm-generic/int-ll64.h>
 #include "d_flow_monitor_fs.cuh"
 #include "d_fm_headinfo.cuh"
+#include "../d_firewall/d_fw_headinfo.cuh"
 #include "../d_base/d_nf_item.h"
 
 
@@ -76,7 +77,7 @@ __device__ void Format(char* packet,struct d_headinfo* hd){
   return;
 }
 
-
+__device__ void Init_rules(struct d_rule*firewall_rules ){}
 __device__ void process(Pkt* raw_packet,d_flow_monitor_fs* fs){
 
 	struct d_headinfo headinfo;

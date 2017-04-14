@@ -8,7 +8,7 @@
 #include <netinet/ip6.h>
 #include "d_SessionHash.cuh"
 //#include "../../bessport/packet.h"
-
+#include "../d_firewall/d_fw_headinfo.cuh"
 #include <glog/logging.h>
 
 class d_http_parser{
@@ -22,7 +22,7 @@ public:
 		process(pkt,fs);
 
   }
-
+	__device__ void Init_rules(struct d_rule*firewall_rules ){}
 
 private:
 

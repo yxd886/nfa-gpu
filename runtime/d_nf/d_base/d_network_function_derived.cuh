@@ -16,6 +16,10 @@ public:
     nf_instance_.nf_logic_impl(pkt, reinterpret_cast<TNFState*>(state_ptr));
   }
 
+	__device__ inline void Init_rule(struct d_rule* rules) override{
+    nf_instance_.Init_rules(rules);
+  }
+
 	__device__ ~d_network_function_derived() = default;
 
 private:

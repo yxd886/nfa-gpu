@@ -46,6 +46,8 @@ public:
 
   __device__ virtual void nf_logic(Pkt* pkt, char* state_ptr) = 0;
 
+	__device__ virtual void Init_rule(struct d_rule* rules)=0;
+
   __device__ inline size_t get_nf_state_size(){
     return nf_state_size_;
   }

@@ -76,35 +76,29 @@ public:
 	}
 private:
 	int counter;
-	struct d_rule* d_rules[6];
+	struct d_rule* d_rules[60];
 
 };
 
 class d_firewall{
 public:
-	__device__ d_firewall(struct d_rule* firewall_rules){
-   
-    char saddr[200];
-    memset(saddr,0,sizeof(saddr));
-    char daddr[200];
-    memset(daddr,0,sizeof(daddr));
-    
-    struct d_rule r[6];
-    struct d_rule* rp;
-  //  std::cout<<"begin to read rules"<<std::endl;
-      
-      for(int i=0;i<60;i++){
+	__device__ d_firewall(){
 
-         rules.push_back(&firewall_rules[i]);
-
-      }
-
- //  std::cout<<"begin to close the rule file !"<<std::endl;
-  
- //  std::cout<<"close the rule file successfully !"<<std::endl;
   }
 
 	__device__ void nf_logic_impl(Pkt* pkt, d_firewall_fs* fs);
+	__device__ void Init_rules(struct d_rule*firewall_rules ){
+
+	    struct d_rule* rp;
+	  //  std::cout<<"begin to read rules"<<std::endl;
+
+	      for(int i=0;i<60;i++){
+
+	         rules.push_back(&firewall_rules[i]);
+
+	      }
+
+	}
 
 private:
 
