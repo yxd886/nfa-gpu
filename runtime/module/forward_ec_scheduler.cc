@@ -210,6 +210,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		    	gettimeofday(&insert_begin,0);
 		    	uint64_t actor_id=(*actor_ptr)->get_id_64();
 			    if(flow_id[actor_id]==-1){
+			    	printf("this is -1\n");
 			    	coordinator_actor_->flow_size[idx][flow_num]++;
 			    	flow_id[actor_id]=flow_num;
 			    	flow_num++;
