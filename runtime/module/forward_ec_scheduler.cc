@@ -212,10 +212,6 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 			    }
 
 
-			long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
-			long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
-			find_time+=end3-begin3;
-
 
 			 //   send(*actor_ptr, pkt_msg_t::value, dp_pkt_batch.pkts()[i]);
 			    //(*actor_ptr)->get_queue_ptr()->push(dp_pkt_batch.pkts()[i]);
@@ -235,6 +231,11 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 				Fs_copy(&(coordinator_actor_->fs[idx][flow_id[*actor_ptr]]),*actor_ptr);
 				//rte_memcpy(dp_pkt_batch.pkts()[i]->head_data(), &((*actor_ptr)->output_header_.ethh), sizeof(struct ether_hdr));
 				 gettimeofday(&insert_end,0);
+
+					long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
+					long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
+					find_time+=end3-begin3;
+
 		    }
 
 		    //send_batch(&(dp_pkt_batch),port_);
