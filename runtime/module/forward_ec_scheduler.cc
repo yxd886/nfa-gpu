@@ -71,8 +71,9 @@ void Format(char* packet,struct d_headinfo* hd){
 
 void Fs_copy(struct Fs* Fs,flow_actor* flow_actor){
 
-	size_t i=0;
-	for(; i<flow_actor->get_service_chain_len(); i++){
+	int size=flow_actor->get_service_chain_len();
+#pragma omp parallel for
+	for(int i=0; i<size; i++){
 	    char* fs_state_ptr = flow_actor->get_fs()->nf_flow_state_ptr[i];
 	    memcpy(Fs->fs[i],fs_state_ptr,flow_actor->get_fs_size()->nf_flow_state_size[i]);
 	  }
@@ -83,8 +84,9 @@ void Fs_copy(struct Fs* Fs,flow_actor* flow_actor){
 
 void Fs_copyback(struct Fs* Fs,flow_actor* flow_actor){
 
-	size_t i=0;
-	for(; i<flow_actor->get_service_chain_len(); i++){
+	int size=flow_actor->get_service_chain_len();
+#pragma omp parallel for
+	for(int i=0; i<size; i++){
 	    char* fs_state_ptr = flow_actor->get_fs()->nf_flow_state_ptr[i];
 	    memcpy(fs_state_ptr,Fs->fs[i],flow_actor->get_fs_size()->nf_flow_state_size[i]);
 	  }
@@ -148,6 +150,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		//Pkt_reset(coordinator_actor_->pkts,PROCESS_TIME*PROCESS_TIME*bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst);
 		counter=0;
 		idx=(!idx);
+		omp_set_num_threads(4);
 		memset(coordinator_actor_->flow_size[idx],0,sizeof(int)*PROCESS_TIME*bess::PacketBatch::kMaxBurst);
 
 
