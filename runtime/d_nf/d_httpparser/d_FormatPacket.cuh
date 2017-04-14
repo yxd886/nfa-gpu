@@ -118,7 +118,7 @@ class d_CFormatPacket : public d_IFormatPacket{
 public:
 	__device__ d_CFormatPacket(){}
 	__device__ ~d_CFormatPacket(){}
-	__device__ void Format(char* packet,struct d_headinfo* hd){
+	__device__ void format(char* packet,struct d_headinfo* hd){
 	  struct ether_hdr* m_pEthhdr;
 	  struct iphdr* m_pIphdr;
 	  struct tcphdr* m_pTcphdr;
