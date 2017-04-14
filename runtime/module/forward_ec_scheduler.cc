@@ -135,7 +135,6 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 	struct timeval insert_begin;
 	long find_time=0;
 	gettimeofday(&whole_begin,0);
-	idx=(!idx);
 	unordered_map <flow_actor*,int> flow_id;
 	int flow_num=0;
 	memset(coordinator_actor_->flow_size[idx],0,sizeof(int)*PROCESS_TIME*bess::PacketBatch::kMaxBurst);
@@ -148,6 +147,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 	}else{
 		//Pkt_reset(coordinator_actor_->pkts,PROCESS_TIME*PROCESS_TIME*bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst);
 		counter=0;
+		idx=(!idx);
 
 
 		gettimeofday(&dp_begin,0);
