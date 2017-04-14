@@ -141,7 +141,8 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 	//HTable<uint64_t, flow_actor*, actorid_keycmp, actorid_hash> actorid_htable_;
 	RECVPacketBatches[counter].Copy(bat);
 	counter++;
-	if(counter!=PROCESS_TIME){
+	if(1){
+		send_batch(&(RECVPacketBatches[counter]),port_);
 		return;
 	}else{
 		//Pkt_reset(coordinator_actor_->pkts,PROCESS_TIME*PROCESS_TIME*bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst);
@@ -176,7 +177,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 			  dp_pkt_batch.add(batch->pkts()[i]);
 			}
 		  }*/
-		  send_batch(&(dp_pkt_batch),port_);
+
 
 		  for(int i=0; i<dp_pkt_batch.cnt(); i++){
 		    char* data_start = dp_pkt_batch.pkts()[i]->head_data<char*>();
@@ -252,7 +253,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 				//rte_memcpy(dp_pkt_batch.pkts()[i]->head_data(), &((*actor_ptr)->output_header_.ethh), sizeof(struct ether_hdr));
 		    }
 
-
+		    //send_batch(&(dp_pkt_batch),port_);
 
 
 		  }
