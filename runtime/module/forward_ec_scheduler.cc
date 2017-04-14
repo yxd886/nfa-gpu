@@ -141,7 +141,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 	//HTable<uint64_t, flow_actor*, actorid_keycmp, actorid_hash> actorid_htable_;
 	RECVPacketBatches[counter].Copy(bat);
 	counter++;
-	if(1){
+	if(counter!=PROCESS_TIME){
 		send_batch(&(RECVPacketBatches[counter]),port_);
 		return;
 	}else{
