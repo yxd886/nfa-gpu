@@ -190,7 +190,9 @@ __device__ void d_firewall::nf_logic_impl(Pkt* pkt, d_firewall_fs* fs){
 __device__ void d_firewall::process(Pkt* packet,d_firewall_fs* fs){
 
 	struct d_headinfo hd;
-	Format(packet->pkt,&hd);
+	char head[60];
+	memcpy(head,packet->pkt,sizeof(head));
+	Format(head,&hd);
 	filter_local_out(&hd,fs);
 }
 __device__ void d_firewall::Format(char* packet,struct d_headinfo* hd){
