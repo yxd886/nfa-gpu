@@ -48,31 +48,41 @@ public:
 
 	}
 
+__device__ void Format(char* packet,struct d_headinfo* hd){
+	  hd->m_pEthhdr = (struct ether_hdr*)packet;
+	  hd->m_pIphdr = (struct iphdr*)(packet + sizeof(struct ether_hdr));
+	  hd->m_pTcphdr = NULL;
+	  hd->m_pUdphdr=NULL;
+	  if(hd->m_pIphdr->protocol==IPPROTO_TCP){
+	         hd->m_pTcphdr = (struct tcphdr*)(packet + sizeof(struct ether_hdr)+(hd->m_pIphdr->ihl)*4);
+	         hd->m_pUdphdr=NULL;
+	  }else if(hd->m_pIphdr->protocol==IPPROTO_UDP){
+	     hd->m_pTcphdr = NULL;
+	     hd->m_pUdphdr=(struct udphdr*)(packet + sizeof(struct ether_hdr)+(hd->m_pIphdr->ihl)*4);
+	   }
+	  hd->protocol =  hd->m_pIphdr->protocol;
+	  return;
+	}
 
 __device__ void process(Pkt* raw_packet,d_flow_monitor_fs* fs){
 
-  	if(fs->counter==0){
+	struct d_headinfo headinfo;
+	Format(raw_packet->pkt,&headinfo);
+	if(fs->counter==0){
 
       //fs->CreatedTime=time(0);
       fs->SrcIp =1;
-      fs->SrcIp = Ntohl(raw_packet->headinfo.m_pIphdr.saddr);
-      fs->DstIp = Ntohl(raw_packet->headinfo.m_pIphdr.daddr);
+      fs->SrcIp = Ntohl(headinfo.m_pIphdr->saddr);
+      fs->DstIp = Ntohl(headinfo.m_pIphdr->daddr);
       uint32_t tmp;
 
-      tmp=raw_packet->headinfo.m_pIphdr.tot_len;
-      tmp=raw_packet->headinfo.m_pIphdr.id;
-      tmp=raw_packet->headinfo.m_pIphdr.frag_off;
-      tmp=raw_packet->headinfo.m_pIphdr.ttl;
-      tmp=raw_packet->headinfo.m_pIphdr.check;
-
-
-      fs->protocol   = raw_packet->headinfo.m_pIphdr.protocol;
-      if(raw_packet->headinfo.is_tcp==0){
+      fs->protocol   = headinfo.m_pIphdr->protocol;
+      if(headinfo.is_tcp==0){
 			  fs->SrcPort=0;
 			  fs->DstPort=0;
       }else{
-      	fs->SrcPort = Ntohs(raw_packet->headinfo.m_pTcphdr.th_sport);
-      	fs->DstPort = Ntohs(raw_packet->headinfo.m_pTcphdr.th_dport);
+      	fs->SrcPort = Ntohs(headinfo.m_pTcphdr->th_sport);
+      	fs->DstPort = Ntohs(headinfo.m_pTcphdr->th_dport);
 
        }
 

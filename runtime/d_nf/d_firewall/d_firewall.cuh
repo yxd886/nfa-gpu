@@ -171,7 +171,7 @@ private:
 
 	__device__ uint16_t GetPort(struct d_headinfo *hd, int flag);
 
-	__device__ void d_firewall::Format(char* packet,struct d_headinfo* hd);
+	__device__ void Format(char* packet,struct d_headinfo* hd);
 
 
  Rules rules;
@@ -235,8 +235,8 @@ __device__ void d_firewall::filter_local_out(struct d_headinfo *hd,d_firewall_fs
   bool match = false;
   bool flag = false;
   protocol = hd->protocol;
-  s_addr = hd->m_pIphdr.saddr;
-  d_addr = hd->m_pIphdr.daddr;
+  s_addr = hd->m_pIphdr->saddr;
+  d_addr = hd->m_pIphdr->daddr;
    sesptr->counter++;
   s_port = GetPort(hd, SRC);
   d_port = GetPort(hd, DEST);
