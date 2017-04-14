@@ -38,6 +38,8 @@ __device__ uint8_t compute_network_function(uint64_t s, int pos){
 __device__ int compute_service_chain_length(uint64_t s){
   int length = 0;
   bool encounter_zero = false;
+
+#pragma unroll
   for(int i=0; i<8; i++){
     uint8_t nf =
         static_cast<uint8_t>((s>>(8*i))&0x00000000000000FF);
