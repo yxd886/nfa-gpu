@@ -280,18 +280,18 @@ __device__ void d_firewall::filter_local_out(struct d_headinfo *hd,d_firewall_fs
 
 __device__ uint16_t d_firewall::GetPort(struct d_headinfo *hd, int flag){
 	uint16_t port = ANY_PORT;
-	switch(hd->m_pIphdr.protocol){
+	switch(hd->m_pIphdr->protocol){
 		case IPPROTO_TCP:
 			if(flag == SRC)
-				port = Ntohs(hd->m_pTcphdr.th_sport);
+				port = Ntohs(hd->m_pTcphdr->th_sport);
 			else if(flag == DEST)
-				port = Ntohs(hd->m_pTcphdr.th_dport);
+				port = Ntohs(hd->m_pTcphdr->th_dport);
 			break;
 		case IPPROTO_UDP:
 			if(flag == SRC)
-				port = Ntohs(hd->m_pUdphdr.uh_sport);
+				port = Ntohs(hd->m_pUdphdr->uh_sport);
 			else if(flag == DEST)
-				port = Ntohs(hd->m_pUdphdr.uh_dport);
+				port = Ntohs(hd->m_pUdphdr->uh_dport);
 			break;
 		default:
 			port = ANY_PORT;
