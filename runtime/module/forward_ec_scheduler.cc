@@ -72,7 +72,7 @@ void Format(char* packet,struct d_headinfo* hd){
 void Fs_copy(struct Fs* Fs,flow_actor* flow_actor){
 
 	int size=flow_actor->get_service_chain_len();
-#pragma omp parallel for
+//#pragma omp parallel for
 	for(int i=0; i<size; i++){
 	    char* fs_state_ptr = flow_actor->get_fs()->nf_flow_state_ptr[i];
 	    memcpy(Fs->fs[i],fs_state_ptr,flow_actor->get_fs_size()->nf_flow_state_size[i]);
@@ -85,7 +85,7 @@ void Fs_copy(struct Fs* Fs,flow_actor* flow_actor){
 void Fs_copyback(struct Fs* Fs,flow_actor* flow_actor){
 
 	int size=flow_actor->get_service_chain_len();
-#pragma omp parallel for
+//#pragma omp parallel for
 	for(int i=0; i<size; i++){
 	    char* fs_state_ptr = flow_actor->get_fs()->nf_flow_state_ptr[i];
 	    memcpy(fs_state_ptr,Fs->fs[i],flow_actor->get_fs_size()->nf_flow_state_size[i]);
