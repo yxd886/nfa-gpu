@@ -337,7 +337,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 
 			for(int j=0;j<pre_flow_num;j++){
-			  flow_actor** actor_ptr=coordinator_actor_->actorid_htable_.Get(&(fs[j].actor_id_64));
+			  flow_actor** actor_ptr=coordinator_actor_->actorid_htable_.Get(&(coordinator_actor_->tmp_fs[j].actor_id_64));
 			  if(unlikely(actor_ptr==nullptr)) continue;
 			  flow_actor* actor=*actor_ptr;
 			  Fs_copyback(&(coordinator_actor_->tmp_fs[j]),actor);
