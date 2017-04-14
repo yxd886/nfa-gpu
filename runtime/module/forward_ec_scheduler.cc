@@ -68,20 +68,6 @@ void Format(char* packet,struct d_headinfo* hd){
 }
 
 
-void Pkt_insert(coordinator* coordinator_,bess::Packet* bess_pkt,int i,int times){
-
-	//while(coordinator_->pkts[i].full==1){
-	//	i+=bess::PacketBatch::kMaxBurst;
-	//}
-	char* dst=coordinator_->pkts[i+times*bess::PacketBatch::kMaxBurst].pkt;
-	char* src=bess_pkt->head_data<char*>();
-	memcpy(dst,src,bess_pkt->total_len()<PKT_SIZE?bess_pkt->total_len():PKT_SIZE);
-
-	Format(src,&(coordinator_->pkts[i+times*bess::PacketBatch::kMaxBurst].headinfo));
-
-	coordinator_->pkts[i+times*bess::PacketBatch::kMaxBurst].full=1;
-
-}
 
 void Fs_copy(struct Fs* Fs,flow_actor* flow_actor){
 
