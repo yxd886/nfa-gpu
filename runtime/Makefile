@@ -73,7 +73,7 @@ PROTOCXXFLAGS = -std=gnu++11 -O0 -Wno-unused-parameter
 
 CXXFLAGS += -std=gnu++11 -g3 -ggdb3 -Ofast -march=native \
 	    -isystem $(DPDK_INC_DIR) -isystem cudaport/inc -isystem /usr/local/cuda-8.0/include -D_GNU_SOURCE \
-	    -Wall -Wextra -Wcast-align -Wno-unused-parameter
+	    -Wall -Wextra -Wcast-align -Wno-unused-parameter -fopenmp
 	    
 CUDAFLAGS += -ccbin g++ -m 64 -G -Icudaport/inc  -I$(DPDK_INC_DIR) -std=c++11 -Xcompiler -g3,-ggdb3,-Ofast,-march=native,-Wall,-g,-rdynamic,-Wextra,-Wcast-align,-Wno-unused-parameter
 
