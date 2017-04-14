@@ -69,8 +69,9 @@ struct  Pkt{
 
 struct  Fs{
 	uint64_t actor_id_64;
-	char fs[8][FS_STATE_MAX_SIZE];
 	flow_actor* ptr;
+	char fs[8][FS_STATE_MAX_SIZE];
+
 };
 
 
