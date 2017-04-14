@@ -39,28 +39,28 @@ void send_batch(bess::PacketBatch *batch,sn_port* port_) {
 
 
 
-void Fs_copy(struct Fs* Fs,flow_actor* flow_actor){
+void Fs_copy(struct Fs* fs,flow_actor* flow_actor){
 
 	int size=flow_actor->get_service_chain_len();
 //#pragma omp parallel for
 	for(int i=0; i<size; i++){
 	    char* fs_state_ptr = flow_actor->get_fs()->nf_flow_state_ptr[i];
-	    memcpy(Fs->fs[i],fs_state_ptr,flow_actor->get_fs_size()->nf_flow_state_size[i]);
+	    memcpy(fs->fs[i],fs_state_ptr,flow_actor->get_fs_size()->nf_flow_state_size[i]);
 	  }
-	Fs->actor_id_64=flow_actor->get_id_64();
-	Fs->ptr=flow_actor;
+	fs->actor_id_64=flow_actor->get_id_64();
+	fs->ptr=flow_actor;
 
 }
 
 
-void Fs_copyback(struct Fs* Fs,flow_actor* flow_actor){
+void Fs_copyback(struct Fs* fs,flow_actor* flow_actor){
 
 	if(flow_actor==nullptr||flow_actor==NULL) return;
 	int size=flow_actor->get_service_chain_len();
 //#pragma omp parallel for
 	for(int i=0; i<size; i++){
 	    char* fs_state_ptr = flow_actor->get_fs()->nf_flow_state_ptr[i];
-	    memcpy(fs_state_ptr,Fs->fs[i],flow_actor->get_fs_size()->nf_flow_state_size[i]);
+	    memcpy(fs_state_ptr,fs->fs[i],flow_actor->get_fs_size()->nf_flow_state_size[i]);
 	  }
 
 }
