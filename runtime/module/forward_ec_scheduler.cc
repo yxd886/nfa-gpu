@@ -325,14 +325,14 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		 // memcpy(coordinator_actor_->d_fs,coordinator_actor_->fs,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Fs));
 		 // cudaMemcpy(coordinator_actor_->d_pkts,coordinator_actor_->pkts,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Pkt),cudaMemcpyHostToDevice);
 
-			rte_memcpy(coordinator_actor_->tmp_fs,coordinator_actor_->fs[!idx],PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Fs));
+			//rte_memcpy(coordinator_actor_->tmp_fs,coordinator_actor_->fs[!idx],PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Fs));
 
 
 			for(int j=0;j<pre_flow_num;j++){
 			  flow_actor** actor_ptr=coordinator_actor_->actorid_htable_.Get(&(coordinator_actor_->tmp_fs[j].actor_id_64));
 			  if(unlikely(actor_ptr==nullptr)) continue;
 			  flow_actor* actor=*actor_ptr;
-			  Fs_copyback(&(coordinator_actor_->tmp_fs[j]),actor);
+			  Fs_copyback(&(coordinator_actor_->fs[!idx][j]),actor);
 			}
 
 
