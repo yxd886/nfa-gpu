@@ -37,36 +37,6 @@ void send_batch(bess::PacketBatch *batch,sn_port* port_) {
  // }
 }
 
-void Format(char* packet,struct d_headinfo* hd){
-  struct ether_hdr* m_pEthhdr;
-  struct iphdr* m_pIphdr;
-  struct tcphdr* m_pTcphdr;
-  struct udphdr* m_pUdphdr;
-
-
-
-  m_pEthhdr = (struct ether_hdr*)packet;
-  memcpy(&(hd->m_pEthhdr),m_pEthhdr,sizeof(struct ether_hdr));
-  m_pIphdr = (struct iphdr*)(packet + sizeof(struct ether_hdr));
-  memcpy(&(hd->m_pIphdr),m_pIphdr,sizeof(struct iphdr));
-  if(m_pIphdr->protocol==IPPROTO_TCP){
-         m_pTcphdr = (struct tcphdr*)(packet + sizeof(struct ether_hdr)+(hd->m_pIphdr.ihl)*4);
-         memcpy(&(hd->m_pTcphdr),m_pTcphdr,sizeof(struct tcphdr));
-         hd->is_udp=0;
-  }else if(m_pIphdr->protocol==IPPROTO_UDP){
-     hd->is_tcp = 0;
-     m_pUdphdr=(struct udphdr*)(packet + sizeof(struct ether_hdr)+(hd->m_pIphdr.ihl)*4);
-     memcpy(&(hd->m_pUdphdr),m_pUdphdr,sizeof(struct udphdr));
-
-   }else{
-      hd->is_tcp = 0;
-      hd->is_udp = 0;
-    }
-
-  hd->protocol =  m_pIphdr->protocol;
-  return;
-}
-
 
 
 void Fs_copy(struct Fs* Fs,flow_actor* flow_actor){
@@ -260,7 +230,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 				char* src=dp_pkt_batch.pkts()[i]->head_data<char*>();
 				if(dst==NULL||src==NULL) continue;
 				memcpy(dst,src,dp_pkt_batch.pkts()[i]->total_len()<PKT_SIZE?dp_pkt_batch.pkts()[i]->total_len():PKT_SIZE);
-				Format(src,&(coordinator_actor_->pkts[idx][pkt_id].headinfo));
+				//Format(src,&(coordinator_actor_->pkts[idx][pkt_id].headinfo));
 				Fs_copy(&(coordinator_actor_->fs[idx][flow_id[*actor_ptr]]),*actor_ptr);
 				//rte_memcpy(dp_pkt_batch.pkts()[i]->head_data(), &((*actor_ptr)->output_header_.ethh), sizeof(struct ether_hdr));
 		    }
