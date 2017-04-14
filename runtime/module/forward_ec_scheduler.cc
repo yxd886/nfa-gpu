@@ -48,6 +48,7 @@ void Fs_copy(struct Fs* Fs,flow_actor* flow_actor){
 	    memcpy(Fs->fs[i],fs_state_ptr,flow_actor->get_fs_size()->nf_flow_state_size[i]);
 	  }
 	Fs->actor_id_64=flow_actor->get_id_64();
+	Fs->ptr=flow_actor;
 
 }
 
@@ -196,8 +197,8 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 		      coordinator_actor_->htable_.Set(reinterpret_cast<flow_key_t*>(keys[i]), &actor);
 
-		      uint64_t actor_id_64 = actor->get_id_64();
-		      coordinator_actor_->actorid_htable_.Set(&actor_id_64, &actor);
+		     // uint64_t actor_id_64 = actor->get_id_64();
+		     // coordinator_actor_->actorid_htable_.Set(&actor_id_64, &actor);
 
 		      actor_ptr = &actor;
 		    }
@@ -318,9 +319,9 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 	//	  omp_set_num_threads(4);
 //#pragma omp parallel for
 			for(int j=0;j<pre_flow_num;j++){
-			  flow_actor** actor_ptr=coordinator_actor_->actorid_htable_.Get(&(coordinator_actor_->tmp_fs[j].actor_id_64));
-			  if(unlikely(actor_ptr==nullptr)) continue;
-			  flow_actor* actor=*actor_ptr;
+			 // flow_actor** actor_ptr=coordinator_actor_->actorid_htable_.Get(&(coordinator_actor_->fs[!idx][j].actor_id_64));
+			 // if(unlikely(actor_ptr==nullptr)) continue;
+			  flow_actor* actor=coordinator_actor_->fs[!idx][j].ptr;
 			  Fs_copyback(&(coordinator_actor_->fs[!idx][j]),actor);
 			}
 

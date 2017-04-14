@@ -42,6 +42,7 @@
 #include <netinet/tcp.h>
 #include <netinet/udp.h>
 #include <netinet/in.h>
+#include "../../actor/flow_actor.h"
 
 struct d_headinfo{
   struct ether_hdr m_pEthhdr;
@@ -69,6 +70,7 @@ struct  Pkt{
 struct  Fs{
 	uint64_t actor_id_64;
 	char fs[8][FS_STATE_MAX_SIZE];
+	flow_actor* ptr;
 };
 
 
