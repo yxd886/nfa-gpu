@@ -12,9 +12,9 @@
 #include <pthread.h>
 #include <omp.h>
 
-void send_batch(bess::PacketBatch *batch,sn_port* port_) {
+void send_batch(bess::PacketBatch *batch,sn_port* port_,int i) {
   /* TODO: choose appropriate out queue */
-  const uint8_t qid = 0;
+  const uint8_t qid = i;
 
   uint64_t sent_bytes = 0;
   int sent_pkts;
@@ -256,7 +256,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 		  }
 		  //SENDPacketBatches[loop].Copy(&(coordinator_actor_->ec_scheduler_batch_));
-		  send_batch(&(dp_pkt_batch),port_);
+		  send_batch(&(dp_pkt_batch),port_,loop);
 		}
 
 //		gettimeofday(&dp_end,0);
