@@ -190,27 +190,39 @@ __device__ void d_firewall::nf_logic_impl(Pkt* pkt, d_firewall_fs* fs){
 __device__ void d_firewall::process(Pkt* packet,d_firewall_fs* fs){
 
 	struct d_headinfo hd;
-	char head[100];
-	memcpy(head,packet->pkt,sizeof(head));
-	Format(head,&hd);
+	//char head[100];
+	//memcpy(head,packet->pkt,sizeof(head));
+	Format(packet->pkt,&hd);
 	filter_local_out(&hd,fs);
 }
+
 __device__ void d_firewall::Format(char* packet,struct d_headinfo* hd){
-  hd->m_pEthhdr = (struct ether_hdr*)packet;
-  hd->m_pIphdr = (struct iphdr*)(packet + sizeof(struct ether_hdr));
-  hd->m_pTcphdr = NULL;
-  hd->m_pUdphdr=NULL;
-  if(hd->m_pIphdr->protocol==IPPROTO_TCP){
-         hd->m_pTcphdr = (struct tcphdr*)(packet + sizeof(struct ether_hdr)+(hd->m_pIphdr->ihl)*4);
-         hd->m_pUdphdr=NULL;
-  }else if(hd->m_pIphdr->protocol==IPPROTO_UDP){
-     hd->m_pTcphdr = NULL;
-     hd->m_pUdphdr=(struct udphdr*)(packet + sizeof(struct ether_hdr)+(hd->m_pIphdr->ihl)*4);
-   }
-  hd->protocol =  hd->m_pIphdr->protocol;
+  struct ether_hdr* m_pEthhdr;
+  struct iphdr* m_pIphdr;
+  struct tcphdr* m_pTcphdr;
+  struct udphdr* m_pUdphdr;
+
+  m_pEthhdr = (struct ether_hdr*)packet;
+  memcpy(&(hd->m_pEthhdr),m_pEthhdr,sizeof(struct ether_hdr));
+  m_pIphdr = (struct iphdr*)(packet + sizeof(struct ether_hdr));
+  memcpy(&(hd->m_pIphdr),m_pIphdr,sizeof(struct iphdr));
+  if(m_pIphdr->protocol==IPPROTO_TCP){
+         m_pTcphdr = (struct tcphdr*)(packet + sizeof(struct ether_hdr)+(hd->m_pIphdr.ihl)*4);
+         memcpy(&(hd->m_pTcphdr),m_pTcphdr,sizeof(struct tcphdr));
+         hd->is_udp=0;
+  }else if(m_pIphdr->protocol==IPPROTO_UDP){
+     hd->is_tcp = 0;
+     m_pUdphdr=(struct udphdr*)(packet + sizeof(struct ether_hdr)+(hd->m_pIphdr.ihl)*4);
+     memcpy(&(hd->m_pUdphdr),m_pUdphdr,sizeof(struct udphdr));
+
+   }else{
+      hd->is_tcp = 0;
+      hd->is_udp = 0;
+    }
+
+  hd->protocol =  m_pIphdr->protocol;
   return;
 }
-
 
 
 __device__ bool d_firewall::CompareID_with_mask(uint32_t addr1, uint32_t addr2, uint8_t mask){
@@ -237,8 +249,8 @@ __device__ void d_firewall::filter_local_out(struct d_headinfo *hd,d_firewall_fs
   bool match = false;
   bool flag = false;
   protocol = hd->protocol;
-  s_addr = hd->m_pIphdr->saddr;
-  d_addr = hd->m_pIphdr->daddr;
+  s_addr = hd->m_pIphdr.saddr;
+  d_addr = hd->m_pIphdr.daddr;
    sesptr->counter++;
   s_port = GetPort(hd, SRC);
   d_port = GetPort(hd, DEST);
@@ -282,18 +294,18 @@ __device__ void d_firewall::filter_local_out(struct d_headinfo *hd,d_firewall_fs
 
 __device__ uint16_t d_firewall::GetPort(struct d_headinfo *hd, int flag){
 	uint16_t port = ANY_PORT;
-	switch(hd->m_pIphdr->protocol){
+	switch(hd->m_pIphdr.protocol){
 		case IPPROTO_TCP:
 			if(flag == SRC)
-				port = Ntohs(hd->m_pTcphdr->th_sport);
+				port = Ntohs(hd->m_pTcphdr.th_sport);
 			else if(flag == DEST)
-				port = Ntohs(hd->m_pTcphdr->th_dport);
+				port = Ntohs(hd->m_pTcphdr.th_dport);
 			break;
 		case IPPROTO_UDP:
 			if(flag == SRC)
-				port = Ntohs(hd->m_pUdphdr->uh_sport);
+				port = Ntohs(hd->m_pUdphdr.uh_sport);
 			else if(flag == DEST)
-				port = Ntohs(hd->m_pUdphdr->uh_dport);
+				port = Ntohs(hd->m_pUdphdr.uh_dport);
 			break;
 		default:
 			port = ANY_PORT;

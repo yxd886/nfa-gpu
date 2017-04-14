@@ -118,11 +118,39 @@ class d_CFormatPacket : public d_IFormatPacket{
 public:
 	__device__ d_CFormatPacket(){}
 	__device__ ~d_CFormatPacket(){}
-	__device__  void Format(Pkt* packet){
+	__device__ void Format(char* packet,struct d_headinfo* hd){
+	  struct ether_hdr* m_pEthhdr;
+	  struct iphdr* m_pIphdr;
+	  struct tcphdr* m_pTcphdr;
+	  struct udphdr* m_pUdphdr;
+
+	  m_pEthhdr = (struct ether_hdr*)packet;
+	  memcpy(&(hd->m_pEthhdr),m_pEthhdr,sizeof(struct ether_hdr));
+	  m_pIphdr = (struct iphdr*)(packet + sizeof(struct ether_hdr));
+	  memcpy(&(hd->m_pIphdr),m_pIphdr,sizeof(struct iphdr));
+	  if(m_pIphdr->protocol==IPPROTO_TCP){
+	         m_pTcphdr = (struct tcphdr*)(packet + sizeof(struct ether_hdr)+(hd->m_pIphdr.ihl)*4);
+	         memcpy(&(hd->m_pTcphdr),m_pTcphdr,sizeof(struct tcphdr));
+	         hd->is_udp=0;
+	  }else if(m_pIphdr->protocol==IPPROTO_UDP){
+	     hd->is_tcp = 0;
+	     m_pUdphdr=(struct udphdr*)(packet + sizeof(struct ether_hdr)+(hd->m_pIphdr.ihl)*4);
+	     memcpy(&(hd->m_pUdphdr),m_pUdphdr,sizeof(struct udphdr));
+
+	   }else{
+	      hd->is_tcp = 0;
+	      hd->is_udp = 0;
+	    }
+
+	  hd->protocol =  m_pIphdr->protocol;
+	  return;
+	}
+
+	__device__  void Format(Pkt* packet,d_headinfo* hd){
 		m_pPkt = packet->pkt;
-		m_pEthhdr = (struct ether_hdr*)m_pPkt;
-		m_pIphdr = (struct iphdr*)(m_pPkt + sizeof(struct ether_hdr));
-		m_pTcphdr = (struct tcphdr*)(m_pPkt + sizeof(struct ether_hdr)+(m_pIphdr->ihl)*4);
+		m_pEthhdr =&(hd->m_pPkt);
+		m_pIphdr = &(hd->m_pIphdr);
+		m_pTcphdr =&(hd->m_pTcphdr);
 		m_uPktLen = Ntohs(m_pIphdr->tot_len);
 		m_pEthIndex = (int16_t*)(&m_pEthhdr->ether_type);
 		m_pData = NULL;

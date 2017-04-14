@@ -30,7 +30,9 @@ private:
 		}
 		//格式化一个二进制包
 		d_CFormatPacket packet;
-		packet.Format(msg);
+		struct d_headinfo head;
+		packet.Format(msg->pkt,&head);
+		packet.Format(msg,&head);
 		//	 printf("packet.GetDstPort:%x\n",packet.GetDstPort());
 		//	 printf("ntoh packet.GetDstPort:%x\n",ntohs(packet.GetDstPort()));
 		//	 printf("packet.GetSrcPort:%x\n",packet.GetSrcPort());

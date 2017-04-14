@@ -44,10 +44,10 @@
 #include <netinet/in.h>
 
 struct d_headinfo{
-  struct ether_hdr* m_pEthhdr;
-  struct iphdr* m_pIphdr;
-  struct tcphdr* m_pTcphdr;
-  struct udphdr* m_pUdphdr;
+  struct ether_hdr m_pEthhdr;
+  struct iphdr m_pIphdr;
+  struct tcphdr m_pTcphdr;
+  struct udphdr m_pUdphdr;
   uint8_t protocol;
   uint8_t is_tcp;
   uint8_t is_udp;

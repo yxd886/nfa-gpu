@@ -49,20 +49,33 @@ public:
 	}
 
 __device__ void Format(char* packet,struct d_headinfo* hd){
-	  hd->m_pEthhdr = (struct ether_hdr*)packet;
-	  hd->m_pIphdr = (struct iphdr*)(packet + sizeof(struct ether_hdr));
-	  hd->m_pTcphdr = NULL;
-	  hd->m_pUdphdr=NULL;
-	  if(hd->m_pIphdr->protocol==IPPROTO_TCP){
-	         hd->m_pTcphdr = (struct tcphdr*)(packet + sizeof(struct ether_hdr)+(hd->m_pIphdr->ihl)*4);
-	         hd->m_pUdphdr=NULL;
-	  }else if(hd->m_pIphdr->protocol==IPPROTO_UDP){
-	     hd->m_pTcphdr = NULL;
-	     hd->m_pUdphdr=(struct udphdr*)(packet + sizeof(struct ether_hdr)+(hd->m_pIphdr->ihl)*4);
-	   }
-	  hd->protocol =  hd->m_pIphdr->protocol;
-	  return;
-	}
+  struct ether_hdr* m_pEthhdr;
+  struct iphdr* m_pIphdr;
+  struct tcphdr* m_pTcphdr;
+  struct udphdr* m_pUdphdr;
+
+  m_pEthhdr = (struct ether_hdr*)packet;
+  memcpy(&(hd->m_pEthhdr),m_pEthhdr,sizeof(struct ether_hdr));
+  m_pIphdr = (struct iphdr*)(packet + sizeof(struct ether_hdr));
+  memcpy(&(hd->m_pIphdr),m_pIphdr,sizeof(struct iphdr));
+  if(m_pIphdr->protocol==IPPROTO_TCP){
+         m_pTcphdr = (struct tcphdr*)(packet + sizeof(struct ether_hdr)+(hd->m_pIphdr.ihl)*4);
+         memcpy(&(hd->m_pTcphdr),m_pTcphdr,sizeof(struct tcphdr));
+         hd->is_udp=0;
+  }else if(m_pIphdr->protocol==IPPROTO_UDP){
+     hd->is_tcp = 0;
+     m_pUdphdr=(struct udphdr*)(packet + sizeof(struct ether_hdr)+(hd->m_pIphdr.ihl)*4);
+     memcpy(&(hd->m_pUdphdr),m_pUdphdr,sizeof(struct udphdr));
+
+   }else{
+      hd->is_tcp = 0;
+      hd->is_udp = 0;
+    }
+
+  hd->protocol =  m_pIphdr->protocol;
+  return;
+}
+
 
 __device__ void process(Pkt* raw_packet,d_flow_monitor_fs* fs){
 
@@ -72,17 +85,17 @@ __device__ void process(Pkt* raw_packet,d_flow_monitor_fs* fs){
 
       //fs->CreatedTime=time(0);
       fs->SrcIp =1;
-      fs->SrcIp = Ntohl(headinfo.m_pIphdr->saddr);
-      fs->DstIp = Ntohl(headinfo.m_pIphdr->daddr);
+      fs->SrcIp = Ntohl(headinfo.m_pIphdr.saddr);
+      fs->DstIp = Ntohl(headinfo.m_pIphdr.daddr);
       uint32_t tmp;
 
-      fs->protocol   = headinfo.m_pIphdr->protocol;
+      fs->protocol   = headinfo.m_pIphdr.protocol;
       if(headinfo.is_tcp==0){
 			  fs->SrcPort=0;
 			  fs->DstPort=0;
       }else{
-      	fs->SrcPort = Ntohs(headinfo.m_pTcphdr->th_sport);
-      	fs->DstPort = Ntohs(headinfo.m_pTcphdr->th_dport);
+      	fs->SrcPort = Ntohs(headinfo.m_pTcphdr.th_sport);
+      	fs->DstPort = Ntohs(headinfo.m_pTcphdr.th_dport);
 
        }
 
