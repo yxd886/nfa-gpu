@@ -124,7 +124,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		idx=(!idx);
 		//omp_set_num_threads(4);
 		memset(coordinator_actor_->flow_size[idx],0,sizeof(int)*PROCESS_TIME*bess::PacketBatch::kMaxBurst);
-		memset(flow_id,1,sizeof(flow_id));
+		memset(flow_id,-1,sizeof(flow_id));
 
 
 		gettimeofday(&dp_begin,0);
