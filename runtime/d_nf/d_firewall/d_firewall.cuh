@@ -171,6 +171,7 @@ private:
 
 	__device__ uint16_t GetPort(struct d_headinfo *hd, int flag);
 
+	__device__ void d_firewall::Format(char* packet,struct d_headinfo* hd);
 
 
  Rules rules;
@@ -188,8 +189,26 @@ __device__ void d_firewall::nf_logic_impl(Pkt* pkt, d_firewall_fs* fs){
 
 __device__ void d_firewall::process(Pkt* packet,d_firewall_fs* fs){
 
-  filter_local_out(&(packet->headinfo),fs);
+	struct d_headinfo hd;
+	Format(packet->pkt,&hd);
+	filter_local_out(&hd,fs);
 }
+__device__ void d_firewall::Format(char* packet,struct d_headinfo* hd){
+  hd->m_pEthhdr = (struct ether_hdr*)packet;
+  hd->m_pIphdr = (struct iphdr*)(packet + sizeof(struct ether_hdr));
+  hd->m_pTcphdr = NULL;
+  hd->m_pUdphdr=NULL;
+  if(hd->m_pIphdr->protocol==IPPROTO_TCP){
+         hd->m_pTcphdr = (struct tcphdr*)(packet + sizeof(struct ether_hdr)+(hd->m_pIphdr->ihl)*4);
+         hd->m_pUdphdr=NULL;
+  }else if(hd->m_pIphdr->protocol==IPPROTO_UDP){
+     hd->m_pTcphdr = NULL;
+     hd->m_pUdphdr=(struct udphdr*)(packet + sizeof(struct ether_hdr)+(hd->m_pIphdr->ihl)*4);
+   }
+  hd->protocol =  hd->m_pIphdr->protocol;
+  return;
+}
+
 
 
 __device__ bool d_firewall::CompareID_with_mask(uint32_t addr1, uint32_t addr2, uint8_t mask){
