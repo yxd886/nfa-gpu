@@ -25,7 +25,10 @@ public:
   forward_ec_scheduler() : Module(), coordinator_actor_(0),port_(),counter(0),pre_flow_num(0),idx(0){}
 
   virtual void ProcessBatch(bess::PacketBatch *batch);
-  pb_error_t Init(const bess::pb::PortIncArg &arg);
+
+  pb_error_t Init(const bess::pb::PortIncArg &arg){
+	  return pb_errno(0);
+  }
 
   void customized_init(coordinator* coordinator_actor,  sn_port* port_);
 
