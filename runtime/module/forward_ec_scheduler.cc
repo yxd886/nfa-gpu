@@ -48,7 +48,7 @@ void Fs_copy(struct Fs* fs,flow_actor* flow_actor){
 	    memcpy(fs->fs[i],fs_state_ptr,flow_actor->get_fs_size()->nf_flow_state_size[i]);
 	  }
 	fs->actor_id_64=flow_actor->get_id_64();
-	fs->ptr=flow_actor;
+	fs->ptr=(void*)flow_actor;
 
 }
 
@@ -231,7 +231,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 				memcpy(dst,src,dp_pkt_batch.pkts()[i]->total_len()<PKT_SIZE?dp_pkt_batch.pkts()[i]->total_len():PKT_SIZE);
 				//Format(src,&(coordinator_actor_->pkts[idx][pkt_id].headinfo));
 
-				Fs_copyback(&(coordinator_actor_->fs[idx][flow_id[*actor_ptr]]),coordinator_actor_->fs[idx][flow_id[*actor_ptr]].ptr);
+				Fs_copyback(&(coordinator_actor_->fs[idx][flow_id[*actor_ptr]]),(flow_actor*)coordinator_actor_->fs[idx][flow_id[*actor_ptr]].ptr);
 
 				Fs_copy(&(coordinator_actor_->fs[idx][flow_id[*actor_ptr]]),*actor_ptr);
 
