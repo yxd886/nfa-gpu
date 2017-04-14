@@ -148,7 +148,7 @@ public:
 
 	__device__  void Format(Pkt* packet,d_headinfo* hd){
 		m_pPkt = packet->pkt;
-		m_pEthhdr =&(hd->m_pPkt);
+		m_pEthhdr =&(hd->m_pEthhdr);
 		m_pIphdr = &(hd->m_pIphdr);
 		m_pTcphdr =&(hd->m_pTcphdr);
 		m_uPktLen = Ntohs(m_pIphdr->tot_len);
