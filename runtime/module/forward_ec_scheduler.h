@@ -11,6 +11,7 @@
 #include "../d_nf/d_base/Pkt.h"
 #include "../port/sn_port.h"
 #include "../actor/coordinator.h"
+#include "../bessport/module_msg.pb.h"
 #include <thread>
 #include <chrono>
 
