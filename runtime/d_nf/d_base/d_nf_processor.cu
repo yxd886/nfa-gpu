@@ -17,6 +17,7 @@ __device__ void Init_nfs(struct d_flow_actor_nfs* nfs,struct d_rule* firewall_ru
 	nfs->nf[2]=new d_network_function_derived<d_flow_monitor, d_flow_monitor_fs>(2);
 	nfs->nf[3]=new d_network_function_derived<d_firewall, d_firewall_fs>(3);
 	nfs->nf[4]=new d_network_function_derived<d_http_parser, d_http_parser_fs>(4);
+	nfs->nf[3]->Init_rule(firewall_rules);
 
 }
 
