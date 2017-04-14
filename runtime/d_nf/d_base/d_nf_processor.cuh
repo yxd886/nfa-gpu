@@ -1,7 +1,7 @@
 #ifndef D_NF_PROCESSOR_H
 #define D_NF_PROCESSOR_H
 #include <cuda_runtime.h>
-#include "../d_firewall/d_firewall.cuh"
+
 #include <helper_cuda.h>
 
 #include <stdint.h>

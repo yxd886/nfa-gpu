@@ -19,6 +19,7 @@
 #include "../utils/generic_ring_allocator.h"
 #include "coordinator_public_field.h"
 #include "../d_nf/d_base/d_nf_processor.cuh"
+#include "../d_nf/d_firewall/d_fw_headinfo.cuh"
 
 class flow_actor;
 class flow_actor_allocator;
