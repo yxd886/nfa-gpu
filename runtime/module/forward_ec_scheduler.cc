@@ -249,7 +249,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		 //   send(*actor_ptr, pkt_msg_t::value, dp_pkt_batch.pkts()[i]);
 		    //(*actor_ptr)->get_queue_ptr()->push(dp_pkt_batch.pkts()[i]);
 		    //coordinator_actor_->ec_scheduler_batch_.add(dp_pkt_batch.pkts()[i]);
-		    if(coordinator_actor_->flow_size[flow_id[*actor_ptr]]>=10){
+		    if(coordinator_actor_->flow_size[idx][flow_id[*actor_ptr]]>=10){
 		    	printf("number >10!!");
 		    	exit(-1);
 		    }
