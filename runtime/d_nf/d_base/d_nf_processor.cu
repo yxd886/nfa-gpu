@@ -90,7 +90,7 @@ Runtask(Pkt* pkts, Fs* fs, uint64_t service_chain,int packet_num,int* flow_size)
     			int l=nf_id;
     			nfs.nf[l]->nf_logic(pkt,fs[i].fs[l]);
     		}
-    		fs[i].ptr=NULL;
+    		//fs[i].ptr=NULL;
 
     		//j+=packet_num;
 
