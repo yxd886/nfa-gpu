@@ -45,7 +45,7 @@ void Fs_copy(struct Fs* fs,flow_actor* flow_actor){
 //#pragma omp parallel for
 	for(int i=0; i<size; i++){
 	    char* fs_state_ptr = flow_actor->get_fs()->nf_flow_state_ptr[i];
-	    memcpy(fs->fs[i],fs_state_ptr,flow_actor->get_fs_size()->nf_flow_state_size[i]);
+	    rte_memcpy(fs->fs[i],fs_state_ptr,flow_actor->get_fs_size()->nf_flow_state_size[i]);
 	  }
 	fs->actor_id_64=flow_actor->get_id_64();
 	fs->ptr=(void*)flow_actor;
@@ -60,7 +60,7 @@ void Fs_copyback(struct Fs* fs,flow_actor* flow_actor){
 //#pragma omp parallel for
 	for(int i=0; i<size; i++){
 	    char* fs_state_ptr = flow_actor->get_fs()->nf_flow_state_ptr[i];
-	    memcpy(fs_state_ptr,fs->fs[i],flow_actor->get_fs_size()->nf_flow_state_size[i]);
+	    rte_memcpy(fs_state_ptr,fs->fs[i],flow_actor->get_fs_size()->nf_flow_state_size[i]);
 	  }
 
 }
@@ -109,7 +109,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 	struct timeval insert_begin;
 	long find_time=0;
 	gettimeofday(&whole_begin,0);
-	unordered_map <flow_actor*,int> flow_id;
+	//unordered_map <flow_actor*,int> flow_id;
 	int flow_num=0;
 
 	//HTable<uint64_t, flow_actor*, actorid_keycmp, actorid_hash> actorid_htable_;
@@ -124,6 +124,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		idx=(!idx);
 		//omp_set_num_threads(4);
 		memset(coordinator_actor_->flow_size[idx],0,sizeof(int)*PROCESS_TIME*bess::PacketBatch::kMaxBurst);
+		memset(flow_id,0,sizeof(flow_id));
 
 
 		gettimeofday(&dp_begin,0);
@@ -207,9 +208,9 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 		    if(coordinator_actor_->service_chain_.empty()==false){
 		    	gettimeofday(&insert_begin,0);
-			    if(flow_id.find(*actor_ptr)==flow_id.end()){
+			    if(flow_id[(*actor_ptr)->get_id_64()]==0){
 			    	coordinator_actor_->flow_size[idx][flow_num]++;
-			    	flow_id[*actor_ptr]=flow_num;
+			    	flow_id[(*actor_ptr)->get_id_64()]=flow_num+1;
 			    	flow_num++;
 			    }
 
@@ -218,22 +219,22 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 			 //   send(*actor_ptr, pkt_msg_t::value, dp_pkt_batch.pkts()[i]);
 			    //(*actor_ptr)->get_queue_ptr()->push(dp_pkt_batch.pkts()[i]);
 			    //coordinator_actor_->ec_scheduler_batch_.add(dp_pkt_batch.pkts()[i]);
-			    if(coordinator_actor_->flow_size[idx][flow_id[*actor_ptr]]>=10){
+			    if(coordinator_actor_->flow_size[idx][flow_id[(*actor_ptr)->get_id_64()]-1]>=10){
 			    	printf("number >10!!");
 			    	exit(-1);
 			    }
 
-				int pkt_id=flow_id[*actor_ptr]+(coordinator_actor_->flow_size[idx][flow_id[*actor_ptr]]-1)*bess::PacketBatch::kMaxBurst;
+				int pkt_id=flow_id[(*actor_ptr)->get_id_64()]-1+(coordinator_actor_->flow_size[idx][flow_id[(*actor_ptr)->get_id_64()]-1]-1)*bess::PacketBatch::kMaxBurst;
 				//printf("pkt id: %d\n",pkt_id);
 			    char* dst=coordinator_actor_->pkts[idx][ pkt_id].pkt;
 				char* src=dp_pkt_batch.pkts()[i]->head_data<char*>();
 				if(dst==NULL||src==NULL) continue;
-				memcpy(dst,src,dp_pkt_batch.pkts()[i]->total_len()<PKT_SIZE?dp_pkt_batch.pkts()[i]->total_len():PKT_SIZE);
+				rte_memcpy(dst,src,dp_pkt_batch.pkts()[i]->total_len()<PKT_SIZE?dp_pkt_batch.pkts()[i]->total_len():PKT_SIZE);
 				//Format(src,&(coordinator_actor_->pkts[idx][pkt_id].headinfo));
 
-				Fs_copyback(&(coordinator_actor_->fs[idx][flow_id[*actor_ptr]]),(flow_actor*)coordinator_actor_->fs[idx][flow_id[*actor_ptr]].ptr);
+				Fs_copyback(&(coordinator_actor_->fs[idx][flow_id[(*actor_ptr)->get_id_64()]-1]),(flow_actor*)coordinator_actor_->fs[idx][flow_id[(*actor_ptr)->get_id_64()]-1].ptr);
 
-				Fs_copy(&(coordinator_actor_->fs[idx][flow_id[*actor_ptr]]),*actor_ptr);
+				Fs_copy(&(coordinator_actor_->fs[idx][flow_id[(*actor_ptr)->get_id_64()]-1]),*actor_ptr);
 
 				//rte_memcpy(dp_pkt_batch.pkts()[i]->head_data(), &((*actor_ptr)->output_header_.ethh), sizeof(struct ether_hdr));
 				 gettimeofday(&insert_end,0);
@@ -415,6 +416,7 @@ void forward_ec_scheduler::customized_init(coordinator* coordinator_actor,sn_por
   pre_flow_num=0;
   idx=0;
   first_time=true;
+
 }
 ADD_MODULE(forward_ec_scheduler, "forward_ec_scheduler",
     "process packets received from input port to output port and schedule actors in forward direction")
