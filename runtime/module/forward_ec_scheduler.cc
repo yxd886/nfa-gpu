@@ -318,7 +318,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 			//rte_memcpy(coordinator_actor_->tmp_fs,coordinator_actor_->fs[!idx],PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Fs));
 	//	  omp_set_num_threads(4);
 //#pragma omp parallel for
-			if(loop!=0){
+			if(first_time==false){
 			    for(int j=0;j<pre_flow_num;j++){
 				 // flow_actor** actor_ptr=coordinator_actor_->actorid_htable_.Get(&(coordinator_actor_->fs[!idx][j].actor_id_64));
 				 // if(unlikely(actor_ptr==nullptr)) continue;
@@ -326,6 +326,8 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 				  Fs_copyback(&(coordinator_actor_->fs[!idx][j]),actor);
 				}
 
+			}else{
+				first_time=false;
 			}
 
 
@@ -421,6 +423,7 @@ void forward_ec_scheduler::customized_init(coordinator* coordinator_actor,sn_por
   counter=0;
   pre_flow_num=0;
   idx=0;
+  first_time=true;
 }
 ADD_MODULE(forward_ec_scheduler, "forward_ec_scheduler",
     "process packets received from input port to output port and schedule actors in forward direction")
