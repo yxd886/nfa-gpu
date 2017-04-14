@@ -71,16 +71,16 @@ public:
 	  return uint_service_chain_;
   }
 
-  struct Pkt *pkts;
-  struct Fs *fs;
+  struct Pkt *pkts[2];
+  struct Fs *fs[2];
  // struct Pkt *local_pkts;
   //struct Fs *local_fs;
- struct Fs* d_fs;
+ //struct Fs* d_fs;
  struct Fs* tmp_fs;
- struct Pkt* d_pkts;
- int* d_flow_size;
+// struct Pkt* d_pkts;
+ //int* d_flow_size;
 
-  int * flow_size;
+  int * flow_size[2];
   //int * flow_pos;
 
 private:

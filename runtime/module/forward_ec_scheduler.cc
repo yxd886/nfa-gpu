@@ -114,12 +114,12 @@ void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i, int* flo
 
 
 	gettimeofday(&copy_begin,0);
-	rte_memcpy(coordinator_actor->d_pkts,pkts,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Pkt)*10);
-	rte_memcpy(coordinator_actor->d_fs,fs,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Fs));
-	rte_memcpy(coordinator_actor->d_flow_size,flow_size,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(int));
-	gettimeofday(&copy_end,0);
+	////rte_memcpy(coordinator_actor->d_pkts,pkts,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Pkt)*10);
+	//rte_memcpy(coordinator_actor->d_fs,fs,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Fs));
+	//rte_memcpy(coordinator_actor->d_flow_size,flow_size,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(int));
+	//gettimeofday(&copy_end,0);
 	gettimeofday(&whole_begin,0);
-	gpu_nf_process(coordinator_actor->d_pkts,coordinator_actor->d_fs,coordinator_actor->get_service_chain(),i,coordinator_actor->d_flow_size);
+	gpu_nf_process(pkts,fs,coordinator_actor->get_service_chain(),i,flow_size);
 	//gpu_nf_process(pkts,fs,coordinator_actor->get_service_chain(),i,flow_size);
 	gettimeofday(&whole_end,0);
 	//struct timeval whole_end1;
@@ -128,12 +128,12 @@ void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i, int* flo
 
 	long begin=whole_begin.tv_sec*1000000 + whole_begin.tv_usec;
 	long end=whole_end.tv_sec*1000000 + whole_end.tv_usec;
-	long begin1=copy_begin.tv_sec*1000000 + copy_begin.tv_usec;
-	long end1=copy_end.tv_sec*1000000 + copy_end.tv_usec;
+	//long begin1=copy_begin.tv_sec*1000000 + copy_begin.tv_usec;
+	//long end1=copy_end.tv_sec*1000000 + copy_end.tv_usec;
 	//long begin1=whole_end.tv_sec*1000000 + whole_end.tv_usec;
 	//long end1=whole_end1.tv_sec*1000000 + whole_end1.tv_usec;
 	//printf("gpu time: %ld, fs_copy_backtime:%ld\n,",end-begin,end1-end);
-	printf("gpu time: %ld, copy time:%ld \n,",end-begin,end1-begin1);
+	printf("gpu time: %ld \n,",end-begin);
 
 }
 
@@ -148,9 +148,10 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 	struct timeval insert_end;
 	struct timeval insert_begin;
 	gettimeofday(&whole_begin,0);
+	idx=(idx==0?1:0);
 	unordered_map <flow_actor*,int> flow_id;
 	int flow_num=0;
-	memset(coordinator_actor_->flow_size,0,sizeof(int)*PROCESS_TIME*bess::PacketBatch::kMaxBurst);
+	memset(coordinator_actor_->flow_size[idx],0,sizeof(int)*PROCESS_TIME*bess::PacketBatch::kMaxBurst);
 	//HTable<uint64_t, flow_actor*, actorid_keycmp, actorid_hash> actorid_htable_;
 	RECVPacketBatches[counter].Copy(bat);
 	counter++;
@@ -239,7 +240,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 
 		    if(flow_id.find(*actor_ptr)==flow_id.end()){
-		    	coordinator_actor_->flow_size[flow_num]++;
+		    	coordinator_actor_->flow_size[idx][flow_num]++;
 		    	flow_id[*actor_ptr]=flow_num;
 		    	flow_num++;
 		    }
@@ -253,14 +254,14 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		    	exit(-1);
 		    }
 
-			int pkt_id=flow_id[*actor_ptr]+(coordinator_actor_->flow_size[flow_id[*actor_ptr]]-1)*bess::PacketBatch::kMaxBurst;
+			int pkt_id=flow_id[*actor_ptr]+(coordinator_actor_->flow_size[idx][flow_id[*actor_ptr]]-1)*bess::PacketBatch::kMaxBurst;
 			//printf("pkt id: %d\n",pkt_id);
-		    char* dst=coordinator_actor_->pkts[ pkt_id].pkt;
+		    char* dst=coordinator_actor_->pkts[idx][ pkt_id].pkt;
 			char* src=dp_pkt_batch.pkts()[i]->head_data<char*>();
 			if(dst==NULL||src==NULL) continue;
 			rte_memcpy(dst,src,dp_pkt_batch.pkts()[i]->total_len()<PKT_SIZE?dp_pkt_batch.pkts()[i]->total_len():PKT_SIZE);
-			Format(src,&(coordinator_actor_->pkts[pkt_id].headinfo));
-			Fs_copy(&(coordinator_actor_->fs[flow_id[*actor_ptr]]),*actor_ptr);
+			Format(src,&(coordinator_actor_->pkts[idx][pkt_id].headinfo));
+			Fs_copy(&(coordinator_actor_->fs[idx][flow_id[*actor_ptr]]),*actor_ptr);
 			rte_memcpy(dp_pkt_batch.pkts()[i]->head_data(), &((*actor_ptr)->output_header_.ethh), sizeof(struct ether_hdr));
 
 
@@ -338,9 +339,9 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		 // memcpy(coordinator_actor_->d_fs,coordinator_actor_->fs,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Fs));
 		 // cudaMemcpy(coordinator_actor_->d_pkts,coordinator_actor_->pkts,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Pkt),cudaMemcpyHostToDevice);
 
-			rte_memcpy(coordinator_actor_->tmp_fs,coordinator_actor_->d_fs,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Fs));
+			rte_memcpy(coordinator_actor_->tmp_fs,coordinator_actor_->fs[!idx],PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Fs));
 
-#pragma omp parallel for
+
 			for(int j=0;j<pre_flow_num;j++){
 			  flow_actor** actor_ptr=coordinator_actor_->actorid_htable_.Get(&(coordinator_actor_->tmp_fs[j].actor_id_64));
 			  if(unlikely(actor_ptr==nullptr)) continue;
@@ -351,7 +352,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 			 gettimeofday(&insert_end,0);
 
-		  GPU_thread(coordinator_actor_,coordinator_actor_->pkts,coordinator_actor_->fs,flow_num,coordinator_actor_->flow_size);
+		  GPU_thread(coordinator_actor_,coordinator_actor_->pkts[idx],coordinator_actor_->fs[idx],flow_num,coordinator_actor_->flow_size[idx]);
 		  pre_flow_num=flow_num;
 		 // gpu_thread.detach();
 	  }
@@ -441,6 +442,7 @@ void forward_ec_scheduler::customized_init(coordinator* coordinator_actor,sn_por
   port_=port;
   counter=0;
   pre_flow_num=0;
+  idx=0;
 }
 
 ADD_MODULE(forward_ec_scheduler, "forward_ec_scheduler",

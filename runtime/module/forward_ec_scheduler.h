@@ -22,7 +22,7 @@ public:
   static const gate_idx_t kNumOGates = 1;
   static const gate_idx_t kNumIGates = 1;
 
-  forward_ec_scheduler() : Module(), coordinator_actor_(0),port_(),counter(0),pre_flow_num(0){}
+  forward_ec_scheduler() : Module(), coordinator_actor_(0),port_(),counter(0),pre_flow_num(0),idx(0){}
 
   virtual void ProcessBatch(bess::PacketBatch *batch);
 
@@ -43,6 +43,7 @@ private:
   bess::PacketBatch SENDPacketBatches[PROCESS_TIME];
   int counter;
   int pre_flow_num;
+  int idx;
 };
 
 #endif
