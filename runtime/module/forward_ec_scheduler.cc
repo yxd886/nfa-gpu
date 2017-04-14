@@ -312,7 +312,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		 // cudaMemcpy(coordinator_actor_->d_pkts,coordinator_actor_->pkts,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Pkt),cudaMemcpyHostToDevice);
 
 			//rte_memcpy(coordinator_actor_->tmp_fs,coordinator_actor_->fs[!idx],PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Fs));
-		  omp_set_num_threads(4);
+	//	  omp_set_num_threads(4);
 //#pragma omp parallel for
 			for(int j=0;j<pre_flow_num;j++){
 			  flow_actor** actor_ptr=coordinator_actor_->actorid_htable_.Get(&(coordinator_actor_->tmp_fs[j].actor_id_64));
