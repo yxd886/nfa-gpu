@@ -142,7 +142,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 	RECVPacketBatches[counter].Copy(bat);
 	counter++;
 	if(counter!=PROCESS_TIME){
-		send_batch(bat,port_);
+		send_batch(&RECVPacketBatches[counter-1],port_);
 		return;
 	}else{
 		//Pkt_reset(coordinator_actor_->pkts,PROCESS_TIME*PROCESS_TIME*bess::PacketBatch::kMaxBurst*bess::PacketBatch::kMaxBurst);
