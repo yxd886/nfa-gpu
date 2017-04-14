@@ -433,6 +433,8 @@ void forward_ec_scheduler::customized_init(coordinator* coordinator_actor,sn_por
   pre_flow_num=0;
   idx=0;
 }
-
+pb_error_t forward_ec_scheduler::Init(const bess::pb::PortIncArg &arg){
+  return pb_errno(0);
+}
 ADD_MODULE(forward_ec_scheduler, "forward_ec_scheduler",
     "process packets received from input port to output port and schedule actors in forward direction")
