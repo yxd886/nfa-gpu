@@ -122,7 +122,7 @@ public:
 		m_pPkt = packet->pkt;
 		m_pEthhdr = (struct ether_hdr*)m_pPkt;
 		m_pIphdr = (struct iphdr*)(m_pPkt + sizeof(struct ether_hdr));
-		m_pTcphdr = (struct tcphdr*)(m_pPkt + sizeof(struct ether_hdr)+(hd->m_pIphdr->ihl)*4);
+		m_pTcphdr = (struct tcphdr*)(m_pPkt + sizeof(struct ether_hdr)+(m_pIphdr->ihl)*4);
 		m_uPktLen = Ntohs(m_pIphdr->tot_len);
 		m_pEthIndex = (int16_t*)(&m_pEthhdr->ether_type);
 		m_pData = NULL;
