@@ -55,6 +55,7 @@ void Fs_copy(struct Fs* Fs,flow_actor* flow_actor){
 
 void Fs_copyback(struct Fs* Fs,flow_actor* flow_actor){
 
+	if(flow_actor==nullptr||flow_actor==NULL) return;
 	int size=flow_actor->get_service_chain_len();
 //#pragma omp parallel for
 	for(int i=0; i<size; i++){
@@ -229,8 +230,11 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 				if(dst==NULL||src==NULL) continue;
 				memcpy(dst,src,dp_pkt_batch.pkts()[i]->total_len()<PKT_SIZE?dp_pkt_batch.pkts()[i]->total_len():PKT_SIZE);
 				//Format(src,&(coordinator_actor_->pkts[idx][pkt_id].headinfo));
-				Fs_copy(&(coordinator_actor_->fs[idx][flow_id[*actor_ptr]]),*actor_ptr);
+
 				Fs_copyback(&(coordinator_actor_->fs[idx][flow_id[*actor_ptr]]),coordinator_actor_->fs[idx][flow_id[*actor_ptr]].ptr);
+
+				Fs_copy(&(coordinator_actor_->fs[idx][flow_id[*actor_ptr]]),*actor_ptr);
+
 				//rte_memcpy(dp_pkt_batch.pkts()[i]->head_data(), &((*actor_ptr)->output_header_.ethh), sizeof(struct ether_hdr));
 				 gettimeofday(&insert_end,0);
 
@@ -319,20 +323,6 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 			//rte_memcpy(coordinator_actor_->tmp_fs,coordinator_actor_->fs[!idx],PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Fs));
 	//	  omp_set_num_threads(4);
 //#pragma omp parallel for
-			if(first_time==false){
-			    for(int j=0;j<pre_flow_num;j++){
-				 // flow_actor** actor_ptr=coordinator_actor_->actorid_htable_.Get(&(coordinator_actor_->fs[!idx][j].actor_id_64));
-				 // if(unlikely(actor_ptr==nullptr)) continue;
-				  flow_actor* actor=coordinator_actor_->fs[!idx][j].ptr;
-				//  Fs_copyback(&(coordinator_actor_->fs[!idx][j]),actor);
-				}
-
-			}else{
-				first_time=false;
-			}
-
-
-
 
 		  GPU_thread(coordinator_actor_,coordinator_actor_->pkts[idx],coordinator_actor_->fs[idx],flow_num,coordinator_actor_->flow_size[idx]);
 		  pre_flow_num=flow_num;
