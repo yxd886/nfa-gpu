@@ -9,6 +9,8 @@
 #include <time.h>
 #include   <sys/time.h>
 #include <unordered_map>
+#include <pthread.h>
+#include <omp.h>
 
 void send_batch(bess::PacketBatch *batch,sn_port* port_) {
   /* TODO: choose appropriate out queue */
@@ -338,15 +340,15 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 			rte_memcpy(coordinator_actor_->tmp_fs,coordinator_actor_->d_fs,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Fs));
 
-
-
-
+#pragma omp parallel for
 			for(int j=0;j<pre_flow_num;j++){
 			  flow_actor** actor_ptr=coordinator_actor_->actorid_htable_.Get(&(coordinator_actor_->tmp_fs[j].actor_id_64));
 			  if(unlikely(actor_ptr==nullptr)) continue;
 			  flow_actor* actor=*actor_ptr;
 			  Fs_copyback(&(coordinator_actor_->tmp_fs[j]),actor);
 			}
+
+
 			 gettimeofday(&insert_end,0);
 
 		  GPU_thread(coordinator_actor_,coordinator_actor_->pkts,coordinator_actor_->fs,flow_num,coordinator_actor_->flow_size);
