@@ -224,31 +224,33 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		      actor_ptr = &actor;
 		    }
 
+		    if(coordinator_actor_->service_chain_.empty()==false){
+			    if(flow_id.find(*actor_ptr)==flow_id.end()){
+			    	coordinator_actor_->flow_size[idx][flow_num]++;
+			    	flow_id[*actor_ptr]=flow_num;
+			    	flow_num++;
+			    }
 
-		    if(flow_id.find(*actor_ptr)==flow_id.end()){
-		    	coordinator_actor_->flow_size[idx][flow_num]++;
-		    	flow_id[*actor_ptr]=flow_num;
-		    	flow_num++;
+
+			 //   send(*actor_ptr, pkt_msg_t::value, dp_pkt_batch.pkts()[i]);
+			    //(*actor_ptr)->get_queue_ptr()->push(dp_pkt_batch.pkts()[i]);
+			    //coordinator_actor_->ec_scheduler_batch_.add(dp_pkt_batch.pkts()[i]);
+			    if(coordinator_actor_->flow_size[idx][flow_id[*actor_ptr]]>=10){
+			    	printf("number >10!!");
+			    	exit(-1);
+			    }
+
+				int pkt_id=flow_id[*actor_ptr]+(coordinator_actor_->flow_size[idx][flow_id[*actor_ptr]]-1)*bess::PacketBatch::kMaxBurst;
+				//printf("pkt id: %d\n",pkt_id);
+			    char* dst=coordinator_actor_->pkts[idx][ pkt_id].pkt;
+				char* src=dp_pkt_batch.pkts()[i]->head_data<char*>();
+				if(dst==NULL||src==NULL) continue;
+				rte_memcpy(dst,src,dp_pkt_batch.pkts()[i]->total_len()<PKT_SIZE?dp_pkt_batch.pkts()[i]->total_len():PKT_SIZE);
+				Format(src,&(coordinator_actor_->pkts[idx][pkt_id].headinfo));
+				Fs_copy(&(coordinator_actor_->fs[idx][flow_id[*actor_ptr]]),*actor_ptr);
+				rte_memcpy(dp_pkt_batch.pkts()[i]->head_data(), &((*actor_ptr)->output_header_.ethh), sizeof(struct ether_hdr));
 		    }
 
-
-		 //   send(*actor_ptr, pkt_msg_t::value, dp_pkt_batch.pkts()[i]);
-		    //(*actor_ptr)->get_queue_ptr()->push(dp_pkt_batch.pkts()[i]);
-		    //coordinator_actor_->ec_scheduler_batch_.add(dp_pkt_batch.pkts()[i]);
-		    if(coordinator_actor_->flow_size[idx][flow_id[*actor_ptr]]>=10){
-		    	printf("number >10!!");
-		    	exit(-1);
-		    }
-
-			int pkt_id=flow_id[*actor_ptr]+(coordinator_actor_->flow_size[idx][flow_id[*actor_ptr]]-1)*bess::PacketBatch::kMaxBurst;
-			//printf("pkt id: %d\n",pkt_id);
-		    char* dst=coordinator_actor_->pkts[idx][ pkt_id].pkt;
-			char* src=dp_pkt_batch.pkts()[i]->head_data<char*>();
-			if(dst==NULL||src==NULL) continue;
-			rte_memcpy(dst,src,dp_pkt_batch.pkts()[i]->total_len()<PKT_SIZE?dp_pkt_batch.pkts()[i]->total_len():PKT_SIZE);
-			Format(src,&(coordinator_actor_->pkts[idx][pkt_id].headinfo));
-			Fs_copy(&(coordinator_actor_->fs[idx][flow_id[*actor_ptr]]),*actor_ptr);
-			rte_memcpy(dp_pkt_batch.pkts()[i]->head_data(), &((*actor_ptr)->output_header_.ethh), sizeof(struct ether_hdr));
 
 
 
