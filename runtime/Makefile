@@ -83,7 +83,7 @@ ifeq "$(CXXVERSION_5_OR_HIGHER)" "1"
   CXXFLAGS +=-Xcompiler -Wshadow
 endif
 
-LDFLAGS += -Xcompiler -rdynamic,-L$(DPDK_LIB_DIR) -Xlinker -rpath=$(DPDK_LIB_DIR) -Xcompiler -pthread,-static-libstdc++
+LDFLAGS += -Xcompiler -rdynamic,-L$(DPDK_LIB_DIR) -Xlinker -rpath=$(DPDK_LIB_DIR) -Xcompiler -fopenmp,-pthread,-static-libstdc++
 
 LIBS +=-Xlinker -non_shared \
 	-Xlinker --whole-archive -l$(DPDK_LIB) -Xlinker --no-whole-archive \
