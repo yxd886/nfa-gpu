@@ -9,12 +9,12 @@
 #include "d_nf_processor.cuh"
 
 
-__device__ void Init_nfs(struct d_flow_actor_nfs* nfs){
+__device__ void Init_nfs(struct d_flow_actor_nfs* nfs,struct d_rule* firewall_rules){
 
 
 	nfs->nf[1]=new d_network_function_derived<d_pkt_counter, d_pkt_counter_fs>(1);
 	nfs->nf[2]=new d_network_function_derived<d_flow_monitor, d_flow_monitor_fs>(2);
-	nfs->nf[3]=new d_network_function_derived<d_firewall, d_firewall_fs>(3);
+	nfs->nf[3]=new d_network_function_derived<d_firewall, d_firewall_fs,firewall_rules>(3);
 	nfs->nf[4]=new d_network_function_derived<d_http_parser, d_http_parser_fs>(4);
 
 }
@@ -58,13 +58,13 @@ __device__ int compute_service_chain_length(uint64_t s){
 
 
 __global__ void
-Runtask(Pkt* pkts, Fs* fs, uint64_t service_chain,int packet_num,int* flow_size)
+Runtask(Pkt* pkts, Fs* fs, uint64_t service_chain,int packet_num,int* flow_size,struct d_rule* firewall_rules)
 {
 
 	//__shared__ Pkt share_pkts[200*32*10];
 	//__shared__ Fs share_fs[200*32];
 	struct d_flow_actor_nfs  nfs;
-	Init_nfs(&nfs);
+	Init_nfs(&nfs,firewall_rules);
 	int chain_len=compute_service_chain_length(service_chain);
 	int i = blockDim.x * blockIdx.x + threadIdx.x;
 
@@ -103,12 +103,13 @@ Runtask(Pkt* pkts, Fs* fs, uint64_t service_chain,int packet_num,int* flow_size)
 
 
 
-void gpu_nf_process(Pkt* h_pkts,Fs* h_fs,uint64_t service_chain,int packet_num,int *h_flow_size){
+void gpu_nf_process(Pkt* h_pkts,Fs* h_fs,uint64_t service_chain,int packet_num,int *h_flow_size,struct d_rule* h_firewall_rules){
 
     Pkt* pkts;
     Fs* fs;
     int* flow_size;
    // int* flow_pos;
+    struct d_rule* firewall_rules;
 
     cudaHostGetDevicePointer((void **)&pkts, (void *)h_pkts, 0);
    // cudaSetDeviceFlags(cudaDeviceMapHost);
@@ -116,6 +117,7 @@ void gpu_nf_process(Pkt* h_pkts,Fs* h_fs,uint64_t service_chain,int packet_num,i
 	// cudaSetDeviceFlags(cudaDeviceMapHost);
 	cudaHostGetDevicePointer((void **)&flow_size, (void *)h_flow_size, 0);
 	// cudaSetDeviceFlags(cudaDeviceMapHost);
+	cudaHostGetDevicePointer((void **)&firewall_rules, (void *)h_firewall_rules, 0);
 	//cudaHostGetDevicePointer((void **)&flow_pos, (void *)h_flow_pos, 0);
 
 
@@ -124,7 +126,7 @@ void gpu_nf_process(Pkt* h_pkts,Fs* h_fs,uint64_t service_chain,int packet_num,i
     //printf("CUDA kernel launch with %d blocks of %d threads\n", blocksPerGrid, threadsPerBlock);
     cudaDeviceSynchronize();
 
-    Runtask<<<blocksPerGrid, threadsPerBlock>>>(pkts, fs, service_chain, packet_num,flow_size);
+    Runtask<<<blocksPerGrid, threadsPerBlock>>>(pkts, fs, service_chain, packet_num,flow_size,firewall_rules);
     //cudaDeviceSynchronize();
 
 

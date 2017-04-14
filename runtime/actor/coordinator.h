@@ -82,6 +82,7 @@ public:
 
   int * flow_size[2];
   //int * flow_pos;
+  struct d_rule* firewall_rules;
 
 private:
   uint32_t next_msg_id_;

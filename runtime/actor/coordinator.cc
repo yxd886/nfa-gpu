@@ -96,6 +96,26 @@ coordinator::coordinator(llring_holder& holder){
   //cudaHostAlloc((void**)&flow_pos,PROCESS_TIME*bess::PacketBatch::kMaxBurst * sizeof(int),cudaHostAllocMapped);
   cudaSetDeviceFlags(cudaDeviceMapHost);
 
+  cudaHostAlloc((void**)&firewall_rules, 60 * sizeof(d_rule),cudaHostAllocMapped);
+ struct d_rule* rp;
+  for(int i=0;i<60;i++){
+	  rp=&(firewall_rules[i]);
+      *(unsigned char *)&rp->saddr.addr=i%254;
+      *(((unsigned char *)&rp->saddr.addr)+1)=(i+100)%254;
+      *(((unsigned char *)&rp->saddr.addr)+2)=0;
+      *(((unsigned char *)&rp->saddr.addr)+3)=(i+30)%254;
+      rp->saddr.mask=32;
+      rp->sport=65535;
+      *((unsigned char *)&rp->daddr.addr)=i%254;
+      *((unsigned char *)&rp->daddr.addr+1)=75;
+      *((unsigned char *)&rp->daddr.addr+2)=0;
+      *((unsigned char *)&rp->daddr.addr+3)=109;
+      rp->daddr.mask=32;
+      rp->dport=i%65535;
+      rp->protocol=6;
+      rp->action=1;
+
+  }
 
 }
 

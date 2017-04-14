@@ -79,7 +79,7 @@ void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i, int* flo
 	//rte_memcpy(coordinator_actor->d_flow_size,flow_size,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(int));
 	//gettimeofday(&copy_end,0);
 	gettimeofday(&whole_begin,0);
-	gpu_nf_process(pkts,fs,coordinator_actor->get_service_chain(),i,flow_size);
+	gpu_nf_process(pkts,fs,coordinator_actor->get_service_chain(),i,flow_size,coordinator_actor->firewall_rules);
 	//gpu_nf_process(pkts,fs,coordinator_actor->get_service_chain(),i,flow_size);
 	gettimeofday(&whole_end,0);
 	//struct timeval whole_end1;

@@ -82,7 +82,7 @@ private:
 
 class d_firewall{
 public:
-	__device__ d_firewall(){
+	__device__ d_firewall(struct d_rule* firewall_rules){
    
     char saddr[200];
     memset(saddr,0,sizeof(saddr));
@@ -93,67 +93,12 @@ public:
     struct d_rule* rp;
   //  std::cout<<"begin to read rules"<<std::endl;
       
-      for(int i=0;i<2;i++){
-    	  rp=&r[i];
-          *(unsigned char *)&rp->saddr.addr=i%254;
-          *(((unsigned char *)&rp->saddr.addr)+1)=(i+100)%254;
-          *(((unsigned char *)&rp->saddr.addr)+2)=0;
-          *(((unsigned char *)&rp->saddr.addr)+3)=(i+30)%254;
-          rp->saddr.mask=32;
-          rp->sport=65535;
-          *((unsigned char *)&rp->daddr.addr)=i%254;
-          *((unsigned char *)&rp->daddr.addr+1)=75;
-          *((unsigned char *)&rp->daddr.addr+2)=0;
-          *((unsigned char *)&rp->daddr.addr+3)=109;
-          rp->daddr.mask=32;
-          rp->dport=i%65535;
-          rp->protocol=6;
-          rp->action=1;
-         rules.push_back(rp);
+      for(int i=0;i<60;i++){
+
+         rules.push_back(&firewall_rules[i]);
 
       }
 
-      for(int i=0;i<2;i++){
-    	  rp=&r[i+2];
-          *(unsigned char *)&rp->saddr.addr=(i+59)%254;
-          *(((unsigned char *)&rp->saddr.addr)+1)=(i+44)%254;
-          *(((unsigned char *)&rp->saddr.addr)+2)=0;
-          *(((unsigned char *)&rp->saddr.addr)+3)=(i+90)%254;
-          rp->saddr.mask=32;
-          rp->sport=65535;
-          *((unsigned char *)&rp->daddr.addr)=(i+54)%254;
-          *((unsigned char *)&rp->daddr.addr+1)=75;
-          *((unsigned char *)&rp->daddr.addr+2)=0;
-          *((unsigned char *)&rp->daddr.addr+3)=109;
-          rp->daddr.mask=32;
-          rp->dport=i%65535;
-          rp->protocol=6;
-          rp->action=1;
-         rules.push_back(rp);
-
-      }
-      for(int i=0;i<2;i++){
-
-    	  rp=&r[i+4];
-    	  *(unsigned char *)&rp->saddr.addr=(i+52)%254;
-          *(((unsigned char *)&rp->saddr.addr)+1)=(i+74)%254;
-          *(((unsigned char *)&rp->saddr.addr)+2)=0;
-          *(((unsigned char *)&rp->saddr.addr)+3)=(i+40)%254;
-          rp->saddr.mask=32;
-          rp->sport=65535;
-          *((unsigned char *)&rp->daddr.addr)=(i+34)%254;
-          *((unsigned char *)&rp->daddr.addr+1)=75;
-          *((unsigned char *)&rp->daddr.addr+2)=0;
-          *((unsigned char *)&rp->daddr.addr+3)=109;
-          rp->daddr.mask=32;
-          rp->dport=i%65535;
-          rp->protocol=6;
-          rp->action=1;
-         rules.push_back(rp);
-
-      }
-
-   
  //  std::cout<<"begin to close the rule file !"<<std::endl;
   
  //  std::cout<<"close the rule file successfully !"<<std::endl;
