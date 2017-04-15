@@ -27,11 +27,14 @@ def read_log(filename):
 
 def draw():
 
-	opennf=[145280,250990,428439,859917,1573963,1816956,2191235,2465946,2177648,1790273,1791811,1770469]
-	opennf=map(float,opennf)
-	nfa=[1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568]
+	gpunfv60=[145280,250990,428439,859917,1573963,1816956,2191235,2265946,2177648,2172848,2265966,2265966,2265966,2265946]
+	gpunfv60=map(float,gpunfv60)
+	gpunfv180=[80320,141303,261030,501501,809208,1126110,1207630,1300852,1408756,1571664,1633892,1984527,1974534,1968524]
+	gpunfv180=map(float,gpunfv180)
+	nfa=[1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568]
 	nfa=map(float,nfa)
-	
+	nfa180=[604857,604857,604857,604857,604857,604857,604857,604857,604857,604857,604857,604857,604857,604857]
+	nfa180=map(float,nfa180)	
 	plt.style.use('ggplot')#seaborn-white')
 
 	fig,ax1 = plt.subplots()
@@ -42,13 +45,14 @@ def draw():
 	styles = ['-.', '--', ':', '-', '--', ':', '-','--']
 	index = 0;
 
-	x = np.arange(12)
-	labels= ["1","2","4","8","16","19","22","25","27","30","32","48"]
+	x = np.arange(14)
+	labels= ["1","2","4","8","16","19","22","25","27","30","32","35","43","48"]
 
 	width = 0.3
-	ax1.bar(x, opennf,width, label="GPUNFV",  hatch="/")
-	ax1.bar(x+width,nfa,width, label="NFActor", hatch="\\")
-
+	ax1.bar(x, gpunfv60,width, label="GPUNFV(FM->FW(60rules)->LB)",  hatch="/")
+	ax1.bar(x+width,nfa,width, label="NFActor(FM->FW(60rules)->LB)", hatch="\\")
+    ax1.bar(x+2*width, gpunfv180,width, label="GPUNFV(FM->FW(180rules)->LB)",  hatch="//")
+	ax1.bar(x+3*width,nfa180,width, label="NFActor(FM->FW(180rules)->LB)", hatch="\\\\")
 	plt.xticks(x+0.5*width,labels)
 	for tl in ax1.get_xticklabels():
 		tl.set_fontsize(10)
