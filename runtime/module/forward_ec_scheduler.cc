@@ -67,10 +67,10 @@ void Fs_copyback(struct Fs* fs,flow_actor* flow_actor){
 
 void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i, int* flow_size){
 
-	struct timeval whole_begin;
-	struct timeval whole_end;
-	struct timeval copy_begin;
-	struct timeval copy_end;
+//	struct timeval whole_begin;
+//	struct timeval whole_end;
+//	struct timeval copy_begin;
+//	struct timeval copy_end;
 
 
 	//gettimeofday(&copy_begin,0);
@@ -78,37 +78,37 @@ void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i, int* flo
 	//rte_memcpy(coordinator_actor->d_fs,fs,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Fs));
 	//rte_memcpy(coordinator_actor->d_flow_size,flow_size,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(int));
 	//gettimeofday(&copy_end,0);
-	gettimeofday(&whole_begin,0);
+//	gettimeofday(&whole_begin,0);
 	gpu_nf_process(pkts,fs,coordinator_actor->get_service_chain(),i,flow_size,coordinator_actor->firewall_rules);
 	//gpu_nf_process(pkts,fs,coordinator_actor->get_service_chain(),i,flow_size);
-	gettimeofday(&whole_end,0);
+//	gettimeofday(&whole_end,0);
 	//struct timeval whole_end1;
 	//gettimeofday(&whole_end1,0);
 
 
-	long begin=whole_begin.tv_sec*1000000 + whole_begin.tv_usec;
-	long end=whole_end.tv_sec*1000000 + whole_end.tv_usec;
+//	long begin=whole_begin.tv_sec*1000000 + whole_begin.tv_usec;
+//	long end=whole_end.tv_sec*1000000 + whole_end.tv_usec;
 	//long begin1=copy_begin.tv_sec*1000000 + copy_begin.tv_usec;
 	//long end1=copy_end.tv_sec*1000000 + copy_end.tv_usec;
 	//long begin1=whole_end.tv_sec*1000000 + whole_end.tv_usec;
 	//long end1=whole_end1.tv_sec*1000000 + whole_end1.tv_usec;
 	//printf("gpu time: %ld, fs_copy_backtime:%ld\n,",end-begin,end1-end);
-	printf("gpu time: %ld \n,",end-begin);
+//	printf("gpu time: %ld \n,",end-begin);
 
 }
 
 
 void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
-	struct timeval whole_begin;
-	struct timeval dp_end;
-	struct timeval dp_begin;
-	struct timeval cp_end;
-	struct timeval cp_begin;
-	struct timeval insert_end;
-	struct timeval insert_begin;
-	long find_time=0;
-	gettimeofday(&whole_begin,0);
+//	struct timeval whole_begin;
+//	struct timeval dp_end;
+//	struct timeval dp_begin;
+//	struct timeval cp_end;
+//	struct timeval cp_begin;
+//	struct timeval insert_end;
+//	struct timeval insert_begin;
+//	long find_time=0;
+//	gettimeofday(&whole_begin,0);
 	//unordered_map <flow_actor*,int> flow_id;
 	int flow_num=0;
 
@@ -127,7 +127,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		memset(flow_id,-1,sizeof(flow_id));
 
 
-		gettimeofday(&dp_begin,0);
+//		gettimeofday(&dp_begin,0);
 		for(int loop=0;loop<PROCESS_TIME;loop++){
 		  bess::PacketBatch *batch =&(RECVPacketBatches[loop]);
 		  dp_pkt_batch.clear();
@@ -207,7 +207,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 
 		    if(coordinator_actor_->service_chain_.empty()==false){
-		    	gettimeofday(&insert_begin,0);
+//		    	gettimeofday(&insert_begin,0);
 		    	uint64_t actor_id=(*actor_ptr)->get_id_64();
 			    if(flow_id[actor_id]==-1){
 			    	//printf("this is -1\n");
@@ -239,7 +239,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 				Fs_copy(&(coordinator_actor_->fs[idx][flow_id[actor_id]]),*actor_ptr);
 
 				//rte_memcpy(dp_pkt_batch.pkts()[i]->head_data(), &((*actor_ptr)->output_header_.ethh), sizeof(struct ether_hdr));
-				 gettimeofday(&insert_end,0);
+//				 gettimeofday(&insert_end,0);
 
 					long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
 					long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
@@ -255,7 +255,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 		}
 
-		gettimeofday(&dp_end,0);
+//		gettimeofday(&dp_end,0);
 
 		long time1=0;
 		int size=0;
@@ -392,18 +392,18 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		clean_batches(SENDPacketBatches);
 		clean_batches(RECVPacketBatches);
 */
-		struct timeval whole_end;
-		gettimeofday(&whole_end,0);
+//		struct timeval whole_end;
+//		gettimeofday(&whole_end,0);
 
-  	    long begin=whole_begin.tv_sec*1000000 + whole_begin.tv_usec;
-		long end=whole_end.tv_sec*1000000 + whole_end.tv_usec;
-		long begin1=dp_begin.tv_sec*1000000 + dp_begin.tv_usec;
-		long end1=dp_end.tv_sec*1000000 + dp_end.tv_usec;
+  //	    long begin=whole_begin.tv_sec*1000000 + whole_begin.tv_usec;
+//		long end=whole_end.tv_sec*1000000 + whole_end.tv_usec;
+//		long begin1=dp_begin.tv_sec*1000000 + dp_begin.tv_usec;
+//		long end1=dp_end.tv_sec*1000000 + dp_end.tv_usec;
 		//long begin2=cp_begin.tv_sec*1000000 + cp_begin.tv_usec;
 		//long end2=cp_end.tv_sec*1000000 + cp_end.tv_usec;
 
 
-		printf("total time: %ld, dp_time: %ld, find_time:%ld size: %d \n,",end-begin,end1-begin1,find_time,size);
+//		printf("total time: %ld, dp_time: %ld, find_time:%ld size: %d \n,",end-begin,end1-begin1,find_time,size);
 		//printf("total time: %ld  dp_time：%ld, insert_time: %ld\n,",end-begin,end1-begin1,end3-begin3);
 	}
 
