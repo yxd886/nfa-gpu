@@ -45,7 +45,7 @@ def draw():
 	labels= ["1","2","4","8","16","19","22","25","27","30","32","35","43","48"]
 
 	width = 0.3
-    ax1.bar(x, gpunfv180,width, label="GPUNFV(FM->FW(180rules)->LB)",  hatch="//")
+        ax1.bar(x, gpunfv180,width, label="GPUNFV(FM->FW(180rules)->LB)",  hatch="//")
 	ax1.bar(x+width,nfa180,width, label="NFActor(FM->FW(180rules)->LB)", hatch="\\\\")
 	plt.xticks(x+0.5*width,labels)
 	for tl in ax1.get_xticklabels():
