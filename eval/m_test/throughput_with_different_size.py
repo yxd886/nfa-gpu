@@ -29,7 +29,7 @@ def draw():
 
 	opennf=[12768,74453,145280,250990,428439,859917,1573963,1816956,2191235,2246421,2465946,2177648,1790273,1791811,1770469]
 	opennf=map(float,opennf)
-	nfa=[3,6]
+	nfa=[1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568]
 	nfa=map(float,nfa)
 	
 	plt.style.use('ggplot')#seaborn-white')
@@ -46,8 +46,8 @@ def draw():
 	labels= ["0.05","0.3","1","2","4","8","16","19","22","24","25","27","30","32","48"]
 
 	width = 0.3
-	ax1.bar(x, opennf,width, label="OpenNF",  hatch="/")
-	#ax1.bar(x+width,nfa,width, label="NFActor", hatch="\\")
+	ax1.bar(x, opennf,width, label="GPUNFV",  hatch="/")
+	ax1.bar(x+width,nfa,width, label="NFActor", hatch="\\")
 
 	plt.xticks(x+0.5*width,labels)
 	for tl in ax1.get_xticklabels():
