@@ -43,7 +43,7 @@ def draw():
 	index = 0;
 
 	x = np.arange(15)
-	labels= ["1","10","30","60","120","240","480","600","700","750","800","850","960","1000","1500"]
+	labels= ["0.05","0.3","1","2","4","8","16","19","22","24","25","27","30","32","48"]
 
 	width = 0.3
 	ax1.bar(x, opennf,width, label="OpenNF",  hatch="/")
@@ -51,7 +51,7 @@ def draw():
 
 	plt.xticks(x+0.5*width,labels)
 	for tl in ax1.get_xticklabels():
-		tl.set_fontsize(20)
+		tl.set_fontsize(10)
 		tl.set_fontstyle('normal')
 	for tl in ax1.get_yticklabels():
 		tl.set_fontsize(20)
@@ -66,7 +66,7 @@ def draw():
 	for label in legend.get_lines():
 		label.set_linewidth(3)  # the legend line width
 
-	plt.xlabel("size of packet batch(pkts)", fontsize=25, style='normal', color='black')
+	plt.xlabel("size of packet batch(kpkts)", fontsize=25, style='normal', color='black')
 	plt.ylabel("Throughput(pps)", fontsize=25, style='normal', color='black')
 	plt.savefig("WA.pdf", bbox_inches='tight', pad_inches=0)
 	plt.show()
