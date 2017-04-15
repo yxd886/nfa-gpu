@@ -49,11 +49,14 @@ def draw():
 	x = np.arange(4)
 	labels= ["15","25","30","60"]
 
-	width = 0.3
+	width = 0.2
 	ax1.bar(x, gpu,width, label="GPU processing time",  hatch="/")
 	ax1.bar(x+width,waiting,width, label="CPU waiting time", hatch="\\")
 	ax1.bar(x+2*width,cpu,width, label="CPU processing time", hatch="//")
 	ax1.bar(x+3*width,total,width, label="total time", hatch="\\\\")
+
+
+	plt.xticks(x+0.5*width,labels)
 	for tl in ax1.get_xticklabels():
 		tl.set_fontsize(10)
 		tl.set_fontstyle('normal')
