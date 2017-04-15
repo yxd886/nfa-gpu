@@ -68,7 +68,7 @@ def draw():
 	legend = ax1.legend(loc='upper left', shadow=False)
 	# Set the fontsize
 	for label in legend.get_texts():
-		label.set_fontsize(12)
+		label.set_fontsize(8)
 
 	for label in legend.get_lines():
 		label.set_linewidth(3)  # the legend line width
