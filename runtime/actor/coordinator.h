@@ -1,7 +1,7 @@
 #ifndef COORDINATOR_H
 #define COORDINATOR_H
 
-#define PROCESS_TIME 2000
+#define PROCESS_TIME 1000
 
 #include <list>
 #include <unordered_map>
