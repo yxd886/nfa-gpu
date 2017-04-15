@@ -27,7 +27,7 @@ def read_log(filename):
 
 def draw():
 
-	opennf=[158,274]
+	opennf=[12768,74453,145280,250990,428439,859917,1573963,1816956,2191235,2246421,2465946,2177648,1790273,1791811,1770469]
 	opennf=map(float,opennf)
 	nfa=[3,6]
 	nfa=map(float,nfa)
@@ -43,11 +43,11 @@ def draw():
 	index = 0;
 
 	x = np.arange(2)
-	labels= ["500","1000"]
+	labels= ["1","10","30","60","120","240","480","600","700","750","800","850","960","1000","1500"]
 
 	width = 0.3
 	ax1.bar(x, opennf,width, label="OpenNF",  hatch="/")
-	ax1.bar(x+width,nfa,width, label="NFActor", hatch="\\")
+	#ax1.bar(x+width,nfa,width, label="NFActor", hatch="\\")
 
 	plt.xticks(x+0.5*width,labels)
 	for tl in ax1.get_xticklabels():
@@ -66,8 +66,8 @@ def draw():
 	for label in legend.get_lines():
 		label.set_linewidth(3)  # the legend line width
 
-	plt.xlabel("# of flows", fontsize=25, style='normal', color='black')
-	plt.ylabel("Time(ms)", fontsize=25, style='normal', color='black')
+	plt.xlabel("size of packet batch(pkts)", fontsize=25, style='normal', color='black')
+	plt.ylabel("Throughput(pps)", fontsize=25, style='normal', color='black')
 	plt.savefig("WA.pdf", bbox_inches='tight', pad_inches=0)
 	plt.show()
 
