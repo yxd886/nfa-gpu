@@ -241,9 +241,9 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 				//rte_memcpy(dp_pkt_batch.pkts()[i]->head_data(), &((*actor_ptr)->output_header_.ethh), sizeof(struct ether_hdr));
 //				 gettimeofday(&insert_end,0);
 
-					long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
-					long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
-					find_time+=end3-begin3;
+//					long begin3=insert_begin.tv_sec*1000000 + insert_begin.tv_usec;
+//					long end3=insert_end.tv_sec*1000000 + insert_end.tv_usec;
+//					find_time+=end3-begin3;
 
 		    }
 
