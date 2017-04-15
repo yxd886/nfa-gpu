@@ -51,7 +51,7 @@ def draw():
 	ax1.plot(labels, gpunfv60,"r-.", label="GPUNFV(60rules)",  linewidth=3)
 	ax1.plot(labels,nfa,"b--", label="NFActor(60rules)", linewidth=3)
 	ax1.plot(labels, gpunfv180,"y*-.", label="GPUNFV(180rules)",  linewidth=3)
-	ax1.plot(labels,nfa180,"m:-.", label="NFActor(180rules)", linewidth=3)
+	ax1.plot(labels,nfa180,"y*:",label="NFActor(180rules)", linewidth=3)
 	#plt.xticks(x+0.5*width,labels)
 	for tl in ax1.get_xticklabels():
 		tl.set_fontsize(10)
