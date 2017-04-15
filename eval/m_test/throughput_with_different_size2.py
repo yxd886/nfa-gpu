@@ -49,7 +49,7 @@ def draw():
 
 	width = 0.3
 	ax1.plot(labels, gpunfv60,"r-.", label="GPUNFV(60rules)",  linewidth=3)
-	ax1.plot(labels,nfa,"b--", label="NFActor(60rules)", linewidth=3)
+	ax1.plot(labels,nfa,"r--", label="NFActor(60rules)", linewidth=3)
 	ax1.plot(labels, gpunfv180,"y*-.", label="GPUNFV(180rules)",  linewidth=3)
 	ax1.plot(labels,nfa180,"y*:",label="NFActor(180rules)", linewidth=3)
 	#plt.xticks(x+0.5*width,labels)
@@ -64,7 +64,7 @@ def draw():
 	legend = ax1.legend(loc='upper left', shadow=False)
 	# Set the fontsize
 	for label in legend.get_texts():
-		label.set_fontsize(17)
+		label.set_fontsize(12)
 
 	for label in legend.get_lines():
 		label.set_linewidth(3)  # the legend line width
