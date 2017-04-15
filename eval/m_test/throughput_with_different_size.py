@@ -29,12 +29,8 @@ def draw():
 
 	gpunfv60=[145280,250990,428439,859917,1573963,1816956,2191235,2265946,2177648,2172848,2265966,2265966,2265966,2265946]
 	gpunfv60=map(float,gpunfv60)
-	gpunfv180=[80320,141303,261030,501501,809208,1126110,1207630,1300852,1408756,1571664,1633892,1984527,1974534,1968524]
-	gpunfv180=map(float,gpunfv180)
 	nfa=[1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568]
 	nfa=map(float,nfa)
-	nfa180=[604857,604857,604857,604857,604857,604857,604857,604857,604857,604857,604857,604857,604857,604857]
-	nfa180=map(float,nfa180)	
 	plt.style.use('ggplot')#seaborn-white')
 
 	fig,ax1 = plt.subplots()
@@ -51,9 +47,6 @@ def draw():
 	width = 0.3
 	ax1.bar(x, gpunfv60,width, label="GPUNFV(FM->FW(60rules)->LB)",  hatch="/")
 	ax1.bar(x+width,nfa,width, label="NFActor(FM->FW(60rules)->LB)", hatch="\\")
-        ax1.bar(x+2*width, gpunfv180,width, label="GPUNFV(FM->FW(180rules)->LB)",  hatch="//")
-	ax1.bar(x+3*width,nfa180,width, label="NFActor(FM->FW(180rules)->LB)", hatch="\\\\")
-	plt.xticks(x+0.5*width,labels)
 	for tl in ax1.get_xticklabels():
 		tl.set_fontsize(10)
 		tl.set_fontstyle('normal')
