@@ -41,13 +41,15 @@ def draw():
 	styles = ['-.', '--', ':', '-', '--', ':', '-','--']
 	index = 0;
 
-	x = np.arange(14)
-	labels= ["1","2","4","8","16","19","22","25","27","30","32","35","43","48"]
+	#x = np.arange(14)
+	labels= [1,2,4,8,16,19,22,25,27,30,32,35,43,48]
 
 	width = 0.3
-        ax1.bar(x, gpunfv180,width, label="GPUNFV(FM->FW(180rules)->LB)",  hatch="//")
-	ax1.bar(x+width,nfa180,width, label="NFActor(FM->FW(180rules)->LB)", hatch="\\\\")
-	plt.xticks(x+0.5*width,labels)
+	ax1.plot(labels, gpunfv60,"r-.", label="GPUNFV(60rules)",  linewidth=3)
+	ax1.plot(labels,nfa,"b--", label="NFActor(60rules)", linewidth=3)
+	ax1.plot(labels, gpunfv180,"y*-.", label="GPUNFV(180rules)",  linewidth=3)
+	ax1.plot(labels,nfa180,"m:-.", label="NFActor(180rules)", linewidth=3)
+	#plt.xticks(x+0.5*width,labels)
 	for tl in ax1.get_xticklabels():
 		tl.set_fontsize(10)
 		tl.set_fontstyle('normal')
@@ -59,7 +61,7 @@ def draw():
 	legend = ax1.legend(loc='upper left', shadow=False)
 	# Set the fontsize
 	for label in legend.get_texts():
-		label.set_fontsize(20)
+		label.set_fontsize(17)
 
 	for label in legend.get_lines():
 		label.set_linewidth(3)  # the legend line width

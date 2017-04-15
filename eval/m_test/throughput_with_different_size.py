@@ -45,8 +45,8 @@ def draw():
 	labels= ["1","2","4","8","16","19","22","25","27","30","32","35","43","48"]
 
 	width = 0.3
-	ax1.bar(x, gpunfv60,width, label="GPUNFV(FM->FW(60rules)->LB)",  hatch="/")
-	ax1.bar(x+width,nfa,width, label="NFActor(FM->FW(60rules)->LB)", hatch="\\")
+	ax1.bar(x, gpunfv60,width, label="GPUNFV",  hatch="/")
+	ax1.bar(x+width,nfa,width, label="NFActor", hatch="\\")
 	for tl in ax1.get_xticklabels():
 		tl.set_fontsize(10)
 		tl.set_fontstyle('normal')
