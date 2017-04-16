@@ -47,7 +47,7 @@ def draw():
 
 	width = 0.3
 
-	ax2=ax1.twinx()
+	#ax2=ax1.twinx()
 	ax1.plot(labels, throughput,"r-.", label="Throughput(pps)",  linewidth=3)
 
 #	ax2.plot(labels, throughput,"y*-.", label="Throughput(pps)",  linewidth=3)
