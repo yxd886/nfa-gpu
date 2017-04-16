@@ -60,13 +60,13 @@ def draw():
 		tl.set_fontstyle('normal')
 
 	# Now add the legend with some customizations.
-	legend = ax1.legend(loc='upper left', shadow=False)
+	#legend = ax1.legend(loc='upper left', shadow=False)
 	# Set the fontsize
-	for label in legend.get_texts():
-		label.set_fontsize(12)
+	#for label in legend.get_texts():
+	#	label.set_fontsize(12)
 
-	for label in legend.get_lines():
-		label.set_linewidth(3)  # the legend line width
+	#for label in legend.get_lines():
+	#	label.set_linewidth(3)  # the legend line width
 
 	plt.xlabel("Time(s)", fontsize=25, style='normal', color='black')
 #	plt.ylabel("Batchsize(pkts)", fontsize=25, style='normal', color='black')
