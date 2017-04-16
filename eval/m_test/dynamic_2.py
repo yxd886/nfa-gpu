@@ -47,8 +47,8 @@ def draw():
 
 	width = 0.3
 
-#ax2=ax1.twinx()
-	ax1.plot(labels, batchsize,"r-.", label="Batch Size(pkts)",  linewidth=3)
+	ax2=ax1.twinx()
+	ax1.plot(labels, throughput,"r-.", label="Throughput(pps)",  linewidth=3)
 
 #	ax2.plot(labels, throughput,"y*-.", label="Throughput(pps)",  linewidth=3)
 	#plt.xticks(x+0.5*width,labels)
@@ -69,9 +69,9 @@ def draw():
 		label.set_linewidth(3)  # the legend line width
 
 	plt.xlabel("size of packet batch(kpkts)", fontsize=25, style='normal', color='black')
-	plt.ylabel("Batchsize(pkts)", fontsize=25, style='normal', color='black')
-#	plt.ylabel("Throughput(pps)", fontsize=25, style='normal', color='black')
-	plt.savefig("Wdy1.pdf", bbox_inches='tight', pad_inches=0)
+#	plt.ylabel("Batchsize(pkts)", fontsize=25, style='normal', color='black')
+	plt.ylabel("Throughput(pps)", fontsize=25, style='normal', color='black')
+	plt.savefig("Wdy2.pdf", bbox_inches='tight', pad_inches=0)
 	plt.show()
 
 def main():
