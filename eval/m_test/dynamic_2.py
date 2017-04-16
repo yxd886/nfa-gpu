@@ -29,7 +29,7 @@ def draw():
 	batchsize=[1000,25000,25320,25640,25640]
 	batchsize=map(float,batchsize)
 
-	throughput=[145280, 250990,428439,859917,1573963,1816956,2185618,2254685,2147546,2246873]
+	throughput=[145280,250990,428439,859917,1573963,1816956,2185618,2254685,2147546,2246873,2133548]
 	throughput=map(float,throughput)
 
 	plt.style.use('ggplot')#seaborn-white')
