@@ -29,7 +29,7 @@ def draw():
 	batchsize=[1000,25000,25320,25640,25640]
 	batchsize=map(float,batchsize)
 
-	throughput=[50498,2108520,2186544,2185654,2185618]
+	throughput=[145280, 250990,428439,859917,1573963,1816956,2185618,2254685,2147546,2246873]
 	throughput=map(float,throughput)
 
 	plt.style.use('ggplot')#seaborn-white')
@@ -43,7 +43,7 @@ def draw():
 	index = 0;
 
 	#x = np.arange(14)
-	labels= [0,15,15.2,15.4,20]
+	labels= [0,0.6,1.8,4.2,8.8,11.6,15.6,15.8,16.0,16.2,20]
 
 	width = 0.3
 
@@ -68,7 +68,7 @@ def draw():
 	for label in legend.get_lines():
 		label.set_linewidth(3)  # the legend line width
 
-	plt.xlabel("size of packet batch(kpkts)", fontsize=25, style='normal', color='black')
+	plt.xlabel("Time(s)", fontsize=25, style='normal', color='black')
 #	plt.ylabel("Batchsize(pkts)", fontsize=25, style='normal', color='black')
 	plt.ylabel("Throughput(pps)", fontsize=25, style='normal', color='black')
 	plt.savefig("Wdy2.pdf", bbox_inches='tight', pad_inches=0)
