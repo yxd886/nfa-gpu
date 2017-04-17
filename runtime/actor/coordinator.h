@@ -1,8 +1,6 @@
 #ifndef COORDINATOR_H
 #define COORDINATOR_H
 
-#define PROCESS_TIME 800
-
 #include <list>
 #include <unordered_map>
 
@@ -20,6 +18,8 @@
 #include "coordinator_public_field.h"
 #include "../d_nf/d_base/d_nf_processor.cuh"
 #include "../d_nf/d_firewall/d_fw_headinfo.cuh"
+
+static int  PROCESS_TIME=800;
 
 class flow_actor;
 class flow_actor_allocator;
