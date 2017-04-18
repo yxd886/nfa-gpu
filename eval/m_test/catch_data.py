@@ -51,7 +51,7 @@ def local_test():
   
   before_time = time.time() * 1000
 
-  time.sleep(0.5)
+  time.sleep(0.25)
 
   tmp1,tmp2 = local_read_pkts(1)
   after_received +=tmp1;
@@ -62,14 +62,14 @@ def local_test():
 
   after_time = time.time() * 1000
 
-  return (after_received-before_received)/0.5, after_dropped-before_dropped, after_time-before_time
+  return (after_received-before_received)/0.25, after_dropped-before_dropped, after_time-before_time
 
 def main():
 
   throughput= []
   flowgen=[]
     
-  for i in range(150):
+  for i in range(30):
     packet_out, packet_dropped, duration_time =local_test()
 #    local_packet_out, local_packet_dropped, local_duration_time = local_test()
     print str(packet_out)
