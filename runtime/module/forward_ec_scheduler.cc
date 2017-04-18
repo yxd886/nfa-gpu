@@ -11,7 +11,7 @@
 #include <unordered_map>
 #include <pthread.h>
 #include <omp.h>
- int  PROCESS_TIME=800;
+ int  PROCESS_TIME=10;
 
 void send_batch(bess::PacketBatch *batch,sn_port* port_) {
   /* TODO: choose appropriate out queue */
