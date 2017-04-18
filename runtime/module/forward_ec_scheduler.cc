@@ -95,10 +95,10 @@ void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i, int* flo
 	//long end1=whole_end1.tv_sec*1000000 + whole_end1.tv_usec;
 	//printf("gpu time: %ld, fs_copy_backtime:%ld\n,",end-begin,end1-end);
 //	printf("gpu time: %ld \n,",end-begin);
-	if(begin-end>=200&&PROCESS_TIME<=MAX_PROCESS_TIME){
+	if(end-begin>=200&&PROCESS_TIME<=MAX_PROCESS_TIME){
 		PROCESS_TIME+=10;
 	}
-	printf("PROCESS_TIME:%d",PROCESS_TIME);
+	printf("PROCESS_TIME:%d\n",PROCESS_TIME);
 
 }
 
