@@ -44,8 +44,8 @@ private:
   bess::PacketBatch dp_pkt_batch;
   bess::PacketBatch cp_pkt_batch;
   sn_port* port_;
-  bess::PacketBatch RECVPacketBatches[PROCESS_TIME];
-  bess::PacketBatch SENDPacketBatches[PROCESS_TIME];
+  bess::PacketBatch RECVPacketBatches[MAX_PROCESS_TIME];
+  bess::PacketBatch SENDPacketBatches[MAX_PROCESS_TIME];
   int counter;
   int pre_flow_num;
   int idx;

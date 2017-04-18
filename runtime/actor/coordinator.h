@@ -18,6 +18,7 @@
 #include "coordinator_public_field.h"
 #include "../d_nf/d_base/d_nf_processor.cuh"
 #include "../d_nf/d_firewall/d_fw_headinfo.cuh"
+#define MAX_PROCESS_TIME 5000
 
 static int  PROCESS_TIME=800;
 
