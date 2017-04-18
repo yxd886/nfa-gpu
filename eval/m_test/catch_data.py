@@ -76,7 +76,6 @@ def main():
 #    print str(local_packet_out)
     throughput.append(packet_out)
 #    flowgen.append(local_packet_out)
-    time.sleep(1)
     
 #  print "throughput:"
 #  for i in range(len(throughput)):
