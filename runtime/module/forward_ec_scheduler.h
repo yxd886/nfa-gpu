@@ -23,7 +23,10 @@ public:
   static const gate_idx_t kNumOGates = 1;
   static const gate_idx_t kNumIGates = 1;
 
-  forward_ec_scheduler() : Module(), coordinator_actor_(0),port_(),counter(0),pre_flow_num(0),idx(0),first_time(true){}
+  forward_ec_scheduler() : Module(), coordinator_actor_(0),port_(),counter(0),pre_flow_num(0),idx(0),first_time(true){
+
+	  gettimeofday(&time_now,0);
+  }
 
   virtual void ProcessBatch(bess::PacketBatch *batch);
 
@@ -51,6 +54,7 @@ private:
   int idx;
   bool first_time;
   int32_t flow_id[60000];
+  struct timeval time_now;
 };
 
 #endif

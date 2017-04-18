@@ -98,7 +98,7 @@ void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i, int* flo
 	if(end-begin>=200&&PROCESS_TIME<=MAX_PROCESS_TIME){
 		PROCESS_TIME+=10;
 	}
-	printf("PROCESS_TIME:%d\n",PROCESS_TIME);
+//	printf("PROCESS_TIME:%d\n",PROCESS_TIME);
 
 }
 
@@ -108,7 +108,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 //	struct timeval whole_begin;
 //	struct timeval dp_end;
 //	struct timeval dp_begin;
-//	struct timeval cp_end;
+	struct timeval time_right_now;
 //	struct timeval cp_begin;
 //	struct timeval insert_end;
 //	struct timeval insert_begin;
@@ -334,6 +334,14 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 
 		  GPU_thread(coordinator_actor_,coordinator_actor_->pkts[idx],coordinator_actor_->fs[idx],flow_num,coordinator_actor_->flow_size[idx]);
 		  pre_flow_num=flow_num;
+		  gettimeofday(&time_right_now,0);
+		  long now=time_now.tv_sec*1000000 + time_now.tv_usec;
+		  long right_now=time_right_now.tv_sec*1000000 + time_right_now.tv_usec;
+		  if(right_now-now>=1000000){
+			  gettimeofday(&time_now,0);
+			  printf("PROCESS_TIME:%d\n",PROCESS_TIME);
+		  }
+
 		 // gpu_thread.detach();
 	  }
 
@@ -423,6 +431,7 @@ void forward_ec_scheduler::customized_init(coordinator* coordinator_actor,sn_por
   pre_flow_num=0;
   idx=0;
   first_time=true;
+  gettimeofday(&time_now,0);
 
 }
 ADD_MODULE(forward_ec_scheduler, "forward_ec_scheduler",
