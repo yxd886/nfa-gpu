@@ -11,21 +11,18 @@ import matplotlib.pyplot as plt
 
 
 def read_log(filename):
-	runtimes = []
-	received = []
-	dropped = []
-	time = []
+	tp = []
+	i = 0
 	with open(filename) as f:
 		for line in f:
-			if line.find("[RESULT]") != -1:
-				numbers = line.split(' ')
-				received.append(float(numbers[1]))
-				dropped.append(float(numbers[2]))
-				time.append(float(numbers[3]))
+			i+=1
+			print line
+			tp.append(float(line))
+			if i==30 :
+				break
+	return tp 
 
-	return runtimes, received, dropped, time 
-
-def draw():
+def draw(a,b):
 	batchsize=[1000,25000,25320,25640,25640]
 	batchsize=map(float,batchsize)
 
@@ -48,10 +45,18 @@ def draw():
 	width = 0.3
 
 	#ax2=ax1.twinx()
-	ax1.plot(labels, throughput,"r-.", label="Throughput(pps)",  linewidth=3)
+	timeline = np.linspace(0,7.5,30)
+	ax1.plot(timeline, a,"r-.", label="FM->FW(60rules)->LB",  linewidth=3)
+	ax1.plot(timeline, b,"b--", label="FM->FW(180rules)->LB",  linewidth=3)
 
 #	ax2.plot(labels, throughput,"y*-.", label="Throughput(pps)",  linewidth=3)
 	#plt.xticks(x+0.5*width,labels)
+	for label in legend.get_texts():
+		label.set_fontsize(17)
+
+	for label in legend.get_lines():
+		label.set_linewidth(3)  # the legend line width
+
 	for tl in ax1.get_xticklabels():
 		tl.set_fontsize(10)
 		tl.set_fontstyle('normal')
