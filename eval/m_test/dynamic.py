@@ -22,7 +22,7 @@ def read_log(filename):
 				counter+=1
 				numbers = line.split(':')
 				received.append(int(numbers[1])*32)
-				if counter==100:
+				if counter==150:
 					break
 				#dropped.append(float(numbers[2]))
 				#time.append(float(numbers[3]))
@@ -47,14 +47,14 @@ def draw(a,b):
 	index = 0;
 
 	#x = np.arange(14)
-	timeline=np.linspace(0,5,100)
+	timeline=np.linspace(0,7.5,150)
 	labels= [50,15,15.2,15.4,20]
 
 	width = 0.3
 
 #ax2=ax1.twinx()
 	ax1.plot(timeline, a,"r-.", label="FM->FW(60rules)->LB",  linewidth=3)
-	ax1.plot(timeline, b,"b-*", label="FM->FW(180rules)->LB",  linewidth=3)
+	ax1.plot(timeline, b,"b--", label="FM->FW(180rules)->LB",  linewidth=3)
 
 
 #	ax2.plot(labels, throughput,"y*-.", label="Throughput(pps)",  linewidth=3)
