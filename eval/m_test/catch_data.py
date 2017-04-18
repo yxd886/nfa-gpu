@@ -10,7 +10,7 @@ import re
 
 
 def local_read_pkts(rt_num):
-  cmd="sudo ~/nfa-gpu/deps/bess/bessctl/bessctl show port rt"+str(rt_num)+"_oport"
+  cmd="sudo ~/nfa-gpu/deps/bess/bessctl/bessctl show port rt1_oport"
   process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True, preexec_fn=os.setsid)
   output1, error1=process.communicate()
   
@@ -62,14 +62,14 @@ def local_test():
 
   after_time = time.time() * 1000
 
-  return (after_received-before_received)/3, after_dropped-before_dropped, after_time-before_time
+  return (after_received-before_received)/0.05, after_dropped-before_dropped, after_time-before_time
 
 def main():
 
   throughput= []
   flowgen=[]
     
-  for i in range(50):
+  for i in range(150):
     packet_out, packet_dropped, duration_time =local_test()
 #    local_packet_out, local_packet_dropped, local_duration_time = local_test()
     print str(packet_out)
