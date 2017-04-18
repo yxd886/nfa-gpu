@@ -49,9 +49,9 @@ def draw():
 
 	width = 0.3
 	ax1.plot(labels, gpunfv60,"r-.", label="GPUNFV(60rules)",  linewidth=3)
-	ax1.plot(labels,nfa,"r--", label="NFActor(60rules)", linewidth=3)
+	ax1.plot(labels,nfa,"r--", label="CPU-only(60rules)", linewidth=3)
 	ax1.plot(labels, gpunfv180,"y*-.", label="GPUNFV(180rules)",  linewidth=3)
-	ax1.plot(labels,nfa180,"y*:",label="NFActor(180rules)", linewidth=3)
+	ax1.plot(labels,nfa180,"y*:",label="CPU-only(180rules)", linewidth=3)
 	#plt.xticks(x+0.5*width,labels)
 	for tl in ax1.get_xticklabels():
 		tl.set_fontsize(10)
