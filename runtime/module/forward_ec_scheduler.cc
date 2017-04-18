@@ -68,8 +68,8 @@ void Fs_copyback(struct Fs* fs,flow_actor* flow_actor){
 
 void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i, int* flow_size){
 
-//	struct timeval whole_begin;
-//	struct timeval whole_end;
+	struct timeval whole_begin;
+	struct timeval whole_end;
 //	struct timeval copy_begin;
 //	struct timeval copy_end;
 
@@ -79,22 +79,25 @@ void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i, int* flo
 	//rte_memcpy(coordinator_actor->d_fs,fs,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(Fs));
 	//rte_memcpy(coordinator_actor->d_flow_size,flow_size,PROCESS_TIME*bess::PacketBatch::kMaxBurst*sizeof(int));
 	//gettimeofday(&copy_end,0);
-//	gettimeofday(&whole_begin,0);
+	gettimeofday(&whole_begin,0);
 	gpu_nf_process(pkts,fs,coordinator_actor->get_service_chain(),i,flow_size,coordinator_actor->firewall_rules);
 	//gpu_nf_process(pkts,fs,coordinator_actor->get_service_chain(),i,flow_size);
-//	gettimeofday(&whole_end,0);
+	gettimeofday(&whole_end,0);
 	//struct timeval whole_end1;
 	//gettimeofday(&whole_end1,0);
 
 
-//	long begin=whole_begin.tv_sec*1000000 + whole_begin.tv_usec;
-//	long end=whole_end.tv_sec*1000000 + whole_end.tv_usec;
+	long begin=whole_begin.tv_sec*1000000 + whole_begin.tv_usec;
+	long end=whole_end.tv_sec*1000000 + whole_end.tv_usec;
 	//long begin1=copy_begin.tv_sec*1000000 + copy_begin.tv_usec;
 	//long end1=copy_end.tv_sec*1000000 + copy_end.tv_usec;
 	//long begin1=whole_end.tv_sec*1000000 + whole_end.tv_usec;
 	//long end1=whole_end1.tv_sec*1000000 + whole_end1.tv_usec;
 	//printf("gpu time: %ld, fs_copy_backtime:%ld\n,",end-begin,end1-end);
 //	printf("gpu time: %ld \n,",end-begin);
+	if(begin-end>=200&&PROCESS_TIME<=MAX_PROCESS_TIME){
+		PROCESS_TIME+=10;
+	}
 
 }
 
