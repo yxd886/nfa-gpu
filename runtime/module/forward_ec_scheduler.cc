@@ -98,6 +98,7 @@ void GPU_thread(coordinator* coordinator_actor,Pkt* pkts,Fs* fs, int i, int* flo
 	if(begin-end>=200&&PROCESS_TIME<=MAX_PROCESS_TIME){
 		PROCESS_TIME+=10;
 	}
+	printf("PROCESS_TIME:%d",PROCESS_TIME);
 
 }
 
