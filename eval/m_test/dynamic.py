@@ -29,7 +29,7 @@ def read_log(filename):
 
 	return  received
 
-def draw(received):
+def draw(a,b):
 	batchsize=[1000,25000,25320,25640,25640]
 	batchsize=map(float,batchsize)
 
@@ -53,10 +53,18 @@ def draw(received):
 	width = 0.3
 
 #ax2=ax1.twinx()
-	ax1.plot(timeline, received,"r-.", label="Batch Size(pkts)",  linewidth=3)
+	ax1.plot(timeline, a,"r-.", label="FM->FW(60rules)->LB",  linewidth=3)
+	ax1.plot(timeline, b,"b-*", label="FM->FW(180rules)->LB",  linewidth=3)
+
 
 #	ax2.plot(labels, throughput,"y*-.", label="Throughput(pps)",  linewidth=3)
 	#plt.xticks(x+0.5*width,labels)
+
+	for label in legend.get_texts():
+		label.set_fontsize(12)
+
+	for label in legend.get_lines():
+		label.set_linewidth(3)  # the legend line width
 	for tl in ax1.get_xticklabels():
 		tl.set_fontsize(10)
 		tl.set_fontstyle('normal')
@@ -83,8 +91,9 @@ def main():
 
 	#runtimes,received,dropped,time = read_log("temp")
 
-	a=read_log("rt1_log.log")
-	print draw(a) 
+	a=read_log("60log")
+	b=read_log("rt1_log.log")
+	print draw(a,b) 
 
 
 
