@@ -50,7 +50,7 @@ def draw(a,b):
 
 #	ax2.plot(labels, throughput,"y*-.", label="Throughput(pps)",  linewidth=3)
 	#plt.xticks(x+0.5*width,labels)
-	legend = ax1.legend(loc='upper left', shadow=False)
+	legend = ax1.legend(loc='lower right', shadow=False)
 	for label in legend.get_texts():
 		label.set_fontsize(17)
 
