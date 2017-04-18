@@ -51,7 +51,7 @@ def local_test():
   
   before_time = time.time() * 1000
 
-  time.sleep(0.1)
+  time.sleep(0.5)
 
   tmp1,tmp2 = local_read_pkts(1)
   after_received +=tmp1;
@@ -62,7 +62,7 @@ def local_test():
 
   after_time = time.time() * 1000
 
-  return (after_received-before_received)/0.1, after_dropped-before_dropped, after_time-before_time
+  return (after_received-before_received)/0.5, after_dropped-before_dropped, after_time-before_time
 
 def main():
 
