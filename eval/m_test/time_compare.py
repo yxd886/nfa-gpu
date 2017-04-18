@@ -52,8 +52,8 @@ def draw():
 	width = 0.2
 	ax1.bar(x, gpu,width, label="GPU processing time",  hatch="/")
 	ax1.bar(x+width,waiting,width, label="CPU waiting time", hatch="\\")
-	ax1.bar(x+2*width,cpu,width, label="CPU processing time", hatch="//")
-	ax1.bar(x+3*width,total,width, label="total time", hatch="\\\\")
+	ax1.bar(x+2*width,cpu,width, label="CPU processing time", hatch="~")
+	ax1.bar(x+3*width,total,width, label="total time", hatch="-")
 
 
 	plt.xticks(x+0.5*width,labels)
@@ -61,7 +61,7 @@ def draw():
 		tl.set_fontsize(10)
 		tl.set_fontstyle('normal')
 	for tl in ax1.get_yticklabels():
-		tl.set_fontsize(20)
+		tl.set_fontsize(10)
 		tl.set_fontstyle('normal')
 
 	# Now add the legend with some customizations.
@@ -73,8 +73,8 @@ def draw():
 	for label in legend.get_lines():
 		label.set_linewidth(3)  # the legend line width
 
-	plt.xlabel("size of packet batch(kpkts)", fontsize=25, style='normal', color='black')
-	plt.ylabel("Time(s)", fontsize=25, style='normal', color='black')
+	plt.xlabel("size of packet batch(kpkts)", fontsize=18, style='normal', color='black')
+	plt.ylabel("Time(s)", fontsize=18, style='normal', color='black')
 	plt.savefig("WM.pdf", bbox_inches='tight', pad_inches=0)
 	plt.show()
 

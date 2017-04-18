@@ -69,7 +69,7 @@ def draw(a,b):
 		tl.set_fontsize(10)
 		tl.set_fontstyle('normal')
 	for tl in ax1.get_yticklabels():
-		tl.set_fontsize(20)
+		tl.set_fontsize(10)
 		tl.set_fontstyle('normal')
 
 	# Now add the legend with some customizations.
@@ -81,8 +81,8 @@ def draw(a,b):
 	#for label in legend.get_lines():
 	#	label.set_linewidth(3)  # the legend line width
 
-	plt.xlabel("Time(s)", fontsize=25, style='normal', color='black')
-	plt.ylabel("Batchsize(pkts)", fontsize=25, style='normal', color='black')
+	plt.xlabel("Time(s)", fontsize=18, style='normal', color='black')
+	plt.ylabel("Batchsize(pkts)", fontsize=18, style='normal', color='black')
 #	plt.ylabel("Throughput(pps)", fontsize=25, style='normal', color='black')
 	plt.savefig("Wdy1.pdf", bbox_inches='tight', pad_inches=0)
 	plt.show()
