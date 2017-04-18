@@ -65,7 +65,7 @@ def draw():
 		tl.set_fontstyle('normal')
 
 	# Now add the legend with some customizations.
-	legend = ax1.legend(loc='upper left', shadow=False)
+	legend = ax1.legend(loc='lower left', shadow=False)
 	# Set the fontsize
 	for label in legend.get_texts():
 		label.set_fontsize(8)
@@ -73,8 +73,8 @@ def draw():
 	for label in legend.get_lines():
 		label.set_linewidth(3)  # the legend line width
 
-	plt.xlabel("size of packet batch(kpkts)", fontsize=18, style='normal', color='black')
-	plt.ylabel("Time(s)", fontsize=18, style='normal', color='black')
+	plt.xlabel("size of packet batch(kpkts)", fontsize=15, style='normal', color='black')
+	plt.ylabel("Time(s)", fontsize=15, style='normal', color='black')
 	plt.savefig("WM.pdf", bbox_inches='tight', pad_inches=0)
 	plt.show()
 

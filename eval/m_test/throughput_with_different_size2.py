@@ -69,8 +69,8 @@ def draw():
 	for label in legend.get_lines():
 		label.set_linewidth(3)  # the legend line width
 
-	plt.xlabel("size of packet batch(kpkts)", fontsize=18, style='normal', color='black')
-	plt.ylabel("Throughput(pps)", fontsize=18, style='normal', color='black')
+	plt.xlabel("size of packet batch(kpkts)", fontsize=15, style='normal', color='black')
+	plt.ylabel("Throughput(pps)", fontsize=15, style='normal', color='black')
 	plt.savefig("WT.pdf", bbox_inches='tight', pad_inches=0)
 	plt.show()
 
