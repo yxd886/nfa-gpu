@@ -337,7 +337,7 @@ void forward_ec_scheduler::ProcessBatch(bess::PacketBatch *bat){
 		  gettimeofday(&time_right_now,0);
 		  long now=time_now.tv_sec*1000000 + time_now.tv_usec;
 		  long right_now=time_right_now.tv_sec*1000000 + time_right_now.tv_usec;
-		  if(right_now-now>=1000000){
+		  if(right_now-now>=50000){
 			  gettimeofday(&time_now,0);
 			  printf("PROCESS_TIME:%d\n",PROCESS_TIME);
 		  }
