@@ -12,6 +12,9 @@ sleep 1
 
 echo "Adding connections to portout"
 sudo ../../deps/bess/bessctl/bessctl add connection fg1 rt1_iport_portout
+sudo ../../deps/bess/bessctl/bessctl add connection fg2 rt1_iport_portout
+sudo ../../deps/bess/bessctl/bessctl add connection fg3 rt1_iport_portout
+sudo ../../deps/bess/bessctl/bessctl add connection fg4 rt1_iport_portout
 if [ "$1" -ge "2" ]
 then
 sudo ../../deps/bess/bessctl/bessctl add connection fg2 rt2_iport_portout
