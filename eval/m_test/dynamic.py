@@ -83,7 +83,7 @@ def main():
 
 	#runtimes,received,dropped,time = read_log("temp")
 
-	a=read_log(rt1_log.log)
+	a=read_log("rt1_log.log")
 	print draw(a) 
 
 
