@@ -83,7 +83,10 @@ def main():
 
 	#runtimes,received,dropped,time = read_log("temp")
 
-	print draw() 
+	
+	a=read_log("60throughput")
+	b=read_log("180through")
+	print draw(a,b)
 
 
 
