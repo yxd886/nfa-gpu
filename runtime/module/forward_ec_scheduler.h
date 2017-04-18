@@ -35,7 +35,7 @@ public:
 
 private:
   void clean_batches(bess::PacketBatch* batches){
-	  for(int i=0;i<PROCESS_TIME;i++){
+	  for(int i=0;i<MAX_PROCESS_TIME;i++){
 		  batches[i].clear();
 	  }
   }
