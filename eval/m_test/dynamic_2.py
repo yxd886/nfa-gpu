@@ -16,7 +16,6 @@ def read_log(filename):
 	with open(filename) as f:
 		for line in f:
 			i+=1
-			print line
 			tp.append(float(line))
 			if i==30 :
 				break
@@ -51,6 +50,7 @@ def draw(a,b):
 
 #	ax2.plot(labels, throughput,"y*-.", label="Throughput(pps)",  linewidth=3)
 	#plt.xticks(x+0.5*width,labels)
+	legend = ax1.legend(loc='upper left', shadow=False)
 	for label in legend.get_texts():
 		label.set_fontsize(17)
 
