@@ -11,21 +11,25 @@ import matplotlib.pyplot as plt
 
 
 def read_log(filename):
-	runtimes = []
+	#runtimes = []
 	received = []
-	dropped = []
-	time = []
+	counter=0
+	#dropped = []
+	#time = []
 	with open(filename) as f:
 		for line in f:
-			if line.find("[RESULT]") != -1:
-				numbers = line.split(' ')
-				received.append(float(numbers[1]))
-				dropped.append(float(numbers[2]))
-				time.append(float(numbers[3]))
+			if line.find("PROCESS_TIME") != -1:
+				counter+=1
+				numbers = line.split(':')
+				received.append(int(numbers[1])*32)
+				if counter==100:
+					break
+				#dropped.append(float(numbers[2]))
+				#time.append(float(numbers[3]))
 
-	return runtimes, received, dropped, time 
+	return  received
 
-def draw():
+def draw(received):
 	batchsize=[1000,25000,25320,25640,25640]
 	batchsize=map(float,batchsize)
 
@@ -43,12 +47,13 @@ def draw():
 	index = 0;
 
 	#x = np.arange(14)
-	labels= [0,15,15.2,15.4,20]
+	timeline=np.linspace(0,5,100)
+	labels= [50,15,15.2,15.4,20]
 
 	width = 0.3
 
 #ax2=ax1.twinx()
-	ax1.plot(labels, batchsize,"r-.", label="Batch Size(pkts)",  linewidth=3)
+	ax1.plot(timeline, received,"r-.", label="Batch Size(pkts)",  linewidth=3)
 
 #	ax2.plot(labels, throughput,"y*-.", label="Throughput(pps)",  linewidth=3)
 	#plt.xticks(x+0.5*width,labels)
@@ -78,7 +83,8 @@ def main():
 
 	#runtimes,received,dropped,time = read_log("temp")
 
-	print draw() 
+	a=read_log(rt1_log.log)
+	print draw(a) 
 
 
 
