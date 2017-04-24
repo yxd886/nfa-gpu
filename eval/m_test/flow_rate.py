@@ -45,7 +45,7 @@ def draw(a,b):
 
 	#ax2=ax1.twinx()
 	timeline = np.linspace(0,7.5,30)
-	ax1.plot(timeline, a,"r-.", label="flows with multiple rate",  linewidth=3)
+	ax1.plot(timeline, a,"r-.", label="flows with multiple rates",  linewidth=3)
 	ax1.plot(timeline, b,"b--", label="flows with single rate",  linewidth=3)
 
 #	ax2.plot(labels, throughput,"y*-.", label="Throughput(pps)",  linewidth=3)

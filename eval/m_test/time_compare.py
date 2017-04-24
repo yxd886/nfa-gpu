@@ -53,7 +53,7 @@ def draw():
 	ax1.bar(x, gpu,width, label="GPU processing time",  hatch="/")
 	ax1.bar(x+width,waiting,width, label="CPU waiting time", hatch="\\")
 	ax1.bar(x+2*width,cpu,width, label="CPU processing time", hatch="~")
-	ax1.bar(x+3*width,total,width, label="total time", hatch="-")
+	#ax1.bar(x+3*width,total,width, label="total time", hatch="-")
 
 
 	plt.xticks(x+0.5*width,labels)
