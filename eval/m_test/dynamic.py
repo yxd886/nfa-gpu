@@ -26,11 +26,12 @@ def read_log(filename):
 	return runtimes, received, dropped, time 
 
 def draw():
+	batchsize=[1000,25000,25320,25640,25640]
+	batchsize=map(float,batchsize)
 
-	gpunfv60=[145280,250990,428439,859917,1573963,1816956,2191235,2265946,2177648,2172848,2265966,2265966,2265966,2265946]
-	gpunfv60=map(float,gpunfv60)
-	nfa=[1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568]
-	nfa=map(float,nfa)
+	throughput=[50498,2108520,2186544,2185654,2185618]
+	throughput=map(float,throughput)
+
 	plt.style.use('ggplot')#seaborn-white')
 
 	fig,ax1 = plt.subplots()
@@ -41,12 +42,16 @@ def draw():
 	styles = ['-.', '--', ':', '-', '--', ':', '-','--']
 	index = 0;
 
-	x = np.arange(14)
-	labels= ["1","2","4","8","16","19","22","25","27","30","32","35","43","48"]
+	#x = np.arange(14)
+	labels= [0,15,15.2,15.4,20]
 
 	width = 0.3
-	ax1.bar(x, gpunfv60,width, label="GPUNFV",  hatch="/")
-	ax1.bar(x+width,nfa,width, label="NFActor", hatch="\\")
+
+#ax2=ax1.twinx()
+	ax1.plot(labels, batchsize,"r-.", label="Batch Size(pkts)",  linewidth=3)
+
+#	ax2.plot(labels, throughput,"y*-.", label="Throughput(pps)",  linewidth=3)
+	#plt.xticks(x+0.5*width,labels)
 	for tl in ax1.get_xticklabels():
 		tl.set_fontsize(10)
 		tl.set_fontstyle('normal')
@@ -55,17 +60,18 @@ def draw():
 		tl.set_fontstyle('normal')
 
 	# Now add the legend with some customizations.
-	legend = ax1.legend(loc='upper left', shadow=False)
+	#legend = ax1.legend(loc='upper left', shadow=False)
 	# Set the fontsize
-	for label in legend.get_texts():
-		label.set_fontsize(20)
+	#for label in legend.get_texts():
+	#	label.set_fontsize(12)
 
-	for label in legend.get_lines():
-		label.set_linewidth(3)  # the legend line width
+	#for label in legend.get_lines():
+	#	label.set_linewidth(3)  # the legend line width
 
-	plt.xlabel("size of packet batch(kpkts)", fontsize=25, style='normal', color='black')
-	plt.ylabel("Throughput(pps)", fontsize=25, style='normal', color='black')
-	plt.savefig("WA.pdf", bbox_inches='tight', pad_inches=0)
+	plt.xlabel("Time(s)", fontsize=25, style='normal', color='black')
+	plt.ylabel("Batchsize(pkts)", fontsize=25, style='normal', color='black')
+#	plt.ylabel("Throughput(pps)", fontsize=25, style='normal', color='black')
+	plt.savefig("Wdy1.pdf", bbox_inches='tight', pad_inches=0)
 	plt.show()
 
 def main():

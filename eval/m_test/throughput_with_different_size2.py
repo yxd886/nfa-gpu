@@ -26,11 +26,14 @@ def read_log(filename):
 	return runtimes, received, dropped, time 
 
 def draw():
-
 	gpunfv60=[145280,250990,428439,859917,1573963,1816956,2191235,2265946,2177648,2172848,2265966,2265966,2265966,2265946]
 	gpunfv60=map(float,gpunfv60)
 	nfa=[1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568,1007568]
 	nfa=map(float,nfa)
+	gpunfv180=[80320,141303,261030,501501,809208,1126110,1207630,1500852,1608756,1771664,1933892,2184527,2174534,2168524]
+	gpunfv180=map(float,gpunfv180)
+	nfa180=[604857,604857,604857,604857,604857,604857,604857,604857,604857,604857,604857,604857,604857,604857]
+	nfa180=map(float,nfa180)	
 	plt.style.use('ggplot')#seaborn-white')
 
 	fig,ax1 = plt.subplots()
@@ -41,12 +44,15 @@ def draw():
 	styles = ['-.', '--', ':', '-', '--', ':', '-','--']
 	index = 0;
 
-	x = np.arange(14)
-	labels= ["1","2","4","8","16","19","22","25","27","30","32","35","43","48"]
+	#x = np.arange(14)
+	labels= [1,2,4,8,16,19,22,25,27,30,32,35,43,48]
 
 	width = 0.3
-	ax1.bar(x, gpunfv60,width, label="GPUNFV",  hatch="/")
-	ax1.bar(x+width,nfa,width, label="NFActor", hatch="\\")
+	ax1.plot(labels, gpunfv60,"r-.", label="GPUNFV(60rules)",  linewidth=3)
+	ax1.plot(labels,nfa,"r--", label="NFActor(60rules)", linewidth=3)
+	ax1.plot(labels, gpunfv180,"y*-.", label="GPUNFV(180rules)",  linewidth=3)
+	ax1.plot(labels,nfa180,"y*:",label="NFActor(180rules)", linewidth=3)
+	#plt.xticks(x+0.5*width,labels)
 	for tl in ax1.get_xticklabels():
 		tl.set_fontsize(10)
 		tl.set_fontstyle('normal')
@@ -58,14 +64,14 @@ def draw():
 	legend = ax1.legend(loc='upper left', shadow=False)
 	# Set the fontsize
 	for label in legend.get_texts():
-		label.set_fontsize(20)
+		label.set_fontsize(12)
 
 	for label in legend.get_lines():
 		label.set_linewidth(3)  # the legend line width
 
 	plt.xlabel("size of packet batch(kpkts)", fontsize=25, style='normal', color='black')
 	plt.ylabel("Throughput(pps)", fontsize=25, style='normal', color='black')
-	plt.savefig("WA.pdf", bbox_inches='tight', pad_inches=0)
+	plt.savefig("WT.pdf", bbox_inches='tight', pad_inches=0)
 	plt.show()
 
 def main():
